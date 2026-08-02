@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Silent — efficacite des cartes en Acte 1 (A9, A10)</title>
+<title>Silent — Act 1 card effectiveness (A9, A10)</title>
 <style>
   .viz-root {
     color-scheme: light;
@@ -94,22 +94,22 @@
 </head>
 <body>
 <div class="viz-root">
-  <h1>Silent — efficacite des cartes en Acte 1 (A9, A10)</h1>
-  <p class="subtitle">Cohorte = runs Silent (A9, A10) ayant atteint au moins le floor 8. Pour chaque carte, on compare le taux de passage en Acte 2 des runs qui l&#x27;avaient piochee avant ce floor a celles qui ne l&#x27;avaient pas. La colonne Winrate est le taux de victoire complete (3 actes) parmi les runs ayant pioche la carte.</p>
-  <p class="caveat">Correlationnel, pas causal : les choix de cartes viennent du joueur, pas d'un tirage aleatoire. Un bon joueur pioche mieux ET survit plus. Les upgrades via feu de camp («Smith: Nom») ne sont pas rattaches a l'id de la carte, donc non comptees ici. Les lignes marquees * ont un petit echantillon (n < 40) : ecart potentiellement du au bruit.</p>
+  <h1>Silent — Act 1 card effectiveness (A9, A10)</h1>
+  <p class="subtitle">Cohort = Silent runs (A9, A10) that reached at least floor 8. For each card, we compare the Act 2 clear rate of runs that had picked it up by that floor against those that hadn&#x27;t. The Winrate column is the full-run (all 3 acts) win rate among runs that picked up the card.</p>
+  <p class="caveat">Correlational, not causal: card picks are the player's choice, not a random draw. A stronger player tends to both pick better and survive more. Campfire Smith upgrades («Smith: Name») aren't tied to the card's id, so they aren't counted here. Rows marked * have a small sample (n < 40): the gap may just be noise.</p>
 
   <div class="kpi-row">
-    <div class="kpi"><div class="label">Runs dans la cohorte</div><div class="value">25066</div></div>
-    <div class="kpi"><div class="label">Taux de clear acte 1 (baseline)</div><div class="value">61.0%</div></div>
-    <div class="kpi"><div class="label">Winrate (baseline)</div><div class="value">23.0%</div></div>
-    <div class="kpi"><div class="label">Floor repere</div><div class="value">8</div></div>
-    <div class="kpi"><div class="label">Cartes distinctes</div><div class="value">299</div></div>
+    <div class="kpi"><div class="label">Runs in cohort</div><div class="value">25066</div></div>
+    <div class="kpi"><div class="label">Act 1 clear rate (baseline)</div><div class="value">61.0%</div></div>
+    <div class="kpi"><div class="label">Global winrate, all 3 acts (baseline)</div><div class="value">23.0%</div></div>
+    <div class="kpi"><div class="label">Landmark floor</div><div class="value">8</div></div>
+    <div class="kpi"><div class="label">Distinct cards</div><div class="value">299</div></div>
   </div>
 
   <div class="filters">
-    <label for="search">Carte</label>
-    <input type="search" id="search" placeholder="Filtrer par nom...">
-    <label for="minSample">n minimum</label>
+    <label for="search">Card</label>
+    <input type="search" id="search" placeholder="Filter by name...">
+    <label for="minSample">Min sample (n)</label>
     <input type="number" id="minSample" value="50" min="0">
     <span id="rowCount"></span>
   </div>
@@ -118,13 +118,13 @@
     <table id="cardTable">
       <thead>
         <tr>
-          <th data-key="name">Carte<span class="arrow"></span></th>
+          <th data-key="name">Card<span class="arrow"></span></th>
           <th data-key="n">n<span class="arrow"></span></th>
-          <th data-key="with_rate">Avec %<span class="arrow"></span></th>
-          <th data-key="without_rate">Sans %<span class="arrow"></span></th>
-          <th data-key="diff" class="bar-cell">Ecart<span class="arrow"></span></th>
-          <th data-key="win_rate">Winrate<span class="arrow"></span></th>
-          <th data-key="last_changed_patch">Dernier patch<span class="arrow"></span></th>
+          <th data-key="with_rate">With %<span class="arrow"></span></th>
+          <th data-key="without_rate">Without %<span class="arrow"></span></th>
+          <th data-key="diff" class="bar-cell">Diff<span class="arrow"></span></th>
+          <th data-key="win_rate">Global winrate (all 3 acts)<span class="arrow"></span></th>
+          <th data-key="last_changed_patch">Last changed patch<span class="arrow"></span></th>
         </tr>
       </thead>
       <tbody id="tableBody"></tbody>
@@ -204,7 +204,7 @@
       tbody.appendChild(tr);
     });
 
-    document.getElementById("rowCount").textContent = rows.length + " cartes (* = n < " + LOW_N_THRESHOLD + ", a interpreter avec prudence)";
+    document.getElementById("rowCount").textContent = rows.length + " cards (* = n < " + LOW_N_THRESHOLD + ", interpret with caution)";
   }
 
   document.querySelectorAll("#cardTable thead th[data-key]").forEach(function (th) {
