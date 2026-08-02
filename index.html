@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Slay the Spire 2 - Community Run Stats</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1: #fcfcfb; --page: #f9f9f7; --text-primary: #0b0b0b;
+    --text-secondary: #52514e; --text-muted: #898781; --border: rgba(11,11,11,0.10);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --surface-1: #1a1a19; --page: #0d0d0d; --text-primary: #ffffff;
+      --text-secondary: #c3c2b7; --text-muted: #898781; --border: rgba(255,255,255,0.10);
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--text-primary); }
+  .root { max-width: 720px; margin: 0 auto; padding: 48px 20px 64px; }
+  h1 { font-size: 24px; font-weight: 600; margin: 0 0 8px; }
+  p.sub { color: var(--text-secondary); font-size: 14px; line-height: 1.6; margin: 0 0 32px; }
+  .group { margin-bottom: 28px; }
+  .group h2 { font-size: 14px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em; margin: 0 0 10px; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; }
+  a { display: block; padding: 12px 16px; color: var(--text-primary); text-decoration: none; font-size: 15px; }
+  a:hover { background: var(--surface-1); }
+</style>
+</head>
+<body>
+<div class="root">
+  <h1>Slay the Spire 2 - Community Run Stats</h1>
+  <p class="sub">
+    Computed from ~330,000 scraped runs from <a href="https://sts2.fun">sts2.fun</a>.
+    Act 1 card effectiveness controls for the survivorship bias in naive
+    "winrate by card" stats (a card is only counted for runs that had already
+    reached a common floor, whether they picked it or not), and only uses
+    data from after each card's most recent balance patch. Ascension 9-10 only.
+  </p>
+
+  <div class="group">
+    <h2>Act 1 card effectiveness (A9/A10)</h2>
+    <ul>
+      <li><a href="ironclad_act1_cards.html">Ironclad</a></li>
+      <li><a href="silent_act1_cards.html">Silent</a></li>
+      <li><a href="defect_act1_cards.html">Defect</a></li>
+      <li><a href="necrobinder_act1_cards.html">Necrobinder</a></li>
+      <li><a href="regent_act1_cards.html">Regent</a></li>
+    </ul>
+  </div>
+
+  <div class="group">
+    <h2>Neow starting relic winrate (A9/A10, all characters)</h2>
+    <ul>
+      <li><a href="neow_relics.html">Neow relics</a></li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>
