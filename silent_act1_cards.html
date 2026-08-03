@@ -90,10 +90,14 @@
   .bar-fill.pos { background: var(--pos); left: 50%; }
   .bar-fill.neg { background: var(--neg); right: 50%; }
   .bar-label { display: inline-block; width: 46px; text-align: right; margin-left: 6px; }
+
+  .back-link { display: inline-block; font-size: 13px; color: var(--text-secondary); text-decoration: none; margin-bottom: 16px; }
+  .back-link:hover { color: var(--text-primary); }
 </style>
 </head>
 <body>
 <div class="viz-root">
+  <a class="back-link" href="index.html">&larr; Back to home</a>
   <h1>Silent — Act 1 card effectiveness (A9, A10)</h1>
   <p class="subtitle">Cohort = Silent runs (A9, A10) that reached at least floor 8. For each card, we compare the Act 2 clear rate of runs that had picked it up by that floor against those that hadn&#x27;t. The Winrate column is the full-run (all 3 acts) win rate among runs that picked up the card.</p>
   <p class="caveat">Correlational, not causal: card picks are the player's choice, not a random draw. A stronger player tends to both pick better and survive more. Campfire Smith upgrades («Smith: Name») aren't tied to the card's id, so they aren't counted here. Rows marked * have a small sample (n < 40): the gap may just be noise.</p>

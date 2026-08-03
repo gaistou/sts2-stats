@@ -91,10 +91,14 @@
   .bar-fill.pos { background: var(--pos); left: 50%; }
   .bar-fill.neg { background: var(--neg); right: 50%; }
   .bar-label { display: inline-block; width: 50px; text-align: right; margin-left: 6px; }
+
+  .back-link { display: inline-block; font-size: 13px; color: var(--text-secondary); text-decoration: none; margin-bottom: 16px; }
+  .back-link:hover { color: var(--text-primary); }
 </style>
 </head>
 <body>
 <div class="viz-root">
+  <a class="back-link" href="index.html">&larr; Back to home</a>
   <h1>Winrate by Neow starting relic - A9, A10</h1>
   <p class="subtitle">All runs (A9, A10), all characters, that reached floor 1 (Neow). For each relic offered by Neow, the full-run (3 acts) win rate of runs that took it, compared to the baseline (all runs combined).</p>
   <p class="caveat">Correlational, not causal: the Neow choice is the player's, not a random draw — it may reflect strategy or skill level rather than the relic itself. “(no relic)” = runs where the player picked a non-relic Neow option (gold, max HP, card removal...). Character filter available above: a relic's winrate can vary a lot by class. Rows marked * have a sample < 40: interpret with caution.</p>
