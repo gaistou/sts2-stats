@@ -80,6 +80,20 @@
       picks simply aren't counted.
     </p>
     <p>
+      <strong>How to read the table:</strong> <code>N</code> is how many times the card was
+      picked up by floor 8. <code>With</code> is the Act 1 clear rate (reached Act 2) among
+      runs that had the card by floor 8; <code>Without</code> is the same clear rate for runs
+      that didn't. <code>Diff</code> is With minus Without. Be careful with rows that have a
+      very low <code>N</code> (rarely picked) — their numbers can swing wildly and are easy to
+      misread as a strong signal when it's really just a small sample.
+    </p>
+    <p>
+      The separate <code>Global winrate (all 3 acts)</code> column is a different thing
+      entirely: it's the full-run win rate (won the whole game, not just Act 1) among runs that
+      had the card. It's included for context, but it isn't bias-corrected the way
+      With/Without/Diff are — treat it as a rough reference, not the main number.
+    </p>
+    <p>
       Each card is also only scored using runs played <em>after</em> its most recent balance
       patch (see <code>last changed patch</code> column) — a buffed or nerfed card isn't
       evaluated using data from its old, different version.
