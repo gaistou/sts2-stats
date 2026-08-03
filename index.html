@@ -88,10 +88,13 @@
       misread as a strong signal when it's really just a small sample.
     </p>
     <p>
-      The separate <code>Global winrate (all 3 acts)</code> column is a different thing
-      entirely: it's the full-run win rate (won the whole game, not just Act 1) among runs that
-      had the card. It's included for context, but it isn't bias-corrected the way
-      With/Without/Diff are — treat it as a rough reference, not the main number.
+      The separate <code>Global winrate (all 3 acts)</code> column is a different question
+      entirely, and deliberately not floor-restricted: it's the full-run win rate (won the
+      whole game, not just Act 1) among <em>any</em> run that had the card at <em>any</em>
+      point, picked up on any floor of any act. Because of that, it has the exact same
+      late-pickup survivorship bias described above — a card that's mostly obtained near the
+      end of a run will look great here even if it's mediocre. Read it as "of the runs that
+      ended up with this card, how many won," not as evidence the card is strong early.
     </p>
     <p>
       Each card is also only scored using runs played <em>after</em> its most recent balance
