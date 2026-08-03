@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Silent — Act 1 card effectiveness (A9, A10)</title>
 <style>
-  .viz-root {
+  :root {
     color-scheme: light;
     --surface-1:      #fcfcfb;
     --page:           #f9f9f7;
@@ -17,7 +17,7 @@
     --pos: #2a78d6; --neg: #e34948;
   }
   @media (prefers-color-scheme: dark) {
-    :root:where(:not([data-theme="light"])) .viz-root {
+    :root:where(:not([data-theme="light"])) {
       color-scheme: dark;
       --surface-1:      #1a1a19;
       --page:           #0d0d0d;
@@ -30,7 +30,7 @@
       --pos: #3987e5; --neg: #e66767;
     }
   }
-  :root[data-theme="dark"] .viz-root {
+  :root[data-theme="dark"] {
     color-scheme: dark;
     --surface-1:      #1a1a19;
     --page:           #0d0d0d;
