@@ -27,18 +27,50 @@
   li { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; }
   a { display: block; padding: 12px 16px; color: var(--text-primary); text-decoration: none; font-size: 15px; }
   a:hover { background: var(--surface-1); }
+
+  .method { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; margin-bottom: 28px; }
+  .method h2 { font-size: 14px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em; margin: 0 0 12px; }
+  .method p { font-size: 14px; line-height: 1.65; color: var(--text-secondary); margin: 0 0 12px; }
+  .method p:last-child { margin-bottom: 0; }
+  .method code { background: var(--border); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
 </style>
 </head>
 <body>
 <div class="root">
   <h1>Slay the Spire 2 - Community Run Stats</h1>
   <p class="sub">
-    Computed from ~330,000 scraped runs from <a href="https://sts2.fun">sts2.fun</a>.
-    Act 1 card effectiveness controls for the survivorship bias in naive
-    "winrate by card" stats (a card is only counted for runs that had already
-    reached a common floor, whether they picked it or not), and only uses
-    data from after each card's most recent balance patch. Ascension 9-10 only.
+    Computed from ~330,000 scraped runs from <a href="https://sts2.fun">sts2.fun</a>, ascension 9-10 only.
   </p>
+
+  <div class="method">
+    <h2>Methodology</h2>
+    <p>
+      A naive "winrate by card" stat is misleading: a card can only be picked up on the floor
+      it's offered, so a card typically offered late in Act 1 can only ever belong to a run
+      that had already survived almost the whole act. That run was already very likely to
+      clear Act 1 regardless of the card — so late-offered cards look artificially great, no
+      matter how good they actually are.
+    </p>
+    <p>
+      To avoid that, Act 1 card effectiveness here only counts a card if it was picked up by
+      <strong>floor 8</strong> (roughly the midpoint of Act 1), and only compares it against
+      other runs that had <em>also</em> already reached floor 8 — whether they picked the card
+      up or not. So "having the card" isn't just a stand-in for "survived long enough to get
+      it": every run being compared already cleared the same amount of ground. The tradeoff:
+      cards that are typically offered later in Act 1 are underrepresented, since those late
+      picks simply aren't counted.
+    </p>
+    <p>
+      Each card is also only scored using runs played <em>after</em> its most recent balance
+      patch (see <code>last changed patch</code> column) — a buffed or nerfed card isn't
+      evaluated using data from its old, different version.
+    </p>
+    <p>
+      This is correlational, not causal: card picks are the player's choice, not a random
+      draw, so a stronger player who also happens to pick well will show up on both sides.
+      Treat the numbers as a signal worth investigating, not proof a card is good or bad.
+    </p>
+  </div>
 
   <div class="group">
     <h2>Act 1 card effectiveness (A9/A10)</h2>
