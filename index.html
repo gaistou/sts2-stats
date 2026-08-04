@@ -22,11 +22,17 @@
   li a:hover { background: var(--surface-1); }
   p.sub a { color: var(--text-primary); }
 
-  .method { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; margin-bottom: 28px; }
-  .method h2 { font-size: 14px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em; margin: 0 0 12px; }
-  .method p { font-size: 14px; line-height: 1.65; color: var(--text-secondary); margin: 0 0 12px; }
-  .method p:last-child { margin-bottom: 0; }
-  .method code { background: var(--border); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
+  details.method { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; margin-top: 12px; }
+  details.method summary {
+    cursor: pointer; padding: 12px 16px; font-size: 13px; font-weight: 600;
+    color: var(--text-secondary); user-select: none;
+  }
+  details.method summary:hover { color: var(--text-primary); }
+  details.method[open] summary { border-bottom: 1px solid var(--border); }
+  details.method .method-body { padding: 14px 20px 18px; }
+  details.method .method-body p { font-size: 14px; line-height: 1.65; color: var(--text-secondary); margin: 0 0 12px; }
+  details.method .method-body p:last-child { margin-bottom: 0; }
+  details.method code { background: var(--border); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
 </style>
 </head>
 <body>
@@ -45,13 +51,54 @@
       <li><a href="necrobinder_act1_cards.html">Necrobinder</a></li>
       <li><a href="regent_act1_cards.html">Regent</a></li>
     </ul>
-  </div>
-
-  <div class="group">
-    <h2>Neow starting relic winrate (A9/A10, all characters)</h2>
-    <ul>
-      <li><a href="neow_relics.html">Neow relics</a></li>
-    </ul>
+    <details class="method">
+      <summary>Methodology</summary>
+      <div class="method-body">
+        <p>
+          A naive "winrate by card" stat is misleading: a card can only be picked up on the floor
+          it's offered, so a card typically offered late in Act 1 can only ever belong to a run
+          that had already survived almost the whole act. That run was already very likely to
+          clear Act 1 regardless of the card — so late-offered cards look artificially great, no
+          matter how good they actually are.
+        </p>
+        <p>
+          To avoid that, Act 1 card effectiveness here only counts a card if it was picked up by
+          <strong>floor 8</strong> (roughly the midpoint of Act 1), and only compares it against
+          other runs that had <em>also</em> already reached floor 8 — whether they picked the card
+          up or not. So "having the card" isn't just a stand-in for "survived long enough to get
+          it": every run being compared already cleared the same amount of ground. The tradeoff:
+          cards that are typically offered later in Act 1 are underrepresented, since those late
+          picks simply aren't counted.
+        </p>
+        <p>
+          <strong>How to read the table:</strong> <code>N</code> is how many times the card was
+          picked up by floor 8. <code>With</code> is the Act 1 clear rate (reached Act 2) among
+          runs that had the card by floor 8; <code>Without</code> is the same clear rate for runs
+          that didn't. <code>Diff</code> is With minus Without. Be careful with rows that have a
+          very low <code>N</code> (rarely picked) — their numbers can swing wildly and are easy to
+          misread as a strong signal when it's really just a small sample.
+        </p>
+        <p>
+          The separate <code>Global winrate (all 3 acts)</code> column is a different question
+          entirely, and deliberately not floor-restricted: it's the full-run win rate (won the
+          whole game, not just Act 1) among <em>any</em> run that had the card at <em>any</em>
+          point, picked up on any floor of any act. Because of that, it has the exact same
+          late-pickup survivorship bias described above — a card that's mostly obtained near the
+          end of a run will look great here even if it's mediocre. Read it as "of the runs that
+          ended up with this card, how many won," not as evidence the card is strong early.
+        </p>
+        <p>
+          Each card is also only scored using runs played <em>after</em> its most recent balance
+          patch (see <code>last changed patch</code> column) — a buffed or nerfed card isn't
+          evaluated using data from its old, different version.
+        </p>
+        <p>
+          This is correlational, not causal: card picks are the player's choice, not a random
+          draw, so a stronger player who also happens to pick well will show up on both sides.
+          Treat the numbers as a signal worth investigating, not proof a card is good or bad.
+        </p>
+      </div>
+    </details>
   </div>
 
   <div class="group">
@@ -63,91 +110,86 @@
       <li><a href="necrobinder_act1_card_upgrade_value.html">Necrobinder</a></li>
       <li><a href="regent_act1_card_upgrade_value.html">Regent</a></li>
     </ul>
+    <details class="method">
+      <summary>Methodology</summary>
+      <div class="method-body">
+        <p>
+          A different question from card effectiveness above: given a card is already in the
+          deck, is it worth Smith-upgrading at a campfire? The naive comparison (runs that ended
+          with an upgraded copy vs runs that didn't) is badly biased — you can only end up with an
+          upgraded copy after surviving long enough to reach a campfire in the first place, so
+          upgraded copies look artificially good regardless of whether the upgrade itself helped.
+        </p>
+        <p>
+          The fix: campfires cluster on a handful of fixed floor ranges rather than being spread
+          evenly through Act 1. For every run that still owns an unupgraded copy of a card at a
+          campfire, we record whether it Smithed that card right there or did something else
+          (Heal, Smith a different card) — and which floor range that campfire falls in. Both
+          sides of the comparison are, by construction, runs that already reached that same floor
+          range, so the "survived longer" confound is gone. Only a run's first such opportunity
+          per card counts, and results are combined across floor ranges with a stratified average
+          so a floor range with a naturally higher baseline clear rate (e.g. one right before the
+          Act 1 boss) doesn't skew the overall number.
+        </p>
+        <p>
+          <strong>How to read the table:</strong> <code>n (smithed)</code> / <code>n (kept
+          base)</code> are the two group sizes. <code>Smith %</code> / <code>Base %</code> are
+          the subsequent Act 2 clear rate for each group; <code>Diff</code> is Smith minus Base.
+          Unlike the card-effectiveness report above, this one pools <strong>all ascension
+          levels</strong> rather than just A9/A10 — Act 1 campfire choices are rarer events than
+          card pickups, and the extra volume noticeably stabilizes the numbers, at the cost of
+          mixing difficulty levels where a card's power can differ. The <code>&Delta; (A9/A10
+          only)</code> column re-runs the same method restricted to ascension 9-10 runs only, as
+          a sanity check on whether the main columns still hold at high ascension; it respects
+          the same min-sample filter as the main columns, applied to that restricted sample
+          specifically — a dash means no A9/A10 data existed at all, an empty cell means some
+          existed but not enough to clear the current min-sample threshold.
+        </p>
+        <p>
+          Same caveats as above: correlational, not causal, and each card is only scored against
+          runs on a patch at or after its most recent balance change. Starting-deck cards (Strike,
+          Defend, and each character's two unique starting cards) are included by treating them as
+          owned from floor 1, rather than requiring a reward pickup like every other card.
+        </p>
+      </div>
+    </details>
   </div>
 
-  <div class="method">
-    <h2>Methodology: Act 1 card upgrade value</h2>
-    <p>
-      A different question from card effectiveness above: given a card is already in the
-      deck, is it worth Smith-upgrading at a campfire? The naive comparison (runs that ended
-      with an upgraded copy vs runs that didn't) is badly biased — you can only end up with an
-      upgraded copy after surviving long enough to reach a campfire in the first place, so
-      upgraded copies look artificially good regardless of whether the upgrade itself helped.
-    </p>
-    <p>
-      The fix: campfires cluster on a handful of fixed floor ranges rather than being spread
-      evenly through Act 1. For every run that still owns an unupgraded copy of a card at a
-      campfire, we record whether it Smithed that card right there or did something else
-      (Heal, Smith a different card) — and which floor range that campfire falls in. Both
-      sides of the comparison are, by construction, runs that already reached that same floor
-      range, so the "survived longer" confound is gone. Only a run's first such opportunity
-      per card counts, and results are combined across floor ranges with a stratified average
-      so a floor range with a naturally higher baseline clear rate (e.g. one right before the
-      Act 1 boss) doesn't skew the overall number.
-    </p>
-    <p>
-      <strong>How to read the table:</strong> <code>n (smithed)</code> / <code>n (kept
-      base)</code> are the two group sizes; <code>Floor groups</code> is how many distinct
-      floor ranges contributed to the result. <code>Smith %</code> / <code>Base %</code> are
-      the subsequent Act 2 clear rate for each group; <code>Diff</code> is Smith minus Base.
-      Unlike the card-effectiveness report above, this one pools <strong>all ascension
-      levels</strong> rather than just A9/A10 — Act 1 campfire choices are rarer events than
-      card pickups, and the extra volume noticeably stabilizes the numbers, at the cost of
-      mixing difficulty levels where a card's power can differ.
-    </p>
-    <p>
-      Same caveats as above: correlational, not causal, and each card is only scored against
-      runs on a patch at or after its most recent balance change. Starting-deck cards (Strike,
-      Defend, and each character's two unique starting cards) are included by treating them as
-      owned from floor 1, rather than requiring a reward pickup like every other card.
-    </p>
-  </div>
-
-  <div class="method">
-    <h2>Methodology: Act 1 card effectiveness</h2>
-    <p>
-      A naive "winrate by card" stat is misleading: a card can only be picked up on the floor
-      it's offered, so a card typically offered late in Act 1 can only ever belong to a run
-      that had already survived almost the whole act. That run was already very likely to
-      clear Act 1 regardless of the card — so late-offered cards look artificially great, no
-      matter how good they actually are.
-    </p>
-    <p>
-      To avoid that, Act 1 card effectiveness here only counts a card if it was picked up by
-      <strong>floor 8</strong> (roughly the midpoint of Act 1), and only compares it against
-      other runs that had <em>also</em> already reached floor 8 — whether they picked the card
-      up or not. So "having the card" isn't just a stand-in for "survived long enough to get
-      it": every run being compared already cleared the same amount of ground. The tradeoff:
-      cards that are typically offered later in Act 1 are underrepresented, since those late
-      picks simply aren't counted.
-    </p>
-    <p>
-      <strong>How to read the table:</strong> <code>N</code> is how many times the card was
-      picked up by floor 8. <code>With</code> is the Act 1 clear rate (reached Act 2) among
-      runs that had the card by floor 8; <code>Without</code> is the same clear rate for runs
-      that didn't. <code>Diff</code> is With minus Without. Be careful with rows that have a
-      very low <code>N</code> (rarely picked) — their numbers can swing wildly and are easy to
-      misread as a strong signal when it's really just a small sample.
-    </p>
-    <p>
-      The separate <code>Global winrate (all 3 acts)</code> column is a different question
-      entirely, and deliberately not floor-restricted: it's the full-run win rate (won the
-      whole game, not just Act 1) among <em>any</em> run that had the card at <em>any</em>
-      point, picked up on any floor of any act. Because of that, it has the exact same
-      late-pickup survivorship bias described above — a card that's mostly obtained near the
-      end of a run will look great here even if it's mediocre. Read it as "of the runs that
-      ended up with this card, how many won," not as evidence the card is strong early.
-    </p>
-    <p>
-      Each card is also only scored using runs played <em>after</em> its most recent balance
-      patch (see <code>last changed patch</code> column) — a buffed or nerfed card isn't
-      evaluated using data from its old, different version.
-    </p>
-    <p>
-      This is correlational, not causal: card picks are the player's choice, not a random
-      draw, so a stronger player who also happens to pick well will show up on both sides.
-      Treat the numbers as a signal worth investigating, not proof a card is good or bad.
-    </p>
+  <div class="group">
+    <h2>Neow starting relic winrate (A9/A10, all characters)</h2>
+    <ul>
+      <li><a href="neow_relics.html">Neow relics</a></li>
+    </ul>
+    <details class="method">
+      <summary>Methodology</summary>
+      <div class="method-body">
+        <p>
+          Simpler than the two reports above: does starting a run with relic X from Neow correlate
+          with winning the whole game? Neow's choice is always made on floor 1, and <em>every</em>
+          run reaches it, so there's no landmark-floor bias to correct for here — comparing "took
+          relic X" against "didn't" is a valid straight comparison, unlike the floor-8/floor-range
+          restrictions the other two reports need.
+        </p>
+        <p>
+          <strong>How to read the table:</strong> <code>n</code> is how many runs started with
+          that relic. <code>Winrate</code> is the full-run win rate for those runs. <code>Diff vs
+          baseline</code> is that winrate minus the overall baseline winrate across every run in
+          the character filter. Runs where Neow granted no relic at all (the player picked gold,
+          max HP, or a card removal instead) are bucketed as <code>(no relic)</code> — a real,
+          informative comparison point, not noise to discard.
+        </p>
+        <p>
+          Use the character filter at the top of the table: relic strength varies a lot by class,
+          so a relic's value is only meaningful within one character at a time, not pooled across
+          all five.
+        </p>
+        <p>
+          Same caveat as everywhere else on this site: correlational, not causal. Neow's relic
+          choice is partly the player's pick and partly luck of what's offered, and a stronger
+          player's runs will still tend to win more regardless of relic.
+        </p>
+      </div>
+    </details>
   </div>
 </div>
 </body>
