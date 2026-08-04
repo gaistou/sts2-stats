@@ -16,32 +16,6 @@
     --border:         rgba(11,11,11,0.10);
     --pos: #2a78d6; --neg: #e34948;
   }
-  @media (prefers-color-scheme: dark) {
-    :root:where(:not([data-theme="light"])) {
-      color-scheme: dark;
-      --surface-1:      #1a1a19;
-      --page:           #0d0d0d;
-      --text-primary:   #ffffff;
-      --text-secondary: #c3c2b7;
-      --text-muted:     #898781;
-      --gridline:       #2c2c2a;
-      --baseline:       #383835;
-      --border:         rgba(255,255,255,0.10);
-      --pos: #3987e5; --neg: #e66767;
-    }
-  }
-  :root[data-theme="dark"] {
-    color-scheme: dark;
-    --surface-1:      #1a1a19;
-    --page:           #0d0d0d;
-    --text-primary:   #ffffff;
-    --text-secondary: #c3c2b7;
-    --text-muted:     #898781;
-    --gridline:       #2c2c2a;
-    --baseline:       #383835;
-    --border:         rgba(255,255,255,0.10);
-    --pos: #3987e5; --neg: #e66767;
-  }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--page); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--text-primary); }
   .viz-root { max-width: 940px; margin: 0 auto; padding: 32px 20px 64px; }
@@ -123,7 +97,6 @@
           <th data-key="name">Card<span class="arrow"></span></th>
           <th data-key="n_with">n (smithed)<span class="arrow"></span></th>
           <th data-key="n_without">n (kept base)<span class="arrow"></span></th>
-          <th data-key="n_floor_groups">Floor groups<span class="arrow"></span></th>
           <th data-key="with_rate">Smith %<span class="arrow"></span></th>
           <th data-key="without_rate">Base %<span class="arrow"></span></th>
           <th data-key="diff" class="bar-cell">Diff<span class="arrow"></span></th>
@@ -174,10 +147,6 @@
       var nWithoutTd = document.createElement("td");
       nWithoutTd.textContent = r.n_without;
       tr.appendChild(nWithoutTd);
-
-      var floorsTd = document.createElement("td");
-      floorsTd.textContent = r.n_floor_groups;
-      tr.appendChild(floorsTd);
 
       var withTd = document.createElement("td");
       withTd.textContent = fmtPct(r.with_rate);
