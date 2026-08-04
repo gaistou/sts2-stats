@@ -86,7 +86,7 @@
     <label for="search">Card</label>
     <input type="search" id="search" placeholder="Filter by name...">
     <label for="minSample">Min sample (n, each side)</label>
-    <input type="number" id="minSample" value="20" min="0">
+    <input type="number" id="minSample" value="50" min="0">
     <span id="rowCount"></span>
   </div>
 
@@ -113,7 +113,7 @@
   var LOW_N_THRESHOLD = 40;
   var maxAbsDiff = ROWS.reduce(function (m, r) { return Math.max(m, Math.abs(r.diff)); }, 0.0001);
 
-  var state = { sortKey: "diff", sortDir: -1, search: "", minSample: 20 };
+  var state = { sortKey: "diff", sortDir: -1, search: "", minSample: 50 };
 
   function fmtPct(x) { return (x * 100).toFixed(1) + "%"; }
   function minN(r) { return Math.min(r.n_with, r.n_without); }
