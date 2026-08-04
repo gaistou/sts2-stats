@@ -61,8 +61,57 @@
     </ul>
   </div>
 
+  <div class="group">
+    <h2>Act 1 card upgrade value (all ascensions)</h2>
+    <ul>
+      <li><a href="ironclad_act1_card_upgrade_value.html">Ironclad</a></li>
+      <li><a href="silent_act1_card_upgrade_value.html">Silent</a></li>
+      <li><a href="defect_act1_card_upgrade_value.html">Defect</a></li>
+      <li><a href="necrobinder_act1_card_upgrade_value.html">Necrobinder</a></li>
+      <li><a href="regent_act1_card_upgrade_value.html">Regent</a></li>
+    </ul>
+  </div>
+
   <div class="method">
-    <h2>Methodology</h2>
+    <h2>Methodology: Act 1 card upgrade value</h2>
+    <p>
+      A different question from card effectiveness above: given a card is already in the
+      deck, is it worth Smith-upgrading at a campfire? The naive comparison (runs that ended
+      with an upgraded copy vs runs that didn't) is badly biased — you can only end up with an
+      upgraded copy after surviving long enough to reach a campfire in the first place, so
+      upgraded copies look artificially good regardless of whether the upgrade itself helped.
+    </p>
+    <p>
+      The fix: campfires cluster on a handful of fixed floor ranges rather than being spread
+      evenly through Act 1. For every run that still owns an unupgraded copy of a card at a
+      campfire, we record whether it Smithed that card right there or did something else
+      (Heal, Smith a different card) — and which floor range that campfire falls in. Both
+      sides of the comparison are, by construction, runs that already reached that same floor
+      range, so the "survived longer" confound is gone. Only a run's first such opportunity
+      per card counts, and results are combined across floor ranges with a stratified average
+      so a floor range with a naturally higher baseline clear rate (e.g. one right before the
+      Act 1 boss) doesn't skew the overall number.
+    </p>
+    <p>
+      <strong>How to read the table:</strong> <code>n (smithed)</code> / <code>n (kept
+      base)</code> are the two group sizes; <code>Floor groups</code> is how many distinct
+      floor ranges contributed to the result. <code>Smith %</code> / <code>Base %</code> are
+      the subsequent Act 2 clear rate for each group; <code>Diff</code> is Smith minus Base.
+      Unlike the card-effectiveness report above, this one pools <strong>all ascension
+      levels</strong> rather than just A9/A10 — Act 1 campfire choices are rarer events than
+      card pickups, and the extra volume noticeably stabilizes the numbers, at the cost of
+      mixing difficulty levels where a card's power can differ.
+    </p>
+    <p>
+      Same caveats as above: correlational, not causal, and each card is only scored against
+      runs on a patch at or after its most recent balance change. Starting-deck cards (Strike,
+      Defend, and each character's two unique starting cards) are included by treating them as
+      owned from floor 1, rather than requiring a reward pickup like every other card.
+    </p>
+  </div>
+
+  <div class="method">
+    <h2>Methodology: Act 1 card effectiveness</h2>
     <p>
       A naive "winrate by card" stat is misleading: a card can only be picked up on the floor
       it's offered, so a card typically offered late in Act 1 can only ever belong to a run
