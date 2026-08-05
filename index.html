@@ -194,6 +194,47 @@
       </div>
     </details>
   </div>
+
+  <div class="group">
+    <h2 id="methodology-boss-cards">Act 1 boss rare card winrate (A9/A10)</h2>
+    <ul>
+      <li><a href="ironclad_act1_boss_cards.html">Ironclad</a></li>
+      <li><a href="silent_act1_boss_cards.html">Silent</a></li>
+      <li><a href="defect_act1_boss_cards.html">Defect</a></li>
+      <li><a href="necrobinder_act1_boss_cards.html">Necrobinder</a></li>
+      <li><a href="regent_act1_boss_cards.html">Regent</a></li>
+    </ul>
+    <details class="method">
+      <summary>Methodology</summary>
+      <div class="method-body">
+        <p>
+          The Act 1 boss always offers a choice of 3 rare cards as its reward. Does which one you
+          keep correlate with winning the whole run? Unlike the Act 1 card effectiveness report
+          above, no landmark-floor bias correction is needed here: every run being compared already
+          beat the Act 1 boss, so every run faced the exact same choice at the exact same point —
+          there's no "survived longer, so naturally looks better" confound to control for.
+        </p>
+        <p>
+          <strong>Cohort:</strong> runs that beat the Act 1 boss (won the game, or kept going past
+          that floor). Runs that died to the boss itself never got the choice and aren't counted.
+        </p>
+        <p>
+          <strong>How to read the table:</strong> <code>n</code> is how many runs kept that card.
+          <code>Winrate</code> is the full-run (3 acts) win rate for those runs. <code>Diff vs
+          baseline</code> is that winrate minus the baseline winrate for this character's cohort.
+          <code>(skipped)</code> covers runs that beat the boss but kept none of the 3 rares offered
+          — a real comparison point, not noise. Rows marked * have a sample below the current
+          minimum-sample filter (40 by default, adjustable).
+        </p>
+        <p>
+          Each card is only scored using runs played after its most recent balance patch, same as
+          the Act 1 card effectiveness report. Same caveat too: correlational, not causal — which
+          rare card a player keeps is a choice, not a coin flip, so a stronger player's picks will
+          still tend to win more regardless of the card itself.
+        </p>
+      </div>
+    </details>
+  </div>
 </div>
 </body>
 </html>

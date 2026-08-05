@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Defect — Act 1 boss rare card winrate (A9, A10)</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --pos: #2a78d6; --neg: #e34948;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--text-primary); }
+  .viz-root { max-width: 900px; margin: 0 auto; padding: 32px 20px 64px; }
+
+  h1 { font-size: 22px; font-weight: 600; margin: 0 0 4px; }
+  .subtitle { color: var(--text-secondary); font-size: 13px; margin: 0 0 6px; line-height: 1.5; }
+  .caveat { color: var(--text-muted); font-size: 12px; margin: 0 0 24px; line-height: 1.5; max-width: 720px; }
+
+  .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+  .kpi { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+  .kpi .label { font-size: 11px; color: var(--text-secondary); margin-bottom: 4px; }
+  .kpi .value { font-size: 20px; font-weight: 600; line-height: 1.15; }
+
+  .filters { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+  .filters label { font-size: 12px; color: var(--text-secondary); margin-right: 4px; }
+  .filters input {
+    font: inherit; font-size: 13px; color: var(--text-primary);
+    background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 8px; padding: 6px 10px;
+  }
+  .filters input[type="search"] { width: 200px; }
+  .filters input[type="number"] { width: 70px; }
+  #rowCount { font-size: 12px; color: var(--text-muted); margin-left: auto; }
+
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px 20px; }
+
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  thead th {
+    text-align: right; font-size: 11px; font-weight: 600; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.03em; padding: 8px 6px;
+    border-bottom: 1px solid var(--gridline); cursor: pointer; user-select: none; white-space: nowrap;
+  }
+  thead th:first-child, tbody td:first-child { text-align: left; }
+  thead th:hover { color: var(--text-primary); }
+  thead th .arrow { color: var(--text-muted); font-size: 10px; margin-left: 3px; }
+  tbody td { text-align: right; font-size: 13px; padding: 7px 6px; border-bottom: 1px solid var(--gridline); }
+  tbody td.name-cell { text-align: left; font-variant-numeric: normal; color: var(--text-primary); }
+  tbody tr:hover td { background: var(--gridline); }
+  tbody tr.skipped td.name-cell { font-style: italic; color: var(--text-secondary); }
+  .low-n { color: var(--text-muted); }
+
+  .bar-cell { width: 220px; }
+  .bar-track { position: relative; height: 16px; }
+  .bar-baseline { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--baseline); }
+  .bar-fill { position: absolute; top: 2px; height: 12px; border-radius: 3px; }
+  .bar-fill.pos { background: var(--pos); left: 50%; }
+  .bar-fill.neg { background: var(--neg); right: 50%; }
+  .bar-label { display: inline-block; width: 50px; text-align: right; margin-left: 6px; }
+
+  .back-link { display: inline-block; font-size: 13px; color: var(--text-secondary); text-decoration: none; margin-bottom: 16px; }
+  .back-link:hover { color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <a class="back-link" href="index.html">&larr; Back to home</a>
+  <h1>Defect — Act 1 boss rare card winrate (A9, A10)</h1>
+  <p class="subtitle">n = runs that beat the Act 1 boss and kept that rare card from its 3-card reward choice. Winrate = full-run (3 acts) win rate for those runs. Diff vs baseline = that winrate minus the baseline for this character. “(skipped)” = runs that beat the boss but kept none of the 3 rares. Rows marked * have a sample &lt; 40.</p>
+  <p class="caveat">Full methodology and caveats: see the <a href="index.html#methodology-boss-cards">Act 1 boss rare card methodology</a> on the homepage.</p>
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="label">Runs in cohort</div><div class="value">14899</div></div>
+    <div class="kpi"><div class="label">Baseline winrate</div><div class="value">31.4%</div></div>
+    <div class="kpi"><div class="label">Distinct rare cards</div><div class="value">33</div></div>
+  </div>
+
+  <div class="filters">
+    <label for="search">Card</label>
+    <input type="search" id="search" placeholder="Filter by name...">
+    <label for="minSample">Min sample (n)</label>
+    <input type="number" id="minSample" value="40" min="0">
+    <span id="rowCount"></span>
+  </div>
+
+  <div class="card">
+    <table id="cardTable">
+      <thead>
+        <tr>
+          <th data-key="name">Rare card kept<span class="arrow"></span></th>
+          <th data-key="n">n<span class="arrow"></span></th>
+          <th data-key="win_rate">Winrate<span class="arrow"></span></th>
+          <th data-key="diff" class="bar-cell">Diff vs baseline<span class="arrow"></span></th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  // card_id === null => the run beat the Act 1 boss but kept none of the 3 rares offered.
+  var ROWS = [{"card_id": "MULTI_CAST", "name": "Multi Cast", "n": 180, "win_rate": 0.2611111111111111, "diff": -0.053138167363954325}, {"card_id": "REBOOT", "name": "Reboot", "n": 478, "win_rate": 0.33263598326359833, "diff": 0.01838670478853288}, {"card_id": "CREATIVE_AI", "name": "Creative Ai", "n": 603, "win_rate": 0.2669983416252073, "diff": -0.04725093684985815}, {"card_id": "SHATTER", "name": "Shatter", "n": 89, "win_rate": 0.3258426966292135, "diff": 0.01159341815414805}, {"card_id": "ECHO_FORM", "name": "Echo Form", "n": 1461, "win_rate": 0.39630390143737165, "diff": 0.0820546229623062}, {"card_id": "MACHINE_LEARNING", "name": "Machine Learning", "n": 871, "win_rate": 0.33524684270952926, "diff": 0.020997564234463806}, {"card_id": "HELIX_DRILL", "name": "Helix Drill", "n": 280, "win_rate": 0.21428571428571427, "diff": -0.09996356418935118}, {"card_id": "DEFRAGMENT", "name": "Defragment", "n": 1296, "win_rate": 0.36342592592592593, "diff": 0.04917664745086048}, {"card_id": "FLAK_CANNON", "name": "Flak Cannon", "n": 645, "win_rate": 0.3271317829457364, "diff": 0.012882504470670963}, {"card_id": "MODDED", "name": "Modded", "n": 1062, "win_rate": 0.2909604519774011, "diff": -0.02328882649766434}, {"card_id": "ICE_LANCE", "name": "Ice Lance", "n": 555, "win_rate": 0.3153153153153153, "diff": 0.0010660368402498621}, {"card_id": "BUFFER", "name": "Buffer", "n": 642, "win_rate": 0.3613707165109034, "diff": 0.04712143803583796}, {"card_id": "ALL_FOR_ONE", "name": "All For One", "n": 724, "win_rate": 0.3756906077348066, "diff": 0.06144132925974116}, {"card_id": "COOLANT", "name": "Coolant", "n": 506, "win_rate": 0.3458498023715415, "diff": 0.03160052389647605}, {"card_id": "VOLTAIC", "name": "Voltaic", "n": 589, "win_rate": 0.24108658743633277, "diff": -0.07316269103873269}, {"card_id": "SUPERCRITICAL", "name": "Supercritical", "n": 683, "win_rate": 0.3191800878477306, "diff": 0.004930809372665157}, {"card_id": "GENETIC_ALGORITHM", "name": "Genetic Algorithm", "n": 668, "win_rate": 0.32335329341317365, "diff": 0.009104014938108196}, {"card_id": null, "name": "(skipped)", "n": 564, "win_rate": 0.31382978723404253, "diff": -0.0004194912410229179}, {"card_id": "ADAPTIVE_STRIKE", "name": "Adaptive Strike", "n": 345, "win_rate": 0.23768115942028986, "diff": -0.07656811905477559}, {"card_id": "RAINBOW", "name": "Rainbow", "n": 226, "win_rate": 0.2168141592920354, "diff": -0.09743511918303005}, {"card_id": "SIGNAL_BOOST", "name": "Signal Boost", "n": 464, "win_rate": 0.23922413793103448, "diff": -0.07502514054403098}, {"card_id": "TRASH_TO_TREASURE", "name": "Trash To Treasure", "n": 707, "win_rate": 0.30975954738330974, "diff": -0.004489731091755711}, {"card_id": "SPINNER", "name": "Spinner", "n": 801, "win_rate": 0.2421972534332085, "diff": -0.07205202504185695}, {"card_id": "METEOR_STRIKE", "name": "Meteor Strike", "n": 214, "win_rate": 0.22429906542056074, "diff": -0.08995021305450471}, {"card_id": "CONSUMING_SHADOW", "name": "Consuming Shadow", "n": 226, "win_rate": 0.2079646017699115, "diff": -0.10628467670515396}, {"card_id": "HYPERBEAM", "name": "Hyperbeam", "n": 8, "win_rate": 0.375, "diff": 0.06075072152493455}, {"card_id": "JACKPOT", "name": "Jackpot", "n": 3, "win_rate": 0.6666666666666666, "diff": 0.3524173881916012}, {"card_id": "MAYHEM", "name": "Mayhem", "n": 2, "win_rate": 0.0, "diff": -0.31424927847506545}, {"card_id": "HAND_OF_GREED", "name": "Hand Of Greed", "n": 2, "win_rate": 0.0, "diff": -0.31424927847506545}, {"card_id": "SECRET_TECHNIQUE", "name": "Secret Technique", "n": 1, "win_rate": 0.0, "diff": -0.31424927847506545}, {"card_id": "HIDDEN_GEM", "name": "Hidden Gem", "n": 1, "win_rate": 0.0, "diff": -0.31424927847506545}, {"card_id": "MASTER_OF_STRATEGY", "name": "Master Of Strategy", "n": 2, "win_rate": 1.0, "diff": 0.6857507215249345}, {"card_id": "NOSTALGIA", "name": "Nostalgia", "n": 1, "win_rate": 0.0, "diff": -0.31424927847506545}];
+  var LOW_N_THRESHOLD = 40;
+
+  var state = { sortKey: "diff", sortDir: -1, search: "", minSample: 40 };
+
+  function fmtPct(x) { return (x * 100).toFixed(1) + "%"; }
+
+  function render() {
+    var maxAbsDiff = ROWS.reduce(function (m, r) { return Math.max(m, Math.abs(r.diff)); }, 0.0001);
+
+    var rows = ROWS.filter(function (r) {
+      return r.n >= state.minSample &&
+        (state.search === "" || r.name.toLowerCase().indexOf(state.search) !== -1);
+    });
+    rows.sort(function (a, b) {
+      var av = a[state.sortKey], bv = b[state.sortKey];
+      if (typeof av === "string") return av.localeCompare(bv) * state.sortDir;
+      return (av - bv) * state.sortDir;
+    });
+
+    var tbody = document.getElementById("tableBody");
+    tbody.innerHTML = "";
+    rows.forEach(function (r) {
+      var tr = document.createElement("tr");
+      if (r.card_id === null) tr.className = "skipped";
+
+      var nameTd = document.createElement("td");
+      nameTd.className = "name-cell" + (r.n < LOW_N_THRESHOLD ? " low-n" : "");
+      nameTd.textContent = r.name + (r.n < LOW_N_THRESHOLD ? " *" : "");
+      tr.appendChild(nameTd);
+
+      var nTd = document.createElement("td");
+      nTd.textContent = r.n;
+      tr.appendChild(nTd);
+
+      var winTd = document.createElement("td");
+      winTd.textContent = fmtPct(r.win_rate);
+      tr.appendChild(winTd);
+
+      var barTd = document.createElement("td");
+      barTd.className = "bar-cell";
+      var track = document.createElement("div");
+      track.className = "bar-track";
+      var baseline = document.createElement("div");
+      baseline.className = "bar-baseline";
+      track.appendChild(baseline);
+      var fill = document.createElement("div");
+      var pct = Math.abs(r.diff) / maxAbsDiff * 50;
+      fill.className = "bar-fill " + (r.diff >= 0 ? "pos" : "neg");
+      fill.style.width = pct + "%";
+      track.appendChild(fill);
+      barTd.appendChild(track);
+      var label = document.createElement("span");
+      label.className = "bar-label";
+      label.textContent = (r.diff >= 0 ? "+" : "") + fmtPct(r.diff);
+      barTd.appendChild(label);
+      tr.appendChild(barTd);
+
+      tbody.appendChild(tr);
+    });
+
+    document.getElementById("rowCount").textContent = rows.length + " cards (* = n < " + LOW_N_THRESHOLD + ", interpret with caution)";
+  }
+
+  document.querySelectorAll("#cardTable thead th[data-key]").forEach(function (th) {
+    th.addEventListener("click", function () {
+      var key = th.getAttribute("data-key");
+      if (state.sortKey === key) { state.sortDir *= -1; }
+      else { state.sortKey = key; state.sortDir = key === "name" ? 1 : -1; }
+      document.querySelectorAll("#cardTable thead .arrow").forEach(function (a) { a.textContent = ""; });
+      th.querySelector(".arrow").textContent = state.sortDir === 1 ? "\u25B2" : "\u25BC";
+      render();
+    });
+  });
+
+  document.getElementById("search").addEventListener("input", function (e) {
+    state.search = e.target.value.toLowerCase();
+    render();
+  });
+  document.getElementById("minSample").addEventListener("input", function (e) {
+    state.minSample = parseInt(e.target.value, 10) || 0;
+    render();
+  });
+
+  render();
+</script>
+</body>
+</html>
