@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Miscellaneous hypotheses</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border: rgba(11,11,11,0.10);
+    --pos: #2a78d6; --neg: #e34948;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--text-primary); }
+  .viz-root { max-width: 720px; margin: 0 auto; padding: 32px 20px 64px; }
+
+  h1 { font-size: 22px; font-weight: 600; margin: 0 0 4px; }
+  .subtitle { color: var(--text-secondary); font-size: 13px; margin: 0 0 24px; line-height: 1.5; max-width: 640px; }
+
+  .back-link { display: inline-block; font-size: 13px; color: var(--text-secondary); text-decoration: none; margin-bottom: 16px; }
+  .back-link:hover { color: var(--text-primary); }
+
+  .hcard { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 18px 22px 20px; margin-bottom: 20px; }
+  .hcard h2 { font-size: 16px; font-weight: 600; margin: 0 0 4px; }
+  .hcard .question { color: var(--text-secondary); font-size: 13px; margin: 0 0 16px; font-style: italic; }
+
+  .metric-row { display: flex; gap: 24px; margin-bottom: 14px; flex-wrap: wrap; }
+  .metric { flex: 1; min-width: 220px; }
+  .metric .metric-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 6px; }
+  .metric .metric-values { font-size: 13px; color: var(--text-secondary); margin-bottom: 4px; font-variant-numeric: tabular-nums; }
+  .bar-track { position: relative; height: 16px; }
+  .bar-baseline { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--baseline); }
+  .bar-fill { position: absolute; top: 2px; height: 12px; border-radius: 3px; }
+  .bar-fill.pos { background: var(--pos); left: 50%; }
+  .bar-fill.neg { background: var(--neg); right: 50%; }
+  .bar-label { font-size: 12px; font-weight: 600; margin-left: 6px; font-variant-numeric: tabular-nums; }
+  .bar-wrap { display: flex; align-items: center; }
+  .bar-wrap .bar-track { flex: 1; }
+
+  .n-note { font-size: 11px; color: var(--text-muted); margin-bottom: 12px; }
+  .method p { font-size: 12px; line-height: 1.6; color: var(--text-muted); margin: 8px 0 0; }
+
+  .subgroup { padding-top: 12px; margin-top: 4px; border-top: 1px solid var(--gridline); }
+  .subgroup:first-of-type { padding-top: 0; margin-top: 0; border-top: none; }
+  .subgroup-label { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+
+  .rtable { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; margin-top: 4px; }
+  .rtable th {
+    text-align: right; font-size: 11px; font-weight: 600; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.03em; padding: 6px 6px;
+    border-bottom: 1px solid var(--gridline); white-space: nowrap;
+  }
+  .rtable th:first-child, .rtable td:first-child { text-align: left; }
+  .rtable td { text-align: right; font-size: 13px; padding: 6px 6px; border-bottom: 1px solid var(--gridline); }
+  .rtable td.name-cell { text-align: left; color: var(--text-primary); }
+  .rtable td.diff.pos { color: var(--pos); font-weight: 600; }
+  .rtable td.diff.neg { color: var(--neg); font-weight: 600; }
+  .rtable td.diff.baseline { color: var(--text-muted); font-weight: 400; font-style: italic; }
+  .rtable tr.no-relic td.name-cell { font-style: italic; color: var(--text-secondary); }
+
+  .facts { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; margin-bottom: 24px; }
+  .facts h2 { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em; margin: 0 0 10px; }
+  .facts ul { margin: 0; padding: 0 0 0 18px; }
+  .facts li { font-size: 13px; line-height: 1.6; margin-bottom: 6px; }
+  .facts li:last-child { margin-bottom: 0; }
+  .facts li.abandoned { color: var(--text-muted); font-style: italic; }
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <a class="back-link" href="index.html">&larr; Back to home</a>
+  <h1>Miscellaneous hypotheses</h1>
+  <p class="subtitle">
+    Small, one-off questions that don't warrant their own dedicated report. Each is scored as a
+    single number across all 5 characters combined (rather than broken out per character like the
+    other reports on this site).
+  </p>
+  <div class="facts">
+    <h2>Fast facts</h2>
+    <ul>
+      <li>Shopping before floor 7 helps overall (+2.4% Act 1 clear) — and much more with a Golden Pearl start (+7.4%) than without (+2.1%).</li><li>Fighting an elite before floor 7 hurts on average (−6.6% Act 1 clear) — true for almost every Neow relic; only Fishing Rod comes out roughly neutral (+0.9%).</li><li>Fighting elites late in Act 1 (floor 9-16) helps a lot, and monotonically: 0→3+ elites is +15.5% Act 1 clear, +30.6% winrate.</li><li>More events than monster fights in floor 1-7 helps, but only up to a point — 0→2 events is +6.2% Act 1 clear, then it plateaus (no further gain past 2).</li><li>At a campfire, Smith beats Heal on average whether you're above 50% HP (+11.6% clear) or at/below it (+7.7% clear) — no HP threshold where Heal wins. Likely reflects who chooses to skip healing, not that healing itself hurts.</li><li>Act 2 only half-mirrors Act 1: fighting an elite early in Act 2 is roughly neutral (+0.6% clear, +4.4% winrate) — not bad the way early Act 1 elites are.</li><li>...but late Act 2 elites help even more than late Act 1 elites: 0→3+ elites (floor 8 of the act to the boss) is +20.1% Act 2 clear, +34.5% winrate.</li><li class="abandoned">Buy-a-card vs remove-a-card in shops: not testable — card removal isn't captured anywhere in the scraped data (no reward marker for it, unlike card/relic/potion purchases).</li>
+    </ul>
+  </div>
+  
+  <div class="hcard">
+    <h2>Shopping early (before floor 7)</h2>
+    <p class="question">Does visiting a shop before floor 7 correlate with clearing Act 1 / winning the run — and does that depend on starting with Neow's Golden Pearl relic (extra starting gold)?</p>
+    
+    <div class="subgroup">
+      <div class="subgroup-label">Started with Golden Pearl</div>
+      
+    <div class="metric-row">
+      <div class="metric">
+        <div class="metric-label">Act 1 clear rate</div>
+        <div class="metric-values">With: 64.3% &middot; Without: 56.9%</div>
+        <div class="bar-wrap">
+          <div class="bar-track">
+            <div class="bar-baseline"></div>
+            <div class="bar-fill pos" style="width: 37.15760621420194%;"></div>
+          </div>
+          <span class="bar-label">+7.4%</span>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Full-run winrate</div>
+        <div class="metric-values">With: 23.0% &middot; Without: 18.3%</div>
+        <div class="bar-wrap">
+          <div class="bar-track">
+            <div class="bar-baseline"></div>
+            <div class="bar-fill pos" style="width: 23.445470912118616%;"></div>
+          </div>
+          <span class="bar-label">+4.7%</span>
+        </div>
+      </div>
+    </div>
+
+      <div class="n-note">n = 6,389 runs with &middot; 1,414 without &middot; cohort 7,803 runs (A9, A10, reached floor 7+)</div>
+    </div>
+
+    <div class="subgroup">
+      <div class="subgroup-label">Did not start with Golden Pearl</div>
+      
+    <div class="metric-row">
+      <div class="metric">
+        <div class="metric-label">Act 1 clear rate</div>
+        <div class="metric-values">With: 62.1% &middot; Without: 60.0%</div>
+        <div class="bar-wrap">
+          <div class="bar-track">
+            <div class="bar-baseline"></div>
+            <div class="bar-fill pos" style="width: 10.612042362966683%;"></div>
+          </div>
+          <span class="bar-label">+2.1%</span>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Full-run winrate</div>
+        <div class="metric-values">With: 21.0% &middot; Without: 20.5%</div>
+        <div class="bar-wrap">
+          <div class="bar-track">
+            <div class="bar-baseline"></div>
+            <div class="bar-fill pos" style="width: 2.3274915291747402%;"></div>
+          </div>
+          <span class="bar-label">+0.5%</span>
+        </div>
+      </div>
+    </div>
+
+      <div class="n-note">n = 45,239 runs with &middot; 73,966 without &middot; cohort 119,205 runs (A9, A10, reached floor 7+)</div>
+    </div>
+
+    <div class="method"><p>Cohort: runs that reached at least floor 7, split into two strata by whether Neow granted Golden Pearl at floor 1. Within each stratum, "with" = visited a shop room by floor 7, "without" = didn't — same landmark-floor logic as the Act 1 card effectiveness report, so neither side is favored just for having survived longer.</p><p>Shopping early helps in both cases, but the effect is markedly bigger with a Golden Pearl start — makes sense, since the extra gold is what makes an early shop visit actually worth buying something rather than just window-shopping.</p><p>Caveat specific to this hypothesis: a shop reachable by floor 7 is also a path choice, so "shopped early" can partly stand in for "took a path that avoided an elite," which would independently improve survival regardless of the shop itself. Sample size note: most Golden Pearl starts already shop early (the extra gold makes the detour worth it), so the "did not shop" group within that stratum is smaller than in the other one — check the n before reading too much into it.</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+  </div>
+
+  <div class="hcard">
+    <h2>Fighting an elite early (floor 1-7)</h2>
+    <p class="question">Does fighting an elite before floor 7 correlate with clearing Act 1 / winning the run?</p>
+    
+    <div class="metric-row">
+      <div class="metric">
+        <div class="metric-label">Act 1 clear rate</div>
+        <div class="metric-values">With: 55.6% &middot; Without: 62.2%</div>
+        <div class="bar-wrap">
+          <div class="bar-track">
+            <div class="bar-baseline"></div>
+            <div class="bar-fill neg" style="width: 32.855572372130965%;"></div>
+          </div>
+          <span class="bar-label">-6.6%</span>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Full-run winrate</div>
+        <div class="metric-values">With: 21.2% &middot; Without: 20.7%</div>
+        <div class="bar-wrap">
+          <div class="bar-track">
+            <div class="bar-baseline"></div>
+            <div class="bar-fill pos" style="width: 2.7127401865228786%;"></div>
+          </div>
+          <span class="bar-label">+0.5%</span>
+        </div>
+      </div>
+    </div>
+<div class="n-note">n = 25,198 runs with &middot; 101,810 without &middot; cohort 127,008 runs (A9, A10, reached floor 7+)</div>
+    <div class="method"><p>Cohort: runs that reached at least floor 7. "With" = fought an elite by floor 7 (and, being in this cohort, survived it); "without" = didn't. All Neow relics pooled together — see the per-relic breakdown below for whether specific relics change this.</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+  </div>
+
+  <div class="hcard">
+    <h2>Fighting an elite early, by Neow relic</h2>
+    <p class="question">Is fighting an elite by floor 7 a bad idea in general, but fine (or good) with certain Neow starting relics strong enough to carry an early elite fight?</p>
+    
+    <table class="rtable">
+      <thead>
+        <tr>
+          <th>Neow relic</th>
+          <th>n (with / without)</th>
+          <th>Act 1 diff</th>
+          <th>Winrate diff</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td class="name-cell">Fishing Rod</td>
+          <td>146 / 1,095</td>
+          <td class="diff pos">+0.9%</td>
+          <td class="diff pos">+8.3%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Silver Crucible</td>
+          <td>2,956 / 7,925</td>
+          <td class="diff neg">-3.8%</td>
+          <td class="diff pos">+2.8%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Booming Conch</td>
+          <td>875 / 1,993</td>
+          <td class="diff neg">-4.3%</td>
+          <td class="diff pos">+1.0%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Phial Holster</td>
+          <td>893 / 3,161</td>
+          <td class="diff neg">-5.6%</td>
+          <td class="diff pos">+0.8%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Lost Coffer</td>
+          <td>1,047 / 3,974</td>
+          <td class="diff neg">-6.1%</td>
+          <td class="diff pos">+0.8%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Pomander</td>
+          <td>607 / 2,377</td>
+          <td class="diff neg">-6.1%</td>
+          <td class="diff neg">-1.5%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Leafy Poultice</td>
+          <td>2,156 / 8,772</td>
+          <td class="diff neg">-6.6%</td>
+          <td class="diff pos">+2.0%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Large Capsule</td>
+          <td>868 / 3,212</td>
+          <td class="diff neg">-6.8%</td>
+          <td class="diff pos">+1.0%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Stone Humidifier</td>
+          <td>357 / 1,730</td>
+          <td class="diff neg">-7.0%</td>
+          <td class="diff neg">-1.0%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Nutritious Oyster</td>
+          <td>276 / 1,193</td>
+          <td class="diff neg">-7.0%</td>
+          <td class="diff pos">+1.1%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Precise Scissors</td>
+          <td>545 / 2,911</td>
+          <td class="diff neg">-7.2%</td>
+          <td class="diff pos">+1.0%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Winged Boots</td>
+          <td>354 / 1,691</td>
+          <td class="diff neg">-7.2%</td>
+          <td class="diff pos">+3.9%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Small Capsule</td>
+          <td>674 / 2,786</td>
+          <td class="diff neg">-7.4%</td>
+          <td class="diff pos">+0.3%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Kaleidoscope</td>
+          <td>462 / 1,811</td>
+          <td class="diff neg">-7.4%</td>
+          <td class="diff pos">+0.3%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">New Leaf</td>
+          <td>1,372 / 6,134</td>
+          <td class="diff neg">-7.5%</td>
+          <td class="diff neg">-2.2%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Scroll Boxes</td>
+          <td>961 / 3,593</td>
+          <td class="diff neg">-7.6%</td>
+          <td class="diff pos">+0.1%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Silken Tress</td>
+          <td>714 / 2,877</td>
+          <td class="diff neg">-7.6%</td>
+          <td class="diff pos">+1.2%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Lead Paperweight</td>
+          <td>1,797 / 7,248</td>
+          <td class="diff neg">-7.9%</td>
+          <td class="diff neg">-0.5%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Cursed Pearl</td>
+          <td>1,533 / 5,592</td>
+          <td class="diff neg">-8.0%</td>
+          <td class="diff pos">+0.1%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Golden Pearl</td>
+          <td>1,597 / 6,206</td>
+          <td class="diff neg">-8.0%</td>
+          <td class="diff neg">-0.2%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Neows Talisman</td>
+          <td>461 / 2,080</td>
+          <td class="diff neg">-8.2%</td>
+          <td class="diff neg">-0.5%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Neows Torment</td>
+          <td>383 / 1,630</td>
+          <td class="diff neg">-8.4%</td>
+          <td class="diff neg">-1.9%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Arcane Scroll</td>
+          <td>1,366 / 6,301</td>
+          <td class="diff neg">-8.5%</td>
+          <td class="diff pos">+0.1%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Hefty Tablet</td>
+          <td>838 / 4,603</td>
+          <td class="diff neg">-8.8%</td>
+          <td class="diff neg">-1.6%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Neows Bones</td>
+          <td>936 / 4,102</td>
+          <td class="diff neg">-9.1%</td>
+          <td class="diff neg">-1.3%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Lava Rock</td>
+          <td>178 / 1,164</td>
+          <td class="diff neg">-11.5%</td>
+          <td class="diff neg">-3.9%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Precarious Shears</td>
+          <td>806 / 5,517</td>
+          <td class="diff neg">-15.0%</td>
+          <td class="diff neg">-2.0%</td>
+        </tr>
+      </tbody>
+    </table>
+<div class="n-note">27 relics shown (min n = 30 on the smaller of the two groups) &middot; A9, A10, reached floor 7+</div>
+    <div class="method"><p>Same landmark-floor cohort and with/without split as the general hypothesis above, but computed separately within each Neow relic's starters (plus <em>(no relic)</em> for runs Neow granted nothing). Sorted by Act 1 diff, descending — relics near the top are where an early elite fight correlates least badly (or best) with clearing Act 1; relics near the bottom are where it hurts most. Rows with fewer than 30 runs in the smaller of the with/without groups are dropped (this page has no client-side filter to unhide them).</p><p>Caveat specific to this hypothesis: this is the most confounded of the hypotheses on this page so far. Relics that are simply <em>good</em> overall (regardless of elite timing) will tend to show a smaller gap between "fought an elite early" and "didn't," not necessarily because the relic makes an early elite specifically safer — a strong start can carry a run whether or not it fights an elite. Read a relic sitting near the top as "consistent with helping," not proof the relic causes early elites to be safe.</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+  </div>
+
+  <div class="hcard">
+    <h2>Fighting elites late in Act 1 (floor 9 to the boss)</h2>
+    <p class="question">Should you fight as many elites as possible between floor 9 and the Act 1 boss?</p>
+    
+    <table class="rtable">
+      <thead>
+        <tr>
+          <th>Elites fought (floor 9-16)</th>
+          <th>n</th>
+          <th>Act 1 clear rate</th>
+          <th>&Delta; vs 0</th>
+          <th>Winrate</th>
+          <th>&Delta; vs 0</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td class="name-cell">0</td>
+          <td>12,072</td>
+          <td>71.8%</td>
+          <td class="diff baseline">baseline</td>
+          <td>13.5%</td>
+          <td class="diff baseline">baseline</td>
+        </tr>
+        <tr>
+          <td class="name-cell">1</td>
+          <td>38,275</td>
+          <td>76.7%</td>
+          <td class="diff pos">+4.9%</td>
+          <td>22.0%</td>
+          <td class="diff pos">+8.5%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">2</td>
+          <td>38,835</td>
+          <td>81.6%</td>
+          <td class="diff pos">+10.0%</td>
+          <td>32.1%</td>
+          <td class="diff pos">+18.8%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">3+</td>
+          <td>8,821</td>
+          <td>86.8%</td>
+          <td class="diff pos">+15.5%</td>
+          <td>43.9%</td>
+          <td class="diff pos">+30.6%</td>
+        </tr>
+      </tbody>
+    </table>
+<div class="n-note">cohort = runs that reached the Act 1 boss &middot; A9, A10</div>
+    <div class="method"><p>Cohort: runs that reached the Act 1 boss (so every run in the cohort had the full floor 9-16 window available, regardless of how many elites it chose to fight in it — same landmark-floor logic as the rest of this page, just anchored on "reached the boss" instead of a fixed floor). Bucketed by how many elites were fought in that window; "3+" absorbs the rare 3/4/5-elite runs into one bucket for sample size. Act 1 clear rate = beat the boss and reached Act 2; winrate = won the whole run. Both diffs are relative to the 0-elites bucket.</p><p>Simplification: floor 9-16 is a fixed window, not each run's actual "floor 9 to its own boss floor" — the Act 1 boss sits at floor 17 in ~99.9% of runs that reach it, so this is a negligible approximation in exchange for a much cheaper query (avoids fetching every individual floor row per run).</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+  </div>
+
+  <div class="hcard">
+    <h2>Prioritizing events over monster fights (floor 1-7)</h2>
+    <p class="question">Is it better to have more events ("?" rooms) than normal monster fights in floor 1-7?</p>
+    
+    <table class="rtable">
+      <thead>
+        <tr>
+          <th>Events (floor 1-7)</th>
+          <th>n</th>
+          <th>Act 1 clear rate</th>
+          <th>&Delta; vs 0</th>
+          <th>Winrate</th>
+          <th>&Delta; vs 0</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td class="name-cell">0</td>
+          <td>11,890</td>
+          <td>55.9%</td>
+          <td class="diff baseline">baseline</td>
+          <td>17.7%</td>
+          <td class="diff baseline">baseline</td>
+        </tr>
+        <tr>
+          <td class="name-cell">1</td>
+          <td>43,210</td>
+          <td>60.3%</td>
+          <td class="diff pos">+4.4%</td>
+          <td>20.4%</td>
+          <td class="diff pos">+2.6%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">2</td>
+          <td>47,817</td>
+          <td>62.2%</td>
+          <td class="diff pos">+6.2%</td>
+          <td>21.8%</td>
+          <td class="diff pos">+4.1%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">3</td>
+          <td>20,220</td>
+          <td>61.8%</td>
+          <td class="diff pos">+5.9%</td>
+          <td>21.1%</td>
+          <td class="diff pos">+3.5%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">4</td>
+          <td>3,621</td>
+          <td>62.7%</td>
+          <td class="diff pos">+6.7%</td>
+          <td>21.4%</td>
+          <td class="diff pos">+3.6%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">5+</td>
+          <td>250</td>
+          <td>60.4%</td>
+          <td class="diff pos">+4.1%</td>
+          <td>16.8%</td>
+          <td class="diff neg">-1.0%</td>
+        </tr>
+      </tbody>
+    </table>
+<div class="n-note">cohort = runs that reached floor 7+ &middot; A9, A10</div>
+    <div class="method"><p>"Event" here means room_type <code>unknown</code> in the scraped data — confirmed by spot-checking: these rows carry event names (e.g. "Trash Heap", "Sunken Statue", "Brain Leech") in the encounter field, distinct from shops, treasure rooms, and monster/elite fights, which already have their own room_type. About 9% of event rows have no recorded encounter name (an event that resolved to nothing worth logging, or a data gap) but are still counted as events here.</p><p>Cohort: runs that reached at least floor 7 (so every run had the same 7-floor window available). Floor 1 is Neow's pick, not a real path choice, and is almost never a monster or event room itself, so it contributes negligibly to the count either way. Bucketed by how many of floor 1-7 were events; "5+" absorbs the rare 5/6-event runs. Diffs are relative to the 0-events bucket.</p><p>Floor 1-7 has other room types too (shop, rest, elite, treasure) that compete for the same floor slots — more events mechanically means fewer of <em>something else</em>, not purely fewer monster fights specifically, though monster and event are by far the two most common early room types (see the raw per-floor counts in the codebase notes). Read this as "more events, whatever they displace" rather than a strict one-for-one events-vs-monsters swap.</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+  </div>
+
+  <div class="hcard">
+    <h2>Campfire choice: Smith vs Heal, by HP</h2>
+    <p class="question">At a campfire, is Smith better than Heal above 50% HP, and worse (i.e. Heal better) below 50% HP?</p>
+    
+    <div class="subgroup">
+      <div class="subgroup-label">Above 50% HP when arriving at the campfire</div>
+      
+    <div class="metric-row">
+      <div class="metric">
+        <div class="metric-label">Cleared the act</div>
+        <div class="metric-values">With: 62.5% &middot; Without: 50.8%</div>
+        <div class="bar-wrap">
+          <div class="bar-track">
+            <div class="bar-baseline"></div>
+            <div class="bar-fill pos" style="width: 50.0%;"></div>
+          </div>
+          <span class="bar-label">+11.6%</span>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Full-run winrate</div>
+        <div class="metric-values">With: 44.0% &middot; Without: 42.8%</div>
+        <div class="bar-wrap">
+          <div class="bar-track">
+            <div class="bar-baseline"></div>
+            <div class="bar-fill pos" style="width: 6.4342604370292875%;"></div>
+          </div>
+          <span class="bar-label">+1.3%</span>
+        </div>
+      </div>
+    </div>
+
+      <div class="n-note">n = 274,089 campfires with &middot; 62,088 without &middot; A9, A10, every campfire (any act) with a recorded Smith or Heal choice</div>
+    </div>
+
+    <div class="subgroup">
+      <div class="subgroup-label">At or below 50% HP when arriving at the campfire</div>
+      
+    <div class="metric-row">
+      <div class="metric">
+        <div class="metric-label">Cleared the act</div>
+        <div class="metric-values">With: 65.9% &middot; Without: 58.3%</div>
+        <div class="bar-wrap">
+          <div class="bar-track">
+            <div class="bar-baseline"></div>
+            <div class="bar-fill pos" style="width: 38.71846291283591%;"></div>
+          </div>
+          <span class="bar-label">+7.7%</span>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Full-run winrate</div>
+        <div class="metric-values">With: 32.9% &middot; Without: 26.3%</div>
+        <div class="bar-wrap">
+          <div class="bar-track">
+            <div class="bar-baseline"></div>
+            <div class="bar-fill pos" style="width: 33.38733002894355%;"></div>
+          </div>
+          <span class="bar-label">+6.7%</span>
+        </div>
+      </div>
+    </div>
+
+      <div class="n-note">n = 81,773 campfires with &middot; 228,241 without &middot; A9, A10, every campfire (any act) with a recorded Smith or Heal choice</div>
+    </div>
+
+    <div class="method"><p>One observation per campfire decision, not per run — a run visits several campfires across a run, each an independent fresh choice (unlike the card upgrade value report's Smith question, there's no "first opportunity only" restriction needed here, since choosing Heal doesn't remove anything from a future campfire's eligible choices the way Smithing a card does). HP is measured at arrival, before the choice (the previous floor's HP/max HP), not after — otherwise choosing Heal would trivially show "high HP after" by construction.</p><p>"Cleared the act" = the run went on to reach a later act than the one this campfire happened in — the same idea as "Act 1 clear rate" elsewhere on this page, generalized since campfires happen in every act, not just Act 1. Winrate = won the whole run.</p><p>Campfire choices other than Smith/Heal (rare relic-granted alternates: Hatch, Dig, Lift) are excluded — this hypothesis is specifically about the Smith-vs-Heal tradeoff.</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+  </div>
+
+  <div class="hcard">
+    <h2>Fighting an elite early in Act 2 (floor 1-7 of the act)</h2>
+    <p class="question">Does fighting an elite in the first 7 floors of Act 2 correlate with clearing Act 2 / winning the run?</p>
+    
+    <div class="metric-row">
+      <div class="metric">
+        <div class="metric-label">Act 2 clear rate</div>
+        <div class="metric-values">With: 61.9% &middot; Without: 61.1%</div>
+        <div class="bar-wrap">
+          <div class="bar-track">
+            <div class="bar-baseline"></div>
+            <div class="bar-fill pos" style="width: 3.031998313384339%;"></div>
+          </div>
+          <span class="bar-label">+0.6%</span>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Full-run winrate</div>
+        <div class="metric-values">With: 40.1% &middot; Without: 35.6%</div>
+        <div class="bar-wrap">
+          <div class="bar-track">
+            <div class="bar-baseline"></div>
+            <div class="bar-fill pos" style="width: 21.990096719781764%;"></div>
+          </div>
+          <span class="bar-label">+4.4%</span>
+        </div>
+      </div>
+    </div>
+<div class="n-note">n = 17,309 runs with &middot; 54,643 without &middot; cohort 71,952 runs (A9, A10, reached floor 24+)</div>
+    <div class="method"><p>Act 2 mirror of the "fighting an elite early" hypothesis above. Floor numbers are absolute across the whole run — Act 2 starts at floor 18 in ~99.95% of runs that reach it, so "floor 7 of Act 2" is landmark_floor=24 here. Cohort: runs that reached at least that point. "With" = fought an elite in Act 2's first 7 floors (and survived it, being in this cohort); "without" = didn't. "Act 2 clear rate" = reached Act 3.</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+  </div>
+
+  <div class="hcard">
+    <h2>Fighting elites late in Act 2 (floor 8 of the act to the boss)</h2>
+    <p class="question">Should you fight as many elites as possible from floor 8 of Act 2 to the Act 2 boss?</p>
+    
+    <table class="rtable">
+      <thead>
+        <tr>
+          <th>Elites fought (floor 25-32)</th>
+          <th>n</th>
+          <th>Act 2 clear rate</th>
+          <th>&Delta; vs 0</th>
+          <th>Winrate</th>
+          <th>&Delta; vs 0</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td class="name-cell">0</td>
+          <td>6,583</td>
+          <td>68.0%</td>
+          <td class="diff baseline">baseline</td>
+          <td>30.2%</td>
+          <td class="diff baseline">baseline</td>
+        </tr>
+        <tr>
+          <td class="name-cell">1</td>
+          <td>21,344</td>
+          <td>74.5%</td>
+          <td class="diff pos">+6.5%</td>
+          <td>40.5%</td>
+          <td class="diff pos">+10.3%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">2</td>
+          <td>21,947</td>
+          <td>82.1%</td>
+          <td class="diff pos">+14.1%</td>
+          <td>52.7%</td>
+          <td class="diff pos">+22.6%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">3+</td>
+          <td>6,478</td>
+          <td>88.2%</td>
+          <td class="diff pos">+20.1%</td>
+          <td>64.8%</td>
+          <td class="diff pos">+34.5%</td>
+        </tr>
+      </tbody>
+    </table>
+<div class="n-note">cohort = runs that reached the Act 2 boss &middot; A9, A10</div>
+    <div class="method"><p>Act 2 mirror of the "fighting elites late" hypothesis above (floor 9-16, before the Act 1 boss). Cohort: runs that reached the Act 2 boss, so every run had the full floor 25-32 (absolute) window available — "floor 8 of Act 2" to just before its boss, using the dominant Act 2 boss floor (33, ~96.5% of runs that reach it; the remaining ~3.5% have a boss at floor 35, a negligible approximation this fixed window doesn't chase, same as the Act 1 version).</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+  </div>
+
+</div>
+</body>
+</html>
