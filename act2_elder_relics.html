@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Winrate by Act 2 elder relic - all ascensions</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --pos: #2a78d6; --neg: #e34948;
+    --accent: #6c5ce7; --accent-soft: rgba(108,92,231,0.12);
+    --shadow-sm: 0 1px 2px rgba(11,11,11,0.05);
+    --shadow-md: 0 10px 28px rgba(11,11,11,0.10);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--page);
+    background-image: radial-gradient(900px 420px at 20% -12%, rgba(108,92,231,0.07), transparent 60%),
+                       radial-gradient(700px 360px at 100% 0%, rgba(42,120,214,0.05), transparent 55%);
+    background-attachment: fixed;
+  }
+  ::selection { background: var(--accent-soft); color: var(--text-primary); }
+  .viz-root { max-width: 900px; margin: 0 auto; padding: 32px 20px 64px; }
+
+  h1 { font-size: 23px; font-weight: 650; letter-spacing: -0.01em; margin: 0 0 4px; }
+  .subtitle { color: var(--text-secondary); font-size: 13px; margin: 0 0 6px; line-height: 1.5; }
+  .caveat { color: var(--text-muted); font-size: 12px; margin: 0 0 24px; line-height: 1.5; max-width: 720px; }
+
+  .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+  .kpi {
+    background: var(--surface-1); border: 1px solid var(--border); border-top: 2px solid var(--accent);
+    border-radius: 12px; padding: 14px 16px; box-shadow: var(--shadow-sm);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .kpi:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .kpi .label { font-size: 11px; color: var(--text-secondary); margin-bottom: 4px; }
+  .kpi .value { font-size: 21px; font-weight: 650; line-height: 1.15; font-variant-numeric: tabular-nums; }
+
+  .filters { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+  .filters label { font-size: 12px; color: var(--text-secondary); margin-right: 4px; }
+  .filters input, .filters select {
+    font: inherit; font-size: 13px; color: var(--text-primary);
+    background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 8px; padding: 6px 10px; transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .filters input:focus, .filters select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .filters input[type="search"] { width: 180px; }
+  .filters input[type="number"] { width: 70px; }
+  #rowCount { font-size: 12px; color: var(--text-muted); margin-left: auto; }
+
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 16px 20px 20px; box-shadow: var(--shadow-sm); }
+
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  thead th {
+    position: sticky; top: 0; background: var(--surface-1); box-shadow: 0 1px 0 var(--gridline);
+    text-align: right; font-size: 11px; font-weight: 600; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.03em; padding: 8px 6px;
+    border-bottom: 1px solid var(--gridline); cursor: pointer; user-select: none; white-space: nowrap;
+  }
+  thead th:first-child, tbody td:first-child { text-align: left; }
+  thead th:hover { color: var(--accent); }
+  thead th .arrow { color: var(--text-muted); font-size: 10px; margin-left: 3px; }
+  tbody td { text-align: right; font-size: 13px; padding: 7px 6px; border-bottom: 1px solid var(--gridline); transition: background .1s ease; }
+  tbody td.name-cell { text-align: left; font-variant-numeric: normal; color: var(--text-primary); }
+  tbody tr:hover td { background: var(--accent-soft); }
+  .low-n { color: var(--text-muted); }
+
+  .bar-cell { width: 220px; }
+  .bar-track { position: relative; height: 16px; }
+  .bar-baseline { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--baseline); }
+  .bar-fill { position: absolute; top: 2px; height: 12px; border-radius: 3px; }
+  .bar-fill.pos { background: var(--pos); left: 50%; }
+  .bar-fill.neg { background: var(--neg); right: 50%; }
+  .bar-label { display: inline-block; width: 50px; text-align: right; margin-left: 6px; }
+
+  .delta-pos { color: var(--pos); font-weight: 600; }
+  .delta-neg { color: var(--neg); font-weight: 600; }
+  .delta-na { color: var(--text-muted); }
+
+  .back-link {
+    display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 500;
+    color: var(--text-secondary); text-decoration: none; margin-bottom: 16px;
+    padding: 5px 10px 5px 8px; border-radius: 999px; transition: background .15s ease, color .15s ease;
+  }
+  .back-link:hover { color: var(--accent); background: var(--accent-soft); }
+
+  @media (max-width: 640px) {
+    .viz-root { padding: 20px 14px 48px; }
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .filters { flex-direction: column; align-items: stretch; }
+    #rowCount { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <a class="back-link" href="index.html">&larr; Back to home</a>
+  <h1>Winrate by Act 2 elder relic - all ascensions</h1>
+  <p class="subtitle">Act 2 opens with a random elder encounter (Pael, Tezcatara, Orobas, or Darv) that grants a relic. Some of these elders can be fought and can kill the player — runs that died there are excluded from this cohort entirely (they never received a relic to compare), not bucketed as a result. n = runs that received that relic and survived the encounter, restricted to runs on a patch at or after that relic's last balance change (see Last changed patch column). Winrate = full-run (3 acts) win rate for those runs. Diff vs baseline = that winrate minus the baseline for the current character filter. Δ (A9/A10 only) re-runs the same comparison restricted to ascension 9-10 — dash = no A9/A10 data, blank = below the min-sample filter. Rows marked * have a sample < 100.</p>
+  <p class="caveat">Full methodology and caveats: see the <a href="index.html#methodology-elder-relics">Act 2/3 elder relic methodology</a> on the homepage.</p>
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="label">Runs (all characters)</div><div class="value" id="kpiCohort">-</div></div>
+    <div class="kpi"><div class="label">Baseline winrate</div><div class="value" id="kpiBaseline">-</div></div>
+    <div class="kpi"><div class="label">Distinct relics</div><div class="value">43</div></div>
+  </div>
+
+  <div class="filters">
+    <label for="character">Character</label>
+    <select id="character"><option value="">All</option><option value="Defect">Defect</option><option value="Ironclad">Ironclad</option><option value="Necrobinder">Necrobinder</option><option value="Regent">Regent</option><option value="Silent">Silent</option></select>
+    <label for="search">Relic</label>
+    <input type="search" id="search" placeholder="Filter by name...">
+    <label for="minSample">Min sample (n)</label>
+    <input type="number" id="minSample" value="100" min="0">
+    <span id="rowCount"></span>
+  </div>
+
+  <div class="card">
+    <table id="relicTable">
+      <thead>
+        <tr>
+          <th data-key="name">Relic<span class="arrow"></span></th>
+          <th data-key="n">n<span class="arrow"></span></th>
+          <th data-key="win_rate">Winrate<span class="arrow"></span></th>
+          <th data-key="diff" class="bar-cell">Diff vs baseline<span class="arrow"></span></th>
+          <th data-key="diff_a9_10">&Delta; (A9/A10 only)<span class="arrow"></span></th>
+          <th data-key="last_changed_patch">Last changed patch<span class="arrow"></span></th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  // One row per (relic_id, character) pair. Runs where the Act 2 elder killed the
+  // player before granting a relic are excluded (see elder_relic_stats.py), so relic_id
+  // is never null here, unlike report_neow_relics.py.
+  var RAW_ROWS = [{"relic_id": "ARCHAIC_TOOTH", "name": "Archaic Tooth", "character": "Ironclad", "n": 3948, "wins": 1730, "last_changed_patch": "v0.98", "n_a9_10": 1563, "wins_a9_10": 589}, {"relic_id": "PAELS_WING", "name": "Paels Wing", "character": "Ironclad", "n": 1847, "wins": 676, "last_changed_patch": "v0.98", "n_a9_10": 470, "wins_a9_10": 123}, {"relic_id": "EMPTY_CAGE", "name": "Empty Cage", "character": "Silent", "n": 557, "wins": 215, "last_changed_patch": "v0.98", "n_a9_10": 198, "wins_a9_10": 56}, {"relic_id": "SOZU", "name": "Sozu", "character": "Necrobinder", "n": 146, "wins": 78, "last_changed_patch": "v0.98", "n_a9_10": 44, "wins_a9_10": 14}, {"relic_id": "PANDORAS_BOX", "name": "Pandoras Box", "character": "Defect", "n": 832, "wins": 435, "last_changed_patch": "v0.98", "n_a9_10": 364, "wins_a9_10": 169}, {"relic_id": "GOLDEN_COMPASS", "name": "Golden Compass", "character": "Ironclad", "n": 1297, "wins": 573, "last_changed_patch": "v0.98", "n_a9_10": 347, "wins_a9_10": 111}, {"relic_id": "ASTROLABE", "name": "Astrolabe", "character": "Silent", "n": 792, "wins": 404, "last_changed_patch": "v0.98", "n_a9_10": 351, "wins_a9_10": 163}, {"relic_id": "PAELS_BLOOD", "name": "Paels Blood", "character": "Necrobinder", "n": 1682, "wins": 902, "last_changed_patch": "v0.98", "n_a9_10": 614, "wins_a9_10": 270}, {"relic_id": "GLASS_EYE", "name": "Glass Eye", "character": "Defect", "n": 983, "wins": 361, "last_changed_patch": "v0.98", "n_a9_10": 476, "wins_a9_10": 138}, {"relic_id": "YUMMY_COOKIE", "name": "Yummy Cookie", "character": "Silent", "n": 2857, "wins": 1355, "last_changed_patch": "v0.98", "n_a9_10": 933, "wins_a9_10": 335}, {"relic_id": "TOUCH_OF_OROBAS", "name": "Touch Of Orobas", "character": "Necrobinder", "n": 3122, "wins": 1526, "last_changed_patch": "v0.98", "n_a9_10": 898, "wins_a9_10": 303}, {"relic_id": "RUNIC_PYRAMID", "name": "Runic Pyramid", "character": "Defect", "n": 688, "wins": 420, "last_changed_patch": "v0.98", "n_a9_10": 339, "wins_a9_10": 174}, {"relic_id": "DRIFTWOOD", "name": "Driftwood", "character": "Silent", "n": 756, "wins": 282, "last_changed_patch": "v0.98", "n_a9_10": 255, "wins_a9_10": 67}, {"relic_id": "ARCHAIC_TOOTH", "name": "Archaic Tooth", "character": "Defect", "n": 2580, "wins": 1075, "last_changed_patch": "v0.98", "n_a9_10": 847, "wins_a9_10": 235}, {"relic_id": "PAELS_TOOTH", "name": "Paels Tooth", "character": "Defect", "n": 1168, "wins": 465, "last_changed_patch": "v0.98", "n_a9_10": 417, "wins_a9_10": 101}, {"relic_id": "RADIANT_PEARL", "name": "Radiant Pearl", "character": "Ironclad", "n": 1139, "wins": 582, "last_changed_patch": "v0.98", "n_a9_10": 487, "wins_a9_10": 179}, {"relic_id": "SNECKO_EYE", "name": "Snecko Eye", "character": "Defect", "n": 211, "wins": 140, "last_changed_patch": "v0.98", "n_a9_10": 105, "wins_a9_10": 60}, {"relic_id": "ALCHEMICAL_COFFER", "name": "Alchemical Coffer", "character": "Defect", "n": 855, "wins": 398, "last_changed_patch": "v0.98", "n_a9_10": 428, "wins_a9_10": 158}, {"relic_id": "STORYBOOK", "name": "Storybook", "character": "Ironclad", "n": 1681, "wins": 827, "last_changed_patch": "v0.98", "n_a9_10": 885, "wins_a9_10": 345}, {"relic_id": "SAND_CASTLE", "name": "Sand Castle", "character": "Silent", "n": 1047, "wins": 467, "last_changed_patch": "v0.98", "n_a9_10": 383, "wins_a9_10": 116}, {"relic_id": "ARCHAIC_TOOTH", "name": "Archaic Tooth", "character": "Regent", "n": 4047, "wins": 1675, "last_changed_patch": "v0.98", "n_a9_10": 1589, "wins_a9_10": 526}, {"relic_id": "RADIANT_PEARL", "name": "Radiant Pearl", "character": "Regent", "n": 949, "wins": 424, "last_changed_patch": "v0.98", "n_a9_10": 409, "wins_a9_10": 149}, {"relic_id": "RUNIC_PYRAMID", "name": "Runic Pyramid", "character": "Regent", "n": 562, "wins": 352, "last_changed_patch": "v0.98", "n_a9_10": 299, "wins_a9_10": 173}, {"relic_id": "SEA_GLASS", "name": "Sea Glass", "character": "Necrobinder", "n": 449, "wins": 118, "last_changed_patch": "v0.98", "n_a9_10": 196, "wins_a9_10": 39}, {"relic_id": "PAELS_CLAW", "name": "Paels Claw", "character": "Silent", "n": 1236, "wins": 588, "last_changed_patch": "v0.98", "n_a9_10": 457, "wins_a9_10": 189}, {"relic_id": "PAELS_WING", "name": "Paels Wing", "character": "Defect", "n": 1569, "wins": 556, "last_changed_patch": "v0.98", "n_a9_10": 445, "wins_a9_10": 80}, {"relic_id": "VERY_HOT_COCOA", "name": "Very Hot Cocoa", "character": "Regent", "n": 2555, "wins": 1044, "last_changed_patch": "v0.98", "n_a9_10": 720, "wins_a9_10": 231}, {"relic_id": "GLASS_EYE", "name": "Glass Eye", "character": "Regent", "n": 616, "wins": 172, "last_changed_patch": "v0.98", "n_a9_10": 264, "wins_a9_10": 58}, {"relic_id": "GLASS_EYE", "name": "Glass Eye", "character": "Necrobinder", "n": 639, "wins": 163, "last_changed_patch": "v0.98", "n_a9_10": 285, "wins_a9_10": 55}, {"relic_id": "PAELS_WING", "name": "Paels Wing", "character": "Regent", "n": 1657, "wins": 587, "last_changed_patch": "v0.98", "n_a9_10": 464, "wins_a9_10": 121}, {"relic_id": "BLACK_STAR", "name": "Black Star", "character": "Regent", "n": 351, "wins": 124, "last_changed_patch": "v0.98", "n_a9_10": 110, "wins_a9_10": 32}, {"relic_id": "VERY_HOT_COCOA", "name": "Very Hot Cocoa", "character": "Necrobinder", "n": 2495, "wins": 1183, "last_changed_patch": "v0.98", "n_a9_10": 705, "wins_a9_10": 247}, {"relic_id": "TOASTY_MITTENS", "name": "Toasty Mittens", "character": "Ironclad", "n": 610, "wins": 358, "last_changed_patch": "v0.98", "n_a9_10": 249, "wins_a9_10": 118}, {"relic_id": "YUMMY_COOKIE", "name": "Yummy Cookie", "character": "Regent", "n": 2877, "wins": 1058, "last_changed_patch": "v0.98", "n_a9_10": 843, "wins_a9_10": 243}, {"relic_id": "ARCHAIC_TOOTH", "name": "Archaic Tooth", "character": "Silent", "n": 3178, "wins": 1641, "last_changed_patch": "v0.98", "n_a9_10": 1277, "wins_a9_10": 534}, {"relic_id": "TOUCH_OF_OROBAS", "name": "Touch Of Orobas", "character": "Regent", "n": 2281, "wins": 873, "last_changed_patch": "v0.98", "n_a9_10": 636, "wins_a9_10": 177}, {"relic_id": "BIIIG_HUG", "name": "Biiig Hug", "character": "Necrobinder", "n": 749, "wins": 315, "last_changed_patch": "v0.98", "n_a9_10": 317, "wins_a9_10": 106}, {"relic_id": "ARCHAIC_TOOTH", "name": "Archaic Tooth", "character": "Necrobinder", "n": 2164, "wins": 826, "last_changed_patch": "v0.98", "n_a9_10": 578, "wins_a9_10": 159}, {"relic_id": "PAELS_HORN", "name": "Paels Horn", "character": "Regent", "n": 927, "wins": 352, "last_changed_patch": "v0.98", "n_a9_10": 296, "wins_a9_10": 78}, {"relic_id": "YUMMY_COOKIE", "name": "Yummy Cookie", "character": "Necrobinder", "n": 2767, "wins": 1123, "last_changed_patch": "v0.98", "n_a9_10": 799, "wins_a9_10": 223}, {"relic_id": "ELECTRIC_SHRYMP", "name": "Electric Shrymp", "character": "Necrobinder", "n": 1190, "wins": 564, "last_changed_patch": "v0.98", "n_a9_10": 403, "wins_a9_10": 142}, {"relic_id": "PAELS_TOOTH", "name": "Paels Tooth", "character": "Necrobinder", "n": 856, "wins": 331, "last_changed_patch": "v0.98", "n_a9_10": 212, "wins_a9_10": 52}, {"relic_id": "PAELS_TEARS", "name": "Paels Tears", "character": "Defect", "n": 1552, "wins": 648, "last_changed_patch": "v0.98", "n_a9_10": 601, "wins_a9_10": 189}, {"relic_id": "PAELS_TOOTH", "name": "Paels Tooth", "character": "Ironclad", "n": 989, "wins": 354, "last_changed_patch": "v0.98", "n_a9_10": 270, "wins_a9_10": 62}, {"relic_id": "PAELS_BLOOD", "name": "Paels Blood", "character": "Defect", "n": 1979, "wins": 1121, "last_changed_patch": "v0.98", "n_a9_10": 795, "wins_a9_10": 354}, {"relic_id": "PAELS_TOOTH", "name": "Paels Tooth", "character": "Regent", "n": 980, "wins": 335, "last_changed_patch": "v0.98", "n_a9_10": 257, "wins_a9_10": 74}, {"relic_id": "TOY_BOX", "name": "Toy Box", "character": "Silent", "n": 657, "wins": 325, "last_changed_patch": "v0.98", "n_a9_10": 214, "wins_a9_10": 75}, {"relic_id": "TOY_BOX", "name": "Toy Box", "character": "Ironclad", "n": 686, "wins": 291, "last_changed_patch": "v0.98", "n_a9_10": 232, "wins_a9_10": 58}, {"relic_id": "PAELS_LEGION", "name": "Paels Legion", "character": "Defect", "n": 1068, "wins": 478, "last_changed_patch": "v0.98", "n_a9_10": 571, "wins_a9_10": 213}, {"relic_id": "BLACK_STAR", "name": "Black Star", "character": "Defect", "n": 451, "wins": 173, "last_changed_patch": "v0.98", "n_a9_10": 130, "wins_a9_10": 28}, {"relic_id": "PAELS_CLAW", "name": "Paels Claw", "character": "Ironclad", "n": 1482, "wins": 606, "last_changed_patch": "v0.98", "n_a9_10": 573, "wins_a9_10": 203}, {"relic_id": "PAELS_HORN", "name": "Paels Horn", "character": "Defect", "n": 771, "wins": 322, "last_changed_patch": "v0.98", "n_a9_10": 253, "wins_a9_10": 80}, {"relic_id": "TOUCH_OF_OROBAS", "name": "Touch Of Orobas", "character": "Silent", "n": 2228, "wins": 1144, "last_changed_patch": "v0.98", "n_a9_10": 778, "wins_a9_10": 306}, {"relic_id": "PRISMATIC_GEM", "name": "Prismatic Gem", "character": "Defect", "n": 448, "wins": 207, "last_changed_patch": "v0.98", "n_a9_10": 158, "wins_a9_10": 50}, {"relic_id": "YUMMY_COOKIE", "name": "Yummy Cookie", "character": "Defect", "n": 2811, "wins": 1215, "last_changed_patch": "v0.98", "n_a9_10": 929, "wins_a9_10": 247}, {"relic_id": "DUSTY_TOME", "name": "Dusty Tome", "character": "Regent", "n": 1947, "wins": 1019, "last_changed_patch": "v0.98", "n_a9_10": 725, "wins_a9_10": 312}, {"relic_id": "PAELS_LEGION", "name": "Paels Legion", "character": "Silent", "n": 1098, "wins": 548, "last_changed_patch": "v0.98", "n_a9_10": 529, "wins_a9_10": 230}, {"relic_id": "RADIANT_PEARL", "name": "Radiant Pearl", "character": "Necrobinder", "n": 941, "wins": 467, "last_changed_patch": "v0.98", "n_a9_10": 409, "wins_a9_10": 159}, {"relic_id": "PAELS_FLESH", "name": "Paels Flesh", "character": "Defect", "n": 1792, "wins": 732, "last_changed_patch": "v0.98", "n_a9_10": 582, "wins_a9_10": 142}, {"relic_id": "EMPTY_CAGE", "name": "Empty Cage", "character": "Defect", "n": 530, "wins": 204, "last_changed_patch": "v0.98", "n_a9_10": 180, "wins_a9_10": 43}, {"relic_id": "VERY_HOT_COCOA", "name": "Very Hot Cocoa", "character": "Defect", "n": 2256, "wins": 880, "last_changed_patch": "v0.98", "n_a9_10": 738, "wins_a9_10": 182}, {"relic_id": "PAELS_TEARS", "name": "Paels Tears", "character": "Silent", "n": 1558, "wins": 693, "last_changed_patch": "v0.98", "n_a9_10": 569, "wins_a9_10": 214}, {"relic_id": "PAELS_GROWTH", "name": "Paels Growth", "character": "Silent", "n": 663, "wins": 259, "last_changed_patch": "v0.98", "n_a9_10": 238, "wins_a9_10": 83}, {"relic_id": "TOUCH_OF_OROBAS", "name": "Touch Of Orobas", "character": "Defect", "n": 2235, "wins": 857, "last_changed_patch": "v0.98", "n_a9_10": 579, "wins_a9_10": 125}, {"relic_id": "VERY_HOT_COCOA", "name": "Very Hot Cocoa", "character": "Silent", "n": 2914, "wins": 1531, "last_changed_patch": "v0.98", "n_a9_10": 1035, "wins_a9_10": 404}, {"relic_id": "DRIFTWOOD", "name": "Driftwood", "character": "Defect", "n": 912, "wins": 373, "last_changed_patch": "v0.98", "n_a9_10": 340, "wins_a9_10": 84}, {"relic_id": "ALCHEMICAL_COFFER", "name": "Alchemical Coffer", "character": "Silent", "n": 622, "wins": 300, "last_changed_patch": "v0.98", "n_a9_10": 300, "wins_a9_10": 118}, {"relic_id": "YUMMY_COOKIE", "name": "Yummy Cookie", "character": "Ironclad", "n": 3097, "wins": 1178, "last_changed_patch": "v0.98", "n_a9_10": 1048, "wins_a9_10": 284}, {"relic_id": "ALCHEMICAL_COFFER", "name": "Alchemical Coffer", "character": "Necrobinder", "n": 666, "wins": 313, "last_changed_patch": "v0.98", "n_a9_10": 315, "wins_a9_10": 129}, {"relic_id": "TOY_BOX", "name": "Toy Box", "character": "Defect", "n": 737, "wins": 312, "last_changed_patch": "v0.98", "n_a9_10": 275, "wins_a9_10": 75}, {"relic_id": "ASTROLABE", "name": "Astrolabe", "character": "Defect", "n": 806, "wins": 372, "last_changed_patch": "v0.98", "n_a9_10": 336, "wins_a9_10": 129}, {"relic_id": "ELECTRIC_SHRYMP", "name": "Electric Shrymp", "character": "Defect", "n": 1105, "wins": 482, "last_changed_patch": "v0.98", "n_a9_10": 454, "wins_a9_10": 138}, {"relic_id": "PANDORAS_BOX", "name": "Pandoras Box", "character": "Ironclad", "n": 716, "wins": 367, "last_changed_patch": "v0.98", "n_a9_10": 327, "wins_a9_10": 144}, {"relic_id": "VERY_HOT_COCOA", "name": "Very Hot Cocoa", "character": "Ironclad", "n": 2843, "wins": 1286, "last_changed_patch": "v0.98", "n_a9_10": 929, "wins_a9_10": 306}, {"relic_id": "PAELS_FLESH", "name": "Paels Flesh", "character": "Silent", "n": 1888, "wins": 875, "last_changed_patch": "v0.98", "n_a9_10": 633, "wins_a9_10": 212}, {"relic_id": "SEA_GLASS", "name": "Sea Glass", "character": "Silent", "n": 430, "wins": 137, "last_changed_patch": "v0.98", "n_a9_10": 173, "wins_a9_10": 45}, {"relic_id": "RADIANT_PEARL", "name": "Radiant Pearl", "character": "Silent", "n": 874, "wins": 452, "last_changed_patch": "v0.98", "n_a9_10": 410, "wins_a9_10": 161}, {"relic_id": "PAELS_CLAW", "name": "Paels Claw", "character": "Defect", "n": 1215, "wins": 514, "last_changed_patch": "v0.98", "n_a9_10": 447, "wins_a9_10": 136}, {"relic_id": "PAELS_HORN", "name": "Paels Horn", "character": "Silent", "n": 758, "wins": 311, "last_changed_patch": "v0.98", "n_a9_10": 256, "wins_a9_10": 70}, {"relic_id": "PAELS_TOOTH", "name": "Paels Tooth", "character": "Silent", "n": 1063, "wins": 471, "last_changed_patch": "v0.98", "n_a9_10": 322, "wins_a9_10": 100}, {"relic_id": "PAELS_TEARS", "name": "Paels Tears", "character": "Ironclad", "n": 1451, "wins": 571, "last_changed_patch": "v0.98", "n_a9_10": 554, "wins_a9_10": 186}, {"relic_id": "PRISMATIC_GEM", "name": "Prismatic Gem", "character": "Necrobinder", "n": 399, "wins": 199, "last_changed_patch": "v0.98", "n_a9_10": 163, "wins_a9_10": 67}, {"relic_id": "PAELS_TEARS", "name": "Paels Tears", "character": "Necrobinder", "n": 1684, "wins": 698, "last_changed_patch": "v0.98", "n_a9_10": 593, "wins_a9_10": 203}, {"relic_id": "ASTROLABE", "name": "Astrolabe", "character": "Necrobinder", "n": 668, "wins": 285, "last_changed_patch": "v0.98", "n_a9_10": 268, "wins_a9_10": 97}, {"relic_id": "PAELS_WING", "name": "Paels Wing", "character": "Necrobinder", "n": 1657, "wins": 589, "last_changed_patch": "v0.98", "n_a9_10": 433, "wins_a9_10": 98}, {"relic_id": "PAELS_CLAW", "name": "Paels Claw", "character": "Necrobinder", "n": 1195, "wins": 494, "last_changed_patch": "v0.98", "n_a9_10": 405, "wins_a9_10": 131}, {"relic_id": "PANDORAS_BOX", "name": "Pandoras Box", "character": "Necrobinder", "n": 654, "wins": 316, "last_changed_patch": "v0.98", "n_a9_10": 250, "wins_a9_10": 111}, {"relic_id": "SAND_CASTLE", "name": "Sand Castle", "character": "Necrobinder", "n": 937, "wins": 388, "last_changed_patch": "v0.98", "n_a9_10": 310, "wins_a9_10": 87}, {"relic_id": "SNECKO_EYE", "name": "Snecko Eye", "character": "Necrobinder", "n": 215, "wins": 159, "last_changed_patch": "v0.98", "n_a9_10": 101, "wins_a9_10": 68}, {"relic_id": "PAELS_GROWTH", "name": "Paels Growth", "character": "Necrobinder", "n": 618, "wins": 191, "last_changed_patch": "v0.98", "n_a9_10": 186, "wins_a9_10": 48}, {"relic_id": "DUSTY_TOME", "name": "Dusty Tome", "character": "Necrobinder", "n": 1196, "wins": 571, "last_changed_patch": "v0.98", "n_a9_10": 410, "wins_a9_10": 165}, {"relic_id": "GOLDEN_COMPASS", "name": "Golden Compass", "character": "Defect", "n": 1361, "wins": 645, "last_changed_patch": "v0.98", "n_a9_10": 413, "wins_a9_10": 112}, {"relic_id": "PAELS_FLESH", "name": "Paels Flesh", "character": "Regent", "n": 2037, "wins": 781, "last_changed_patch": "v0.98", "n_a9_10": 574, "wins_a9_10": 166}, {"relic_id": "PAELS_TEARS", "name": "Paels Tears", "character": "Regent", "n": 1830, "wins": 740, "last_changed_patch": "v0.98", "n_a9_10": 639, "wins_a9_10": 232}, {"relic_id": "GOLDEN_COMPASS", "name": "Golden Compass", "character": "Silent", "n": 1209, "wins": 605, "last_changed_patch": "v0.98", "n_a9_10": 290, "wins_a9_10": 95}, {"relic_id": "STORYBOOK", "name": "Storybook", "character": "Regent", "n": 1668, "wins": 789, "last_changed_patch": "v0.98", "n_a9_10": 884, "wins_a9_10": 360}, {"relic_id": "BLACK_STAR", "name": "Black Star", "character": "Necrobinder", "n": 353, "wins": 139, "last_changed_patch": "v0.98", "n_a9_10": 78, "wins_a9_10": 25}, {"relic_id": "PAELS_LEGION", "name": "Paels Legion", "character": "Ironclad", "n": 1511, "wins": 690, "last_changed_patch": "v0.98", "n_a9_10": 785, "wins_a9_10": 282}, {"relic_id": "GOLDEN_COMPASS", "name": "Golden Compass", "character": "Necrobinder", "n": 1421, "wins": 602, "last_changed_patch": "v0.98", "n_a9_10": 378, "wins_a9_10": 100}, {"relic_id": "STORYBOOK", "name": "Storybook", "character": "Defect", "n": 1377, "wins": 666, "last_changed_patch": "v0.98", "n_a9_10": 701, "wins_a9_10": 265}, {"relic_id": "PAELS_LEGION", "name": "Paels Legion", "character": "Necrobinder", "n": 1113, "wins": 526, "last_changed_patch": "v0.98", "n_a9_10": 507, "wins_a9_10": 192}, {"relic_id": "NUTRITIOUS_SOUP", "name": "Nutritious Soup", "character": "Ironclad", "n": 126, "wins": 66, "last_changed_patch": "v0.107", "n_a9_10": 103, "wins_a9_10": 47}, {"relic_id": "PAELS_GROWTH", "name": "Paels Growth", "character": "Regent", "n": 645, "wins": 284, "last_changed_patch": "v0.98", "n_a9_10": 196, "wins_a9_10": 89}, {"relic_id": "STORYBOOK", "name": "Storybook", "character": "Necrobinder", "n": 1227, "wins": 656, "last_changed_patch": "v0.98", "n_a9_10": 590, "wins_a9_10": 256}, {"relic_id": "NUTRITIOUS_SOUP", "name": "Nutritious Soup", "character": "Silent", "n": 82, "wins": 36, "last_changed_patch": "v0.107", "n_a9_10": 62, "wins_a9_10": 26}, {"relic_id": "PAELS_HORN", "name": "Paels Horn", "character": "Necrobinder", "n": 804, "wins": 331, "last_changed_patch": "v0.98", "n_a9_10": 256, "wins_a9_10": 83}, {"relic_id": "PAELS_BLOOD", "name": "Paels Blood", "character": "Silent", "n": 1980, "wins": 1135, "last_changed_patch": "v0.98", "n_a9_10": 772, "wins_a9_10": 331}, {"relic_id": "EMPTY_CAGE", "name": "Empty Cage", "character": "Necrobinder", "n": 427, "wins": 165, "last_changed_patch": "v0.98", "n_a9_10": 149, "wins_a9_10": 38}, {"relic_id": "ELECTRIC_SHRYMP", "name": "Electric Shrymp", "character": "Regent", "n": 1347, "wins": 632, "last_changed_patch": "v0.98", "n_a9_10": 505, "wins_a9_10": 193}, {"relic_id": "ASTROLABE", "name": "Astrolabe", "character": "Ironclad", "n": 773, "wins": 331, "last_changed_patch": "v0.98", "n_a9_10": 341, "wins_a9_10": 117}, {"relic_id": "GOLDEN_COMPASS", "name": "Golden Compass", "character": "Regent", "n": 1480, "wins": 609, "last_changed_patch": "v0.98", "n_a9_10": 408, "wins_a9_10": 131}, {"relic_id": "TOUCH_OF_OROBAS", "name": "Touch Of Orobas", "character": "Ironclad", "n": 2153, "wins": 724, "last_changed_patch": "v0.98", "n_a9_10": 647, "wins_a9_10": 145}, {"relic_id": "GLASS_EYE", "name": "Glass Eye", "character": "Silent", "n": 813, "wins": 251, "last_changed_patch": "v0.98", "n_a9_10": 334, "wins_a9_10": 77}, {"relic_id": "PAELS_BLOOD", "name": "Paels Blood", "character": "Ironclad", "n": 2440, "wins": 1335, "last_changed_patch": "v0.98", "n_a9_10": 934, "wins_a9_10": 417}, {"relic_id": "ECTOPLASM", "name": "Ectoplasm", "character": "Regent", "n": 112, "wins": 52, "last_changed_patch": "v0.98", "n_a9_10": 43, "wins_a9_10": 12}, {"relic_id": "PAELS_CLAW", "name": "Paels Claw", "character": "Regent", "n": 1179, "wins": 440, "last_changed_patch": "v0.98", "n_a9_10": 459, "wins_a9_10": 144}, {"relic_id": "TOY_BOX", "name": "Toy Box", "character": "Necrobinder", "n": 790, "wins": 338, "last_changed_patch": "v0.98", "n_a9_10": 244, "wins_a9_10": 75}, {"relic_id": "TOY_BOX", "name": "Toy Box", "character": "Regent", "n": 796, "wins": 315, "last_changed_patch": "v0.98", "n_a9_10": 288, "wins_a9_10": 86}, {"relic_id": "PANDORAS_BOX", "name": "Pandoras Box", "character": "Silent", "n": 898, "wins": 537, "last_changed_patch": "v0.98", "n_a9_10": 400, "wins_a9_10": 215}, {"relic_id": "PAELS_BLOOD", "name": "Paels Blood", "character": "Regent", "n": 2128, "wins": 1158, "last_changed_patch": "v0.98", "n_a9_10": 899, "wins_a9_10": 432}, {"relic_id": "STORYBOOK", "name": "Storybook", "character": "Silent", "n": 1167, "wins": 627, "last_changed_patch": "v0.98", "n_a9_10": 623, "wins_a9_10": 280}, {"relic_id": "GLASS_EYE", "name": "Glass Eye", "character": "Ironclad", "n": 714, "wins": 203, "last_changed_patch": "v0.98", "n_a9_10": 332, "wins_a9_10": 69}, {"relic_id": "PAELS_LEGION", "name": "Paels Legion", "character": "Regent", "n": 1345, "wins": 603, "last_changed_patch": "v0.98", "n_a9_10": 651, "wins_a9_10": 252}, {"relic_id": "ALCHEMICAL_COFFER", "name": "Alchemical Coffer", "character": "Ironclad", "n": 737, "wins": 344, "last_changed_patch": "v0.98", "n_a9_10": 358, "wins_a9_10": 142}, {"relic_id": "CALLING_BELL", "name": "Calling Bell", "character": "Regent", "n": 295, "wins": 90, "last_changed_patch": "v0.98", "n_a9_10": 114, "wins_a9_10": 30}, {"relic_id": "CALLING_BELL", "name": "Calling Bell", "character": "Silent", "n": 345, "wins": 140, "last_changed_patch": "v0.98", "n_a9_10": 125, "wins_a9_10": 33}, {"relic_id": "SAND_CASTLE", "name": "Sand Castle", "character": "Defect", "n": 1255, "wins": 551, "last_changed_patch": "v0.98", "n_a9_10": 527, "wins_a9_10": 161}, {"relic_id": "ASTROLABE", "name": "Astrolabe", "character": "Regent", "n": 620, "wins": 243, "last_changed_patch": "v0.98", "n_a9_10": 265, "wins_a9_10": 88}, {"relic_id": "BIIIG_HUG", "name": "Biiig Hug", "character": "Defect", "n": 1159, "wins": 571, "last_changed_patch": "v0.98", "n_a9_10": 538, "wins_a9_10": 205}, {"relic_id": "DUSTY_TOME", "name": "Dusty Tome", "character": "Ironclad", "n": 654, "wins": 267, "last_changed_patch": "v0.98", "n_a9_10": 277, "wins_a9_10": 108}, {"relic_id": "RUNIC_PYRAMID", "name": "Runic Pyramid", "character": "Silent", "n": 621, "wins": 423, "last_changed_patch": "v0.98", "n_a9_10": 310, "wins_a9_10": 186}, {"relic_id": "RUNIC_PYRAMID", "name": "Runic Pyramid", "character": "Ironclad", "n": 777, "wins": 492, "last_changed_patch": "v0.98", "n_a9_10": 397, "wins_a9_10": 236}, {"relic_id": "ELECTRIC_SHRYMP", "name": "Electric Shrymp", "character": "Silent", "n": 922, "wins": 424, "last_changed_patch": "v0.98", "n_a9_10": 345, "wins_a9_10": 131}, {"relic_id": "EMPTY_CAGE", "name": "Empty Cage", "character": "Regent", "n": 366, "wins": 132, "last_changed_patch": "v0.98", "n_a9_10": 116, "wins_a9_10": 31}, {"relic_id": "CALLING_BELL", "name": "Calling Bell", "character": "Defect", "n": 369, "wins": 131, "last_changed_patch": "v0.98", "n_a9_10": 135, "wins_a9_10": 37}, {"relic_id": "PAELS_WING", "name": "Paels Wing", "character": "Silent", "n": 1596, "wins": 654, "last_changed_patch": "v0.98", "n_a9_10": 443, "wins_a9_10": 114}, {"relic_id": "ECTOPLASM", "name": "Ectoplasm", "character": "Silent", "n": 105, "wins": 47, "last_changed_patch": "v0.98", "n_a9_10": 54, "wins_a9_10": 20}, {"relic_id": "SAND_CASTLE", "name": "Sand Castle", "character": "Regent", "n": 916, "wins": 339, "last_changed_patch": "v0.98", "n_a9_10": 333, "wins_a9_10": 103}, {"relic_id": "PAELS_FLESH", "name": "Paels Flesh", "character": "Necrobinder", "n": 1785, "wins": 802, "last_changed_patch": "v0.98", "n_a9_10": 468, "wins_a9_10": 149}, {"relic_id": "PAELS_FLESH", "name": "Paels Flesh", "character": "Ironclad", "n": 1967, "wins": 811, "last_changed_patch": "v0.98", "n_a9_10": 567, "wins_a9_10": 172}, {"relic_id": "SAND_CASTLE", "name": "Sand Castle", "character": "Ironclad", "n": 940, "wins": 401, "last_changed_patch": "v0.98", "n_a9_10": 358, "wins_a9_10": 97}, {"relic_id": "ECTOPLASM", "name": "Ectoplasm", "character": "Necrobinder", "n": 131, "wins": 60, "last_changed_patch": "v0.98", "n_a9_10": 46, "wins_a9_10": 12}, {"relic_id": "ECTOPLASM", "name": "Ectoplasm", "character": "Defect", "n": 117, "wins": 49, "last_changed_patch": "v0.98", "n_a9_10": 45, "wins_a9_10": 9}, {"relic_id": "CALLING_BELL", "name": "Calling Bell", "character": "Necrobinder", "n": 288, "wins": 119, "last_changed_patch": "v0.98", "n_a9_10": 81, "wins_a9_10": 24}, {"relic_id": "PRISMATIC_GEM", "name": "Prismatic Gem", "character": "Silent", "n": 504, "wins": 238, "last_changed_patch": "v0.98", "n_a9_10": 204, "wins_a9_10": 80}, {"relic_id": "BLACK_STAR", "name": "Black Star", "character": "Ironclad", "n": 515, "wins": 194, "last_changed_patch": "v0.98", "n_a9_10": 142, "wins_a9_10": 33}, {"relic_id": "SEA_GLASS", "name": "Sea Glass", "character": "Defect", "n": 544, "wins": 163, "last_changed_patch": "v0.98", "n_a9_10": 236, "wins_a9_10": 51}, {"relic_id": "BLACK_STAR", "name": "Black Star", "character": "Silent", "n": 468, "wins": 200, "last_changed_patch": "v0.98", "n_a9_10": 126, "wins_a9_10": 39}, {"relic_id": "BIIIG_HUG", "name": "Biiig Hug", "character": "Ironclad", "n": 745, "wins": 315, "last_changed_patch": "v0.98", "n_a9_10": 345, "wins_a9_10": 122}, {"relic_id": "PAELS_GROWTH", "name": "Paels Growth", "character": "Defect", "n": 672, "wins": 233, "last_changed_patch": "v0.98", "n_a9_10": 181, "wins_a9_10": 57}, {"relic_id": "PAELS_GROWTH", "name": "Paels Growth", "character": "Ironclad", "n": 610, "wins": 209, "last_changed_patch": "v0.98", "n_a9_10": 181, "wins_a9_10": 65}, {"relic_id": "DRIFTWOOD", "name": "Driftwood", "character": "Regent", "n": 564, "wins": 187, "last_changed_patch": "v0.98", "n_a9_10": 214, "wins_a9_10": 54}, {"relic_id": "PRISMATIC_GEM", "name": "Prismatic Gem", "character": "Regent", "n": 429, "wins": 230, "last_changed_patch": "v0.98", "n_a9_10": 192, "wins_a9_10": 92}, {"relic_id": "BIIIG_HUG", "name": "Biiig Hug", "character": "Regent", "n": 1081, "wins": 454, "last_changed_patch": "v0.98", "n_a9_10": 514, "wins_a9_10": 188}, {"relic_id": "PRISMATIC_GEM", "name": "Prismatic Gem", "character": "Ironclad", "n": 544, "wins": 302, "last_changed_patch": "v0.98", "n_a9_10": 246, "wins_a9_10": 120}, {"relic_id": "TOASTY_MITTENS", "name": "Toasty Mittens", "character": "Necrobinder", "n": 90, "wins": 26, "last_changed_patch": "v0.98", "n_a9_10": 34, "wins_a9_10": 6}, {"relic_id": "DRIFTWOOD", "name": "Driftwood", "character": "Necrobinder", "n": 605, "wins": 209, "last_changed_patch": "v0.98", "n_a9_10": 212, "wins_a9_10": 44}, {"relic_id": "DRIFTWOOD", "name": "Driftwood", "character": "Ironclad", "n": 742, "wins": 249, "last_changed_patch": "v0.98", "n_a9_10": 260, "wins_a9_10": 70}, {"relic_id": "RADIANT_PEARL", "name": "Radiant Pearl", "character": "Defect", "n": 1015, "wins": 478, "last_changed_patch": "v0.98", "n_a9_10": 445, "wins_a9_10": 140}, {"relic_id": "DUSTY_TOME", "name": "Dusty Tome", "character": "Silent", "n": 525, "wins": 215, "last_changed_patch": "v0.98", "n_a9_10": 205, "wins_a9_10": 63}, {"relic_id": "SEA_GLASS", "name": "Sea Glass", "character": "Regent", "n": 503, "wins": 137, "last_changed_patch": "v0.98", "n_a9_10": 218, "wins_a9_10": 49}, {"relic_id": "ELECTRIC_SHRYMP", "name": "Electric Shrymp", "character": "Ironclad", "n": 817, "wins": 347, "last_changed_patch": "v0.98", "n_a9_10": 315, "wins_a9_10": 108}, {"relic_id": "PAELS_HORN", "name": "Paels Horn", "character": "Ironclad", "n": 1029, "wins": 413, "last_changed_patch": "v0.98", "n_a9_10": 325, "wins_a9_10": 92}, {"relic_id": "SOZU", "name": "Sozu", "character": "Regent", "n": 138, "wins": 50, "last_changed_patch": "v0.98", "n_a9_10": 49, "wins_a9_10": 18}, {"relic_id": "DUSTY_TOME", "name": "Dusty Tome", "character": "Defect", "n": 747, "wins": 299, "last_changed_patch": "v0.98", "n_a9_10": 271, "wins_a9_10": 73}, {"relic_id": "PANDORAS_BOX", "name": "Pandoras Box", "character": "Regent", "n": 602, "wins": 279, "last_changed_patch": "v0.98", "n_a9_10": 250, "wins_a9_10": 105}, {"relic_id": "CALLING_BELL", "name": "Calling Bell", "character": "Ironclad", "n": 486, "wins": 198, "last_changed_patch": "v0.98", "n_a9_10": 189, "wins_a9_10": 63}, {"relic_id": "PHILOSOPHERS_STONE", "name": "Philosophers Stone", "character": "Ironclad", "n": 8, "wins": 2, "last_changed_patch": "v0.98", "n_a9_10": 8, "wins_a9_10": 2}, {"relic_id": "PUMPKIN_CANDLE", "name": "Pumpkin Candle", "character": "Ironclad", "n": 32, "wins": 14, "last_changed_patch": "v0.107", "n_a9_10": 28, "wins_a9_10": 11}, {"relic_id": "VELVET_CHOKER", "name": "Velvet Choker", "character": "Ironclad", "n": 5, "wins": 4, "last_changed_patch": "v0.98", "n_a9_10": 4, "wins_a9_10": 3}, {"relic_id": "PAELS_EYE", "name": "Paels Eye", "character": "Ironclad", "n": 45, "wins": 14, "last_changed_patch": "v0.107", "n_a9_10": 36, "wins_a9_10": 9}, {"relic_id": "TOASTY_MITTENS", "name": "Toasty Mittens", "character": "Silent", "n": 308, "wins": 170, "last_changed_patch": "v0.98", "n_a9_10": 138, "wins_a9_10": 55}, {"relic_id": "BIIIG_HUG", "name": "Biiig Hug", "character": "Silent", "n": 453, "wins": 214, "last_changed_patch": "v0.98", "n_a9_10": 200, "wins_a9_10": 74}, {"relic_id": "TOASTY_MITTENS", "name": "Toasty Mittens", "character": "Regent", "n": 178, "wins": 72, "last_changed_patch": "v0.98", "n_a9_10": 61, "wins_a9_10": 19}, {"relic_id": "SOZU", "name": "Sozu", "character": "Defect", "n": 166, "wins": 74, "last_changed_patch": "v0.98", "n_a9_10": 52, "wins_a9_10": 15}, {"relic_id": "NUTRITIOUS_SOUP", "name": "Nutritious Soup", "character": "Necrobinder", "n": 42, "wins": 17, "last_changed_patch": "v0.107", "n_a9_10": 24, "wins_a9_10": 7}, {"relic_id": "EMPTY_CAGE", "name": "Empty Cage", "character": "Ironclad", "n": 479, "wins": 163, "last_changed_patch": "v0.98", "n_a9_10": 157, "wins_a9_10": 37}, {"relic_id": "SOZU", "name": "Sozu", "character": "Silent", "n": 184, "wins": 95, "last_changed_patch": "v0.98", "n_a9_10": 67, "wins_a9_10": 23}, {"relic_id": "SNECKO_EYE", "name": "Snecko Eye", "character": "Ironclad", "n": 357, "wins": 268, "last_changed_patch": "v0.98", "n_a9_10": 182, "wins_a9_10": 125}, {"relic_id": "ALCHEMICAL_COFFER", "name": "Alchemical Coffer", "character": "Regent", "n": 692, "wins": 297, "last_changed_patch": "v0.98", "n_a9_10": 346, "wins_a9_10": 126}, {"relic_id": "NUTRITIOUS_SOUP", "name": "Nutritious Soup", "character": "Regent", "n": 70, "wins": 20, "last_changed_patch": "v0.107", "n_a9_10": 46, "wins_a9_10": 12}, {"relic_id": "NUTRITIOUS_SOUP", "name": "Nutritious Soup", "character": "Defect", "n": 71, "wins": 25, "last_changed_patch": "v0.107", "n_a9_10": 53, "wins_a9_10": 17}, {"relic_id": "TOASTY_MITTENS", "name": "Toasty Mittens", "character": "Defect", "n": 124, "wins": 52, "last_changed_patch": "v0.98", "n_a9_10": 47, "wins_a9_10": 11}, {"relic_id": "RUNIC_PYRAMID", "name": "Runic Pyramid", "character": "Necrobinder", "n": 483, "wins": 226, "last_changed_patch": "v0.98", "n_a9_10": 235, "wins_a9_10": 96}, {"relic_id": "ECTOPLASM", "name": "Ectoplasm", "character": "Ironclad", "n": 173, "wins": 85, "last_changed_patch": "v0.98", "n_a9_10": 70, "wins_a9_10": 29}, {"relic_id": "SOZU", "name": "Sozu", "character": "Ironclad", "n": 194, "wins": 73, "last_changed_patch": "v0.98", "n_a9_10": 64, "wins_a9_10": 18}, {"relic_id": "SEA_GLASS", "name": "Sea Glass", "character": "Ironclad", "n": 585, "wins": 193, "last_changed_patch": "v0.98", "n_a9_10": 263, "wins_a9_10": 71}, {"relic_id": "PUMPKIN_CANDLE", "name": "Pumpkin Candle", "character": "Regent", "n": 22, "wins": 6, "last_changed_patch": "v0.107", "n_a9_10": 15, "wins_a9_10": 3}, {"relic_id": "SNECKO_EYE", "name": "Snecko Eye", "character": "Regent", "n": 138, "wins": 76, "last_changed_patch": "v0.98", "n_a9_10": 61, "wins_a9_10": 32}, {"relic_id": "ANCIENT_AFFECTION_RELIC_DEVOTED_ELECTRIC_SHRYMP", "name": "Ancient Affection Relic Devoted Electric Shrymp", "character": "Regent", "n": 1, "wins": 0, "last_changed_patch": "v0.98", "n_a9_10": 1, "wins_a9_10": 0}, {"relic_id": "PAELS_EYE", "name": "Paels Eye", "character": "Regent", "n": 26, "wins": 9, "last_changed_patch": "v0.107", "n_a9_10": 17, "wins_a9_10": 8}, {"relic_id": "SNECKO_EYE", "name": "Snecko Eye", "character": "Silent", "n": 124, "wins": 63, "last_changed_patch": "v0.98", "n_a9_10": 56, "wins_a9_10": 21}, {"relic_id": "PUMPKIN_CANDLE", "name": "Pumpkin Candle", "character": "Defect", "n": 49, "wins": 17, "last_changed_patch": "v0.107", "n_a9_10": 41, "wins_a9_10": 13}, {"relic_id": "SEAL_OF_GOLD", "name": "Seal Of Gold", "character": "Necrobinder", "n": 30, "wins": 8, "last_changed_patch": "v0.107", "n_a9_10": 23, "wins_a9_10": 6}, {"relic_id": "SEAL_OF_GOLD", "name": "Seal Of Gold", "character": "Defect", "n": 14, "wins": 4, "last_changed_patch": "v0.107", "n_a9_10": 9, "wins_a9_10": 2}, {"relic_id": "PUMPKIN_CANDLE", "name": "Pumpkin Candle", "character": "Necrobinder", "n": 34, "wins": 16, "last_changed_patch": "v0.107", "n_a9_10": 25, "wins_a9_10": 12}, {"relic_id": "PUMPKIN_CANDLE", "name": "Pumpkin Candle", "character": "Silent", "n": 45, "wins": 24, "last_changed_patch": "v0.107", "n_a9_10": 35, "wins_a9_10": 19}, {"relic_id": "PAELS_EYE", "name": "Paels Eye", "character": "Necrobinder", "n": 17, "wins": 9, "last_changed_patch": "v0.107", "n_a9_10": 8, "wins_a9_10": 5}, {"relic_id": "SEAL_OF_GOLD", "name": "Seal Of Gold", "character": "Ironclad", "n": 30, "wins": 14, "last_changed_patch": "v0.107", "n_a9_10": 22, "wins_a9_10": 11}, {"relic_id": "PAELS_EYE", "name": "Paels Eye", "character": "Defect", "n": 20, "wins": 8, "last_changed_patch": "v0.107", "n_a9_10": 11, "wins_a9_10": 3}, {"relic_id": "SEAL_OF_GOLD", "name": "Seal Of Gold", "character": "Regent", "n": 31, "wins": 9, "last_changed_patch": "v0.107", "n_a9_10": 20, "wins_a9_10": 4}, {"relic_id": "SEAL_OF_GOLD", "name": "Seal Of Gold", "character": "Silent", "n": 21, "wins": 10, "last_changed_patch": "v0.107", "n_a9_10": 12, "wins_a9_10": 3}, {"relic_id": "PAELS_EYE", "name": "Paels Eye", "character": "Silent", "n": 18, "wins": 3, "last_changed_patch": "v0.107", "n_a9_10": 12, "wins_a9_10": 2}, {"relic_id": "VELVET_CHOKER", "name": "Velvet Choker", "character": "Regent", "n": 1, "wins": 1, "last_changed_patch": "v0.98", "n_a9_10": 1, "wins_a9_10": 1}, {"relic_id": "PHILOSOPHERS_STONE", "name": "Philosophers Stone", "character": "Silent", "n": 2, "wins": 0, "last_changed_patch": "v0.98", "n_a9_10": 2, "wins_a9_10": 0}, {"relic_id": "VELVET_CHOKER", "name": "Velvet Choker", "character": "Necrobinder", "n": 1, "wins": 0, "last_changed_patch": "v0.98", "n_a9_10": 1, "wins_a9_10": 0}];
+
+  var state = { sortKey: "diff", sortDir: -1, search: "", minSample: 100, character: "" };
+
+  function fmtPct(x) { return (x * 100).toFixed(1) + "%"; }
+  function fmtSignedPct(x) { return (x >= 0 ? "+" : "") + fmtPct(x); }
+
+  function aggregate() {
+    var filtered = state.character
+      ? RAW_ROWS.filter(function (r) { return r.character === state.character; })
+      : RAW_ROWS;
+
+    var byRelic = {};
+    var totalN = 0, totalWins = 0, totalN910 = 0, totalWins910 = 0;
+    filtered.forEach(function (r) {
+      var bucket = byRelic[r.relic_id] || { name: r.name, n: 0, wins: 0, n910: 0, wins910: 0,
+        lastChangedPatch: r.last_changed_patch };
+      bucket.n += r.n;
+      bucket.wins += r.wins;
+      bucket.n910 += r.n_a9_10;
+      bucket.wins910 += r.wins_a9_10;
+      byRelic[r.relic_id] = bucket;
+      totalN += r.n;
+      totalWins += r.wins;
+      totalN910 += r.n_a9_10;
+      totalWins910 += r.wins_a9_10;
+    });
+
+    var baselineRate = totalN > 0 ? totalWins / totalN : 0;
+    var baselineRate910 = totalN910 > 0 ? totalWins910 / totalN910 : 0;
+    var rows = Object.keys(byRelic).map(function (key) {
+      var b = byRelic[key];
+      var rate = b.wins / b.n;
+      var rate910 = b.n910 > 0 ? b.wins910 / b.n910 : null;
+      return { name: b.name, n: b.n, win_rate: rate, diff: rate - baselineRate,
+        n_a9_10: b.n910, diff_a9_10: rate910 === null ? null : rate910 - baselineRate910,
+        last_changed_patch: b.lastChangedPatch };
+    });
+
+    return { rows: rows, cohortSize: totalN, baselineRate: baselineRate };
+  }
+
+  function render() {
+    var agg = aggregate();
+    document.getElementById("kpiCohort").textContent = agg.cohortSize.toLocaleString("en-US");
+    document.getElementById("kpiBaseline").textContent = fmtPct(agg.baselineRate);
+
+    var LOW_N_THRESHOLD = 100;
+    var maxAbsDiff = agg.rows.reduce(function (m, r) { return Math.max(m, Math.abs(r.diff)); }, 0.0001);
+
+    var rows = agg.rows.filter(function (r) {
+      return r.n >= state.minSample &&
+        (state.search === "" || r.name.toLowerCase().indexOf(state.search) !== -1);
+    });
+    rows.forEach(function (r) {
+      r._diffA910Visible = (r.diff_a9_10 === null || r.diff_a9_10 === undefined || r.n_a9_10 < state.minSample)
+        ? null : r.diff_a9_10;
+    });
+    rows.sort(function (a, b) {
+      var key = state.sortKey === "diff_a9_10" ? "_diffA910Visible" : state.sortKey;
+      var av = a[key], bv = b[key];
+      if (av === null || av === undefined) return 1;
+      if (bv === null || bv === undefined) return -1;
+      if (typeof av === "string") return av.localeCompare(bv) * state.sortDir;
+      return (av - bv) * state.sortDir;
+    });
+
+    var tbody = document.getElementById("tableBody");
+    tbody.innerHTML = "";
+    rows.forEach(function (r) {
+      var tr = document.createElement("tr");
+
+      var nameTd = document.createElement("td");
+      nameTd.className = "name-cell" + (r.n < LOW_N_THRESHOLD ? " low-n" : "");
+      nameTd.textContent = r.name + (r.n < LOW_N_THRESHOLD ? " *" : "");
+      tr.appendChild(nameTd);
+
+      var nTd = document.createElement("td");
+      nTd.textContent = r.n;
+      tr.appendChild(nTd);
+
+      var winTd = document.createElement("td");
+      winTd.textContent = fmtPct(r.win_rate);
+      tr.appendChild(winTd);
+
+      var barTd = document.createElement("td");
+      barTd.className = "bar-cell";
+      var track = document.createElement("div");
+      track.className = "bar-track";
+      var baseline = document.createElement("div");
+      baseline.className = "bar-baseline";
+      track.appendChild(baseline);
+      var fill = document.createElement("div");
+      var pct = Math.abs(r.diff) / maxAbsDiff * 50;
+      fill.className = "bar-fill " + (r.diff >= 0 ? "pos" : "neg");
+      fill.style.width = pct + "%";
+      track.appendChild(fill);
+      barTd.appendChild(track);
+      var label = document.createElement("span");
+      label.className = "bar-label";
+      label.textContent = (r.diff >= 0 ? "+" : "") + fmtPct(r.diff);
+      barTd.appendChild(label);
+      tr.appendChild(barTd);
+
+      var deltaTd = document.createElement("td");
+      if (r.diff_a9_10 === null || r.diff_a9_10 === undefined) {
+        deltaTd.className = "delta-na";
+        deltaTd.textContent = "\u2014";
+      } else if (r.n_a9_10 < state.minSample) {
+        deltaTd.textContent = "";
+      } else {
+        deltaTd.className = r.diff_a9_10 >= 0 ? "delta-pos" : "delta-neg";
+        deltaTd.textContent = fmtSignedPct(r.diff_a9_10);
+      }
+      tr.appendChild(deltaTd);
+
+      var patchTd = document.createElement("td");
+      patchTd.textContent = r.last_changed_patch || "\u2013";
+      tr.appendChild(patchTd);
+
+      tbody.appendChild(tr);
+    });
+
+    document.getElementById("rowCount").textContent = rows.length + " relics (* = n < " + LOW_N_THRESHOLD + ")";
+  }
+
+  document.querySelectorAll("#relicTable thead th[data-key]").forEach(function (th) {
+    th.addEventListener("click", function () {
+      var key = th.getAttribute("data-key");
+      if (state.sortKey === key) { state.sortDir *= -1; }
+      else { state.sortKey = key; state.sortDir = key === "name" ? 1 : -1; }
+      document.querySelectorAll("#relicTable thead .arrow").forEach(function (a) { a.textContent = ""; });
+      th.querySelector(".arrow").textContent = state.sortDir === 1 ? "\u25B2" : "\u25BC";
+      render();
+    });
+  });
+
+  document.getElementById("search").addEventListener("input", function (e) {
+    state.search = e.target.value.toLowerCase();
+    render();
+  });
+  document.getElementById("minSample").addEventListener("input", function (e) {
+    state.minSample = parseInt(e.target.value, 10) || 0;
+    render();
+  });
+  document.getElementById("character").addEventListener("change", function (e) {
+    state.character = e.target.value;
+    render();
+  });
+
+  render();
+</script>
+</body>
+</html>

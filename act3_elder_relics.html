@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Winrate by Act 3 elder relic - all ascensions</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --pos: #2a78d6; --neg: #e34948;
+    --accent: #6c5ce7; --accent-soft: rgba(108,92,231,0.12);
+    --shadow-sm: 0 1px 2px rgba(11,11,11,0.05);
+    --shadow-md: 0 10px 28px rgba(11,11,11,0.10);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--page);
+    background-image: radial-gradient(900px 420px at 20% -12%, rgba(108,92,231,0.07), transparent 60%),
+                       radial-gradient(700px 360px at 100% 0%, rgba(42,120,214,0.05), transparent 55%);
+    background-attachment: fixed;
+  }
+  ::selection { background: var(--accent-soft); color: var(--text-primary); }
+  .viz-root { max-width: 900px; margin: 0 auto; padding: 32px 20px 64px; }
+
+  h1 { font-size: 23px; font-weight: 650; letter-spacing: -0.01em; margin: 0 0 4px; }
+  .subtitle { color: var(--text-secondary); font-size: 13px; margin: 0 0 6px; line-height: 1.5; }
+  .caveat { color: var(--text-muted); font-size: 12px; margin: 0 0 24px; line-height: 1.5; max-width: 720px; }
+
+  .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+  .kpi {
+    background: var(--surface-1); border: 1px solid var(--border); border-top: 2px solid var(--accent);
+    border-radius: 12px; padding: 14px 16px; box-shadow: var(--shadow-sm);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .kpi:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .kpi .label { font-size: 11px; color: var(--text-secondary); margin-bottom: 4px; }
+  .kpi .value { font-size: 21px; font-weight: 650; line-height: 1.15; font-variant-numeric: tabular-nums; }
+
+  .filters { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+  .filters label { font-size: 12px; color: var(--text-secondary); margin-right: 4px; }
+  .filters input, .filters select {
+    font: inherit; font-size: 13px; color: var(--text-primary);
+    background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 8px; padding: 6px 10px; transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .filters input:focus, .filters select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .filters input[type="search"] { width: 180px; }
+  .filters input[type="number"] { width: 70px; }
+  #rowCount { font-size: 12px; color: var(--text-muted); margin-left: auto; }
+
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 16px 20px 20px; box-shadow: var(--shadow-sm); }
+
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  thead th {
+    position: sticky; top: 0; background: var(--surface-1); box-shadow: 0 1px 0 var(--gridline);
+    text-align: right; font-size: 11px; font-weight: 600; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.03em; padding: 8px 6px;
+    border-bottom: 1px solid var(--gridline); cursor: pointer; user-select: none; white-space: nowrap;
+  }
+  thead th:first-child, tbody td:first-child { text-align: left; }
+  thead th:hover { color: var(--accent); }
+  thead th .arrow { color: var(--text-muted); font-size: 10px; margin-left: 3px; }
+  tbody td { text-align: right; font-size: 13px; padding: 7px 6px; border-bottom: 1px solid var(--gridline); transition: background .1s ease; }
+  tbody td.name-cell { text-align: left; font-variant-numeric: normal; color: var(--text-primary); }
+  tbody tr:hover td { background: var(--accent-soft); }
+  .low-n { color: var(--text-muted); }
+
+  .bar-cell { width: 220px; }
+  .bar-track { position: relative; height: 16px; }
+  .bar-baseline { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--baseline); }
+  .bar-fill { position: absolute; top: 2px; height: 12px; border-radius: 3px; }
+  .bar-fill.pos { background: var(--pos); left: 50%; }
+  .bar-fill.neg { background: var(--neg); right: 50%; }
+  .bar-label { display: inline-block; width: 50px; text-align: right; margin-left: 6px; }
+
+  .delta-pos { color: var(--pos); font-weight: 600; }
+  .delta-neg { color: var(--neg); font-weight: 600; }
+  .delta-na { color: var(--text-muted); }
+
+  .back-link {
+    display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 500;
+    color: var(--text-secondary); text-decoration: none; margin-bottom: 16px;
+    padding: 5px 10px 5px 8px; border-radius: 999px; transition: background .15s ease, color .15s ease;
+  }
+  .back-link:hover { color: var(--accent); background: var(--accent-soft); }
+
+  @media (max-width: 640px) {
+    .viz-root { padding: 20px 14px 48px; }
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .filters { flex-direction: column; align-items: stretch; }
+    #rowCount { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <a class="back-link" href="index.html">&larr; Back to home</a>
+  <h1>Winrate by Act 3 elder relic - all ascensions</h1>
+  <p class="subtitle">Act 3 opens with a random elder encounter (Nonupeipe, Tanx, Vakuu, or Darv) that grants a relic. Some of these elders can be fought and can kill the player — runs that died there are excluded from this cohort entirely (they never received a relic to compare), not bucketed as a result. n = runs that received that relic and survived the encounter, restricted to runs on a patch at or after that relic's last balance change (see Last changed patch column). Winrate = full-run (3 acts) win rate for those runs. Diff vs baseline = that winrate minus the baseline for the current character filter. Δ (A9/A10 only) re-runs the same comparison restricted to ascension 9-10 — dash = no A9/A10 data, blank = below the min-sample filter. Rows marked * have a sample < 100.</p>
+  <p class="caveat">Full methodology and caveats: see the <a href="index.html#methodology-elder-relics">Act 2/3 elder relic methodology</a> on the homepage.</p>
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="label">Runs (all characters)</div><div class="value" id="kpiCohort">-</div></div>
+    <div class="kpi"><div class="label">Baseline winrate</div><div class="value" id="kpiBaseline">-</div></div>
+    <div class="kpi"><div class="label">Distinct relics</div><div class="value">43</div></div>
+  </div>
+
+  <div class="filters">
+    <label for="character">Character</label>
+    <select id="character"><option value="">All</option><option value="Defect">Defect</option><option value="Ironclad">Ironclad</option><option value="Necrobinder">Necrobinder</option><option value="Regent">Regent</option><option value="Silent">Silent</option></select>
+    <label for="search">Relic</label>
+    <input type="search" id="search" placeholder="Filter by name...">
+    <label for="minSample">Min sample (n)</label>
+    <input type="number" id="minSample" value="100" min="0">
+    <span id="rowCount"></span>
+  </div>
+
+  <div class="card">
+    <table id="relicTable">
+      <thead>
+        <tr>
+          <th data-key="name">Relic<span class="arrow"></span></th>
+          <th data-key="n">n<span class="arrow"></span></th>
+          <th data-key="win_rate">Winrate<span class="arrow"></span></th>
+          <th data-key="diff" class="bar-cell">Diff vs baseline<span class="arrow"></span></th>
+          <th data-key="diff_a9_10">&Delta; (A9/A10 only)<span class="arrow"></span></th>
+          <th data-key="last_changed_patch">Last changed patch<span class="arrow"></span></th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  // One row per (relic_id, character) pair. Runs where the Act 3 elder killed the
+  // player before granting a relic are excluded (see elder_relic_stats.py), so relic_id
+  // is never null here, unlike report_neow_relics.py.
+  var RAW_ROWS = [{"relic_id": "DIAMOND_DIADEM", "name": "Diamond Diadem", "character": "Ironclad", "n": 650, "wins": 462, "last_changed_patch": "v0.98", "n_a9_10": 342, "wins_a9_10": 214}, {"relic_id": "MUSIC_BOX", "name": "Music Box", "character": "Silent", "n": 771, "wins": 584, "last_changed_patch": "v0.98", "n_a9_10": 225, "wins_a9_10": 145}, {"relic_id": "THROWING_AXE", "name": "Throwing Axe", "character": "Necrobinder", "n": 950, "wins": 704, "last_changed_patch": "v0.98", "n_a9_10": 239, "wins_a9_10": 145}, {"relic_id": "SAI", "name": "Sai", "character": "Defect", "n": 1315, "wins": 1054, "last_changed_patch": "v0.98", "n_a9_10": 453, "wins_a9_10": 311}, {"relic_id": "LORDS_PARASOL", "name": "Lords Parasol", "character": "Ironclad", "n": 600, "wins": 374, "last_changed_patch": "v0.98", "n_a9_10": 215, "wins_a9_10": 121}, {"relic_id": "BRILLIANT_SCARF", "name": "Brilliant Scarf", "character": "Silent", "n": 1008, "wins": 784, "last_changed_patch": "v0.98", "n_a9_10": 340, "wins_a9_10": 229}, {"relic_id": "WAR_HAMMER", "name": "War Hammer", "character": "Necrobinder", "n": 486, "wins": 327, "last_changed_patch": "v0.98", "n_a9_10": 122, "wins_a9_10": 64}, {"relic_id": "SIGNET_RING", "name": "Signet Ring", "character": "Defect", "n": 1182, "wins": 866, "last_changed_patch": "v0.98", "n_a9_10": 441, "wins_a9_10": 292}, {"relic_id": "CHOICES_PARADOX", "name": "Choices Paradox", "character": "Ironclad", "n": 911, "wins": 565, "last_changed_patch": "v0.98", "n_a9_10": 295, "wins_a9_10": 148}, {"relic_id": "THROWING_AXE", "name": "Throwing Axe", "character": "Silent", "n": 1050, "wins": 775, "last_changed_patch": "v0.98", "n_a9_10": 349, "wins_a9_10": 233}, {"relic_id": "JEWELED_MASK", "name": "Jeweled Mask", "character": "Defect", "n": 1420, "wins": 945, "last_changed_patch": "v0.98", "n_a9_10": 426, "wins_a9_10": 222}, {"relic_id": "JEWELRY_BOX", "name": "Jewelry Box", "character": "Ironclad", "n": 783, "wins": 529, "last_changed_patch": "v0.98", "n_a9_10": 262, "wins_a9_10": 154}, {"relic_id": "PRESERVED_FOG", "name": "Preserved Fog", "character": "Silent", "n": 1287, "wins": 973, "last_changed_patch": "v0.98", "n_a9_10": 453, "wins_a9_10": 286}, {"relic_id": "IRON_CLUB", "name": "Iron Club", "character": "Defect", "n": 1096, "wins": 890, "last_changed_patch": "v0.98", "n_a9_10": 393, "wins_a9_10": 276}, {"relic_id": "CLAWS", "name": "Claws", "character": "Ironclad", "n": 746, "wins": 447, "last_changed_patch": "v0.98", "n_a9_10": 251, "wins_a9_10": 111}, {"relic_id": "DISTINGUISHED_CAPE", "name": "Distinguished Cape", "character": "Silent", "n": 1237, "wins": 901, "last_changed_patch": "v0.98", "n_a9_10": 489, "wins_a9_10": 304}, {"relic_id": "SERE_TALON", "name": "Sere Talon", "character": "Defect", "n": 520, "wins": 318, "last_changed_patch": "v0.98", "n_a9_10": 176, "wins_a9_10": 87}, {"relic_id": "MUSIC_BOX", "name": "Music Box", "character": "Ironclad", "n": 1029, "wins": 744, "last_changed_patch": "v0.98", "n_a9_10": 354, "wins_a9_10": 226}, {"relic_id": "SIGNET_RING", "name": "Signet Ring", "character": "Silent", "n": 1186, "wins": 926, "last_changed_patch": "v0.98", "n_a9_10": 399, "wins_a9_10": 277}, {"relic_id": "BRILLIANT_SCARF", "name": "Brilliant Scarf", "character": "Defect", "n": 761, "wins": 562, "last_changed_patch": "v0.98", "n_a9_10": 250, "wins_a9_10": 151}, {"relic_id": "SERE_TALON", "name": "Sere Talon", "character": "Ironclad", "n": 676, "wins": 413, "last_changed_patch": "v0.98", "n_a9_10": 305, "wins_a9_10": 157}, {"relic_id": "SPIKED_GAUNTLETS", "name": "Spiked Gauntlets", "character": "Regent", "n": 969, "wins": 610, "last_changed_patch": "v0.98", "n_a9_10": 283, "wins_a9_10": 136}, {"relic_id": "DISTINGUISHED_CAPE", "name": "Distinguished Cape", "character": "Regent", "n": 1032, "wins": 712, "last_changed_patch": "v0.98", "n_a9_10": 411, "wins_a9_10": 260}, {"relic_id": "GLITTER", "name": "Glitter", "character": "Necrobinder", "n": 861, "wins": 617, "last_changed_patch": "v0.98", "n_a9_10": 253, "wins_a9_10": 146}, {"relic_id": "BEAUTIFUL_BRACELET", "name": "Beautiful Bracelet", "character": "Defect", "n": 931, "wins": 759, "last_changed_patch": "v0.98", "n_a9_10": 316, "wins_a9_10": 226}, {"relic_id": "IRON_CLUB", "name": "Iron Club", "character": "Regent", "n": 825, "wins": 638, "last_changed_patch": "v0.98", "n_a9_10": 308, "wins_a9_10": 219}, {"relic_id": "SNECKO_EYE", "name": "Snecko Eye", "character": "Regent", "n": 36, "wins": 28, "last_changed_patch": "v0.98", "n_a9_10": 9, "wins_a9_10": 5}, {"relic_id": "IRON_CLUB", "name": "Iron Club", "character": "Necrobinder", "n": 704, "wins": 554, "last_changed_patch": "v0.98", "n_a9_10": 220, "wins_a9_10": 147}, {"relic_id": "BEAUTIFUL_BRACELET", "name": "Beautiful Bracelet", "character": "Regent", "n": 799, "wins": 612, "last_changed_patch": "v0.98", "n_a9_10": 303, "wins_a9_10": 216}, {"relic_id": "DELICATE_FROND", "name": "Delicate Frond", "character": "Ironclad", "n": 769, "wins": 553, "last_changed_patch": "v0.98", "n_a9_10": 200, "wins_a9_10": 122}, {"relic_id": "JEWELRY_BOX", "name": "Jewelry Box", "character": "Regent", "n": 843, "wins": 582, "last_changed_patch": "v0.98", "n_a9_10": 275, "wins_a9_10": 170}, {"relic_id": "ASTROLABE", "name": "Astrolabe", "character": "Necrobinder", "n": 187, "wins": 139, "last_changed_patch": "v0.98", "n_a9_10": 66, "wins_a9_10": 43}, {"relic_id": "PRESERVED_FOG", "name": "Preserved Fog", "character": "Regent", "n": 884, "wins": 578, "last_changed_patch": "v0.98", "n_a9_10": 300, "wins_a9_10": 165}, {"relic_id": "MUSIC_BOX", "name": "Music Box", "character": "Defect", "n": 762, "wins": 550, "last_changed_patch": "v0.98", "n_a9_10": 231, "wins_a9_10": 147}, {"relic_id": "SIGNET_RING", "name": "Signet Ring", "character": "Ironclad", "n": 1401, "wins": 1044, "last_changed_patch": "v0.98", "n_a9_10": 507, "wins_a9_10": 329}, {"relic_id": "SERE_TALON", "name": "Sere Talon", "character": "Silent", "n": 613, "wins": 403, "last_changed_patch": "v0.98", "n_a9_10": 214, "wins_a9_10": 110}, {"relic_id": "CHOICES_PARADOX", "name": "Choices Paradox", "character": "Silent", "n": 875, "wins": 600, "last_changed_patch": "v0.98", "n_a9_10": 267, "wins_a9_10": 151}, {"relic_id": "TRI_BOOMERANG", "name": "Tri Boomerang", "character": "Regent", "n": 1052, "wins": 732, "last_changed_patch": "v0.98", "n_a9_10": 341, "wins_a9_10": 206}, {"relic_id": "MEAT_CLEAVER", "name": "Meat Cleaver", "character": "Regent", "n": 891, "wins": 601, "last_changed_patch": "v0.98", "n_a9_10": 291, "wins_a9_10": 164}, {"relic_id": "CHOICES_PARADOX", "name": "Choices Paradox", "character": "Necrobinder", "n": 673, "wins": 430, "last_changed_patch": "v0.98", "n_a9_10": 181, "wins_a9_10": 103}, {"relic_id": "DISTINGUISHED_CAPE", "name": "Distinguished Cape", "character": "Necrobinder", "n": 1018, "wins": 751, "last_changed_patch": "v0.98", "n_a9_10": 368, "wins_a9_10": 237}, {"relic_id": "GLITTER", "name": "Glitter", "character": "Defect", "n": 932, "wins": 671, "last_changed_patch": "v0.98", "n_a9_10": 270, "wins_a9_10": 147}, {"relic_id": "CHOICES_PARADOX", "name": "Choices Paradox", "character": "Regent", "n": 725, "wins": 451, "last_changed_patch": "v0.98", "n_a9_10": 206, "wins_a9_10": 114}, {"relic_id": "BRILLIANT_SCARF", "name": "Brilliant Scarf", "character": "Ironclad", "n": 808, "wins": 562, "last_changed_patch": "v0.98", "n_a9_10": 292, "wins_a9_10": 178}, {"relic_id": "TRI_BOOMERANG", "name": "Tri Boomerang", "character": "Necrobinder", "n": 1218, "wins": 898, "last_changed_patch": "v0.98", "n_a9_10": 312, "wins_a9_10": 196}, {"relic_id": "IRON_CLUB", "name": "Iron Club", "character": "Silent", "n": 1334, "wins": 1121, "last_changed_patch": "v0.98", "n_a9_10": 519, "wins_a9_10": 390}, {"relic_id": "PRESERVED_FOG", "name": "Preserved Fog", "character": "Defect", "n": 967, "wins": 623, "last_changed_patch": "v0.98", "n_a9_10": 320, "wins_a9_10": 155}, {"relic_id": "GLITTER", "name": "Glitter", "character": "Ironclad", "n": 1063, "wins": 747, "last_changed_patch": "v0.98", "n_a9_10": 357, "wins_a9_10": 228}, {"relic_id": "LORDS_PARASOL", "name": "Lords Parasol", "character": "Defect", "n": 586, "wins": 391, "last_changed_patch": "v0.98", "n_a9_10": 215, "wins_a9_10": 123}, {"relic_id": "JEWELED_MASK", "name": "Jeweled Mask", "character": "Silent", "n": 1387, "wins": 1020, "last_changed_patch": "v0.98", "n_a9_10": 428, "wins_a9_10": 249}, {"relic_id": "CROSSBOW", "name": "Crossbow", "character": "Defect", "n": 600, "wins": 466, "last_changed_patch": "v0.98", "n_a9_10": 222, "wins_a9_10": 148}, {"relic_id": "FUR_COAT", "name": "Fur Coat", "character": "Silent", "n": 574, "wins": 380, "last_changed_patch": "v0.98", "n_a9_10": 141, "wins_a9_10": 74}, {"relic_id": "GLITTER", "name": "Glitter", "character": "Silent", "n": 940, "wins": 701, "last_changed_patch": "v0.98", "n_a9_10": 333, "wins_a9_10": 206}, {"relic_id": "CALLING_BELL", "name": "Calling Bell", "character": "Defect", "n": 167, "wins": 89, "last_changed_patch": "v0.98", "n_a9_10": 55, "wins_a9_10": 25}, {"relic_id": "TANXS_WHISTLE", "name": "Tanxs Whistle", "character": "Defect", "n": 420, "wins": 259, "last_changed_patch": "v0.98", "n_a9_10": 135, "wins_a9_10": 65}, {"relic_id": "LORDS_PARASOL", "name": "Lords Parasol", "character": "Regent", "n": 473, "wins": 301, "last_changed_patch": "v0.98", "n_a9_10": 155, "wins_a9_10": 89}, {"relic_id": "TRI_BOOMERANG", "name": "Tri Boomerang", "character": "Defect", "n": 924, "wins": 624, "last_changed_patch": "v0.98", "n_a9_10": 258, "wins_a9_10": 138}, {"relic_id": "WHISPERING_EARRING", "name": "Whispering Earring", "character": "Silent", "n": 829, "wins": 531, "last_changed_patch": "v0.98", "n_a9_10": 279, "wins_a9_10": 139}, {"relic_id": "FIDDLE", "name": "Fiddle", "character": "Ironclad", "n": 484, "wins": 331, "last_changed_patch": "v0.98", "n_a9_10": 210, "wins_a9_10": 123}, {"relic_id": "MEAT_CLEAVER", "name": "Meat Cleaver", "character": "Silent", "n": 1141, "wins": 858, "last_changed_patch": "v0.98", "n_a9_10": 392, "wins_a9_10": 256}, {"relic_id": "LOOMING_FRUIT", "name": "Looming Fruit", "character": "Defect", "n": 619, "wins": 418, "last_changed_patch": "v0.98", "n_a9_10": 197, "wins_a9_10": 100}, {"relic_id": "FUR_COAT", "name": "Fur Coat", "character": "Ironclad", "n": 657, "wins": 400, "last_changed_patch": "v0.98", "n_a9_10": 206, "wins_a9_10": 88}, {"relic_id": "EMPTY_CAGE", "name": "Empty Cage", "character": "Necrobinder", "n": 174, "wins": 115, "last_changed_patch": "v0.98", "n_a9_10": 56, "wins_a9_10": 31}, {"relic_id": "BLESSED_ANTLER", "name": "Blessed Antler", "character": "Defect", "n": 966, "wins": 604, "last_changed_patch": "v0.98", "n_a9_10": 293, "wins_a9_10": 136}, {"relic_id": "MEAT_CLEAVER", "name": "Meat Cleaver", "character": "Defect", "n": 1037, "wins": 700, "last_changed_patch": "v0.98", "n_a9_10": 318, "wins_a9_10": 165}, {"relic_id": "CHOICES_PARADOX", "name": "Choices Paradox", "character": "Defect", "n": 878, "wins": 585, "last_changed_patch": "v0.98", "n_a9_10": 280, "wins_a9_10": 153}, {"relic_id": "SAI", "name": "Sai", "character": "Silent", "n": 1231, "wins": 1034, "last_changed_patch": "v0.98", "n_a9_10": 479, "wins_a9_10": 365}, {"relic_id": "CROSSBOW", "name": "Crossbow", "character": "Ironclad", "n": 931, "wins": 749, "last_changed_patch": "v0.98", "n_a9_10": 389, "wins_a9_10": 278}, {"relic_id": "DUSTY_TOME", "name": "Dusty Tome", "character": "Silent", "n": 208, "wins": 125, "last_changed_patch": "v0.98", "n_a9_10": 68, "wins_a9_10": 33}, {"relic_id": "BEAUTIFUL_BRACELET", "name": "Beautiful Bracelet", "character": "Ironclad", "n": 1163, "wins": 906, "last_changed_patch": "v0.98", "n_a9_10": 456, "wins_a9_10": 316}, {"relic_id": "JEWELED_MASK", "name": "Jeweled Mask", "character": "Necrobinder", "n": 1294, "wins": 941, "last_changed_patch": "v0.98", "n_a9_10": 348, "wins_a9_10": 203}, {"relic_id": "TANXS_WHISTLE", "name": "Tanxs Whistle", "character": "Ironclad", "n": 526, "wins": 311, "last_changed_patch": "v0.98", "n_a9_10": 156, "wins_a9_10": 61}, {"relic_id": "CLAWS", "name": "Claws", "character": "Necrobinder", "n": 248, "wins": 137, "last_changed_patch": "v0.98", "n_a9_10": 60, "wins_a9_10": 21}, {"relic_id": "BLOOD_SOAKED_ROSE", "name": "Blood Soaked Rose", "character": "Necrobinder", "n": 686, "wins": 438, "last_changed_patch": "v0.98", "n_a9_10": 217, "wins_a9_10": 116}, {"relic_id": "SIGNET_RING", "name": "Signet Ring", "character": "Necrobinder", "n": 1093, "wins": 827, "last_changed_patch": "v0.98", "n_a9_10": 329, "wins_a9_10": 220}, {"relic_id": "SPIKED_GAUNTLETS", "name": "Spiked Gauntlets", "character": "Necrobinder", "n": 830, "wins": 593, "last_changed_patch": "v0.98", "n_a9_10": 225, "wins_a9_10": 120}, {"relic_id": "DUSTY_TOME", "name": "Dusty Tome", "character": "Necrobinder", "n": 285, "wins": 166, "last_changed_patch": "v0.98", "n_a9_10": 94, "wins_a9_10": 44}, {"relic_id": "MUSIC_BOX", "name": "Music Box", "character": "Necrobinder", "n": 805, "wins": 582, "last_changed_patch": "v0.98", "n_a9_10": 188, "wins_a9_10": 124}, {"relic_id": "BRILLIANT_SCARF", "name": "Brilliant Scarf", "character": "Necrobinder", "n": 889, "wins": 680, "last_changed_patch": "v0.98", "n_a9_10": 277, "wins_a9_10": 184}, {"relic_id": "BLESSED_ANTLER", "name": "Blessed Antler", "character": "Necrobinder", "n": 903, "wins": 629, "last_changed_patch": "v0.98", "n_a9_10": 241, "wins_a9_10": 139}, {"relic_id": "DISTINGUISHED_CAPE", "name": "Distinguished Cape", "character": "Defect", "n": 950, "wins": 673, "last_changed_patch": "v0.98", "n_a9_10": 376, "wins_a9_10": 217}, {"relic_id": "SAI", "name": "Sai", "character": "Regent", "n": 1323, "wins": 1090, "last_changed_patch": "v0.98", "n_a9_10": 494, "wins_a9_10": 363}, {"relic_id": "LORDS_PARASOL", "name": "Lords Parasol", "character": "Silent", "n": 475, "wins": 324, "last_changed_patch": "v0.98", "n_a9_10": 155, "wins_a9_10": 84}, {"relic_id": "BEAUTIFUL_BRACELET", "name": "Beautiful Bracelet", "character": "Necrobinder", "n": 744, "wins": 600, "last_changed_patch": "v0.98", "n_a9_10": 230, "wins_a9_10": 160}, {"relic_id": "DELICATE_FROND", "name": "Delicate Frond", "character": "Necrobinder", "n": 584, "wins": 434, "last_changed_patch": "v0.98", "n_a9_10": 124, "wins_a9_10": 81}, {"relic_id": "CLAWS", "name": "Claws", "character": "Regent", "n": 342, "wins": 187, "last_changed_patch": "v0.98", "n_a9_10": 91, "wins_a9_10": 31}, {"relic_id": "JEWELED_MASK", "name": "Jeweled Mask", "character": "Ironclad", "n": 1553, "wins": 1051, "last_changed_patch": "v0.98", "n_a9_10": 496, "wins_a9_10": 278}, {"relic_id": "SAI", "name": "Sai", "character": "Necrobinder", "n": 1342, "wins": 1152, "last_changed_patch": "v0.98", "n_a9_10": 451, "wins_a9_10": 359}, {"relic_id": "DELICATE_FROND", "name": "Delicate Frond", "character": "Silent", "n": 686, "wins": 521, "last_changed_patch": "v0.98", "n_a9_10": 164, "wins_a9_10": 102}, {"relic_id": "DELICATE_FROND", "name": "Delicate Frond", "character": "Regent", "n": 667, "wins": 487, "last_changed_patch": "v0.98", "n_a9_10": 154, "wins_a9_10": 98}, {"relic_id": "MUSIC_BOX", "name": "Music Box", "character": "Regent", "n": 821, "wins": 607, "last_changed_patch": "v0.98", "n_a9_10": 267, "wins_a9_10": 181}, {"relic_id": "DIAMOND_DIADEM", "name": "Diamond Diadem", "character": "Necrobinder", "n": 538, "wins": 400, "last_changed_patch": "v0.98", "n_a9_10": 246, "wins_a9_10": 177}, {"relic_id": "DIAMOND_DIADEM", "name": "Diamond Diadem", "character": "Defect", "n": 558, "wins": 401, "last_changed_patch": "v0.98", "n_a9_10": 307, "wins_a9_10": 196}, {"relic_id": "CROSSBOW", "name": "Crossbow", "character": "Silent", "n": 596, "wins": 461, "last_changed_patch": "v0.98", "n_a9_10": 208, "wins_a9_10": 139}, {"relic_id": "DISTINGUISHED_CAPE", "name": "Distinguished Cape", "character": "Ironclad", "n": 1304, "wins": 879, "last_changed_patch": "v0.98", "n_a9_10": 569, "wins_a9_10": 330}, {"relic_id": "FIDDLE", "name": "Fiddle", "character": "Regent", "n": 716, "wins": 537, "last_changed_patch": "v0.98", "n_a9_10": 331, "wins_a9_10": 223}, {"relic_id": "CROSSBOW", "name": "Crossbow", "character": "Necrobinder", "n": 534, "wins": 402, "last_changed_patch": "v0.98", "n_a9_10": 165, "wins_a9_10": 117}, {"relic_id": "FUR_COAT", "name": "Fur Coat", "character": "Necrobinder", "n": 603, "wins": 376, "last_changed_patch": "v0.98", "n_a9_10": 147, "wins_a9_10": 54}, {"relic_id": "JEWELRY_BOX", "name": "Jewelry Box", "character": "Defect", "n": 975, "wins": 740, "last_changed_patch": "v0.98", "n_a9_10": 292, "wins_a9_10": 194}, {"relic_id": "IRON_CLUB", "name": "Iron Club", "character": "Ironclad", "n": 876, "wins": 686, "last_changed_patch": "v0.98", "n_a9_10": 328, "wins_a9_10": 220}, {"relic_id": "DIAMOND_DIADEM", "name": "Diamond Diadem", "character": "Regent", "n": 687, "wins": 481, "last_changed_patch": "v0.98", "n_a9_10": 355, "wins_a9_10": 220}, {"relic_id": "LOOMING_FRUIT", "name": "Looming Fruit", "character": "Regent", "n": 688, "wins": 488, "last_changed_patch": "v0.98", "n_a9_10": 203, "wins_a9_10": 126}, {"relic_id": "BLESSED_ANTLER", "name": "Blessed Antler", "character": "Silent", "n": 993, "wins": 698, "last_changed_patch": "v0.98", "n_a9_10": 317, "wins_a9_10": 183}, {"relic_id": "TRI_BOOMERANG", "name": "Tri Boomerang", "character": "Ironclad", "n": 1558, "wins": 1064, "last_changed_patch": "v0.98", "n_a9_10": 525, "wins_a9_10": 288}, {"relic_id": "BLOOD_SOAKED_ROSE", "name": "Blood Soaked Rose", "character": "Regent", "n": 888, "wins": 523, "last_changed_patch": "v0.98", "n_a9_10": 314, "wins_a9_10": 161}, {"relic_id": "PRESERVED_FOG", "name": "Preserved Fog", "character": "Necrobinder", "n": 883, "wins": 612, "last_changed_patch": "v0.98", "n_a9_10": 264, "wins_a9_10": 148}, {"relic_id": "DIAMOND_DIADEM", "name": "Diamond Diadem", "character": "Silent", "n": 326, "wins": 216, "last_changed_patch": "v0.98", "n_a9_10": 180, "wins_a9_10": 107}, {"relic_id": "PHILOSOPHERS_STONE", "name": "Philosophers Stone", "character": "Ironclad", "n": 111, "wins": 83, "last_changed_patch": "v0.98", "n_a9_10": 37, "wins_a9_10": 24}, {"relic_id": "BLESSED_ANTLER", "name": "Blessed Antler", "character": "Regent", "n": 934, "wins": 598, "last_changed_patch": "v0.98", "n_a9_10": 274, "wins_a9_10": 133}, {"relic_id": "TRI_BOOMERANG", "name": "Tri Boomerang", "character": "Silent", "n": 708, "wins": 494, "last_changed_patch": "v0.98", "n_a9_10": 210, "wins_a9_10": 114}, {"relic_id": "PHILOSOPHERS_STONE", "name": "Philosophers Stone", "character": "Silent", "n": 113, "wins": 81, "last_changed_patch": "v0.98", "n_a9_10": 44, "wins_a9_10": 30}, {"relic_id": "THROWING_AXE", "name": "Throwing Axe", "character": "Regent", "n": 1007, "wins": 678, "last_changed_patch": "v0.98", "n_a9_10": 306, "wins_a9_10": 176}, {"relic_id": "SIGNET_RING", "name": "Signet Ring", "character": "Regent", "n": 1159, "wins": 851, "last_changed_patch": "v0.98", "n_a9_10": 431, "wins_a9_10": 283}, {"relic_id": "ASTROLABE", "name": "Astrolabe", "character": "Defect", "n": 262, "wins": 165, "last_changed_patch": "v0.98", "n_a9_10": 96, "wins_a9_10": 47}, {"relic_id": "PRESERVED_FOG", "name": "Preserved Fog", "character": "Ironclad", "n": 956, "wins": 647, "last_changed_patch": "v0.98", "n_a9_10": 367, "wins_a9_10": 209}, {"relic_id": "SPIKED_GAUNTLETS", "name": "Spiked Gauntlets", "character": "Defect", "n": 585, "wins": 356, "last_changed_patch": "v0.98", "n_a9_10": 191, "wins_a9_10": 81}, {"relic_id": "SAI", "name": "Sai", "character": "Ironclad", "n": 1466, "wins": 1139, "last_changed_patch": "v0.98", "n_a9_10": 607, "wins_a9_10": 410}, {"relic_id": "PHILOSOPHERS_STONE", "name": "Philosophers Stone", "character": "Necrobinder", "n": 83, "wins": 57, "last_changed_patch": "v0.98", "n_a9_10": 26, "wins_a9_10": 11}, {"relic_id": "LORDS_PARASOL", "name": "Lords Parasol", "character": "Necrobinder", "n": 440, "wins": 263, "last_changed_patch": "v0.98", "n_a9_10": 129, "wins_a9_10": 68}, {"relic_id": "PHILOSOPHERS_STONE", "name": "Philosophers Stone", "character": "Regent", "n": 89, "wins": 59, "last_changed_patch": "v0.98", "n_a9_10": 30, "wins_a9_10": 17}, {"relic_id": "SERE_TALON", "name": "Sere Talon", "character": "Regent", "n": 511, "wins": 302, "last_changed_patch": "v0.98", "n_a9_10": 174, "wins_a9_10": 89}, {"relic_id": "PANDORAS_BOX", "name": "Pandoras Box", "character": "Defect", "n": 164, "wins": 101, "last_changed_patch": "v0.98", "n_a9_10": 59, "wins_a9_10": 29}, {"relic_id": "SPIKED_GAUNTLETS", "name": "Spiked Gauntlets", "character": "Ironclad", "n": 900, "wins": 579, "last_changed_patch": "v0.98", "n_a9_10": 314, "wins_a9_10": 156}, {"relic_id": "BLOOD_SOAKED_ROSE", "name": "Blood Soaked Rose", "character": "Defect", "n": 608, "wins": 346, "last_changed_patch": "v0.98", "n_a9_10": 179, "wins_a9_10": 69}, {"relic_id": "VELVET_CHOKER", "name": "Velvet Choker", "character": "Necrobinder", "n": 39, "wins": 24, "last_changed_patch": "v0.98", "n_a9_10": 13, "wins_a9_10": 8}, {"relic_id": "JEWELED_MASK", "name": "Jeweled Mask", "character": "Regent", "n": 1343, "wins": 914, "last_changed_patch": "v0.98", "n_a9_10": 412, "wins_a9_10": 212}, {"relic_id": "BLESSED_ANTLER", "name": "Blessed Antler", "character": "Ironclad", "n": 1035, "wins": 679, "last_changed_patch": "v0.98", "n_a9_10": 325, "wins_a9_10": 173}, {"relic_id": "FUR_COAT", "name": "Fur Coat", "character": "Regent", "n": 602, "wins": 355, "last_changed_patch": "v0.98", "n_a9_10": 159, "wins_a9_10": 68}, {"relic_id": "CROSSBOW", "name": "Crossbow", "character": "Regent", "n": 801, "wins": 653, "last_changed_patch": "v0.98", "n_a9_10": 371, "wins_a9_10": 285}, {"relic_id": "FIDDLE", "name": "Fiddle", "character": "Necrobinder", "n": 392, "wins": 302, "last_changed_patch": "v0.98", "n_a9_10": 172, "wins_a9_10": 124}, {"relic_id": "FUR_COAT", "name": "Fur Coat", "character": "Defect", "n": 573, "wins": 339, "last_changed_patch": "v0.98", "n_a9_10": 161, "wins_a9_10": 64}, {"relic_id": "TANXS_WHISTLE", "name": "Tanxs Whistle", "character": "Regent", "n": 429, "wins": 263, "last_changed_patch": "v0.98", "n_a9_10": 146, "wins_a9_10": 79}, {"relic_id": "CLAWS", "name": "Claws", "character": "Silent", "n": 528, "wins": 360, "last_changed_patch": "v0.98", "n_a9_10": 171, "wins_a9_10": 99}, {"relic_id": "SPIKED_GAUNTLETS", "name": "Spiked Gauntlets", "character": "Silent", "n": 732, "wins": 506, "last_changed_patch": "v0.98", "n_a9_10": 213, "wins_a9_10": 111}, {"relic_id": "WHISPERING_EARRING", "name": "Whispering Earring", "character": "Necrobinder", "n": 746, "wins": 509, "last_changed_patch": "v0.98", "n_a9_10": 193, "wins_a9_10": 97}, {"relic_id": "CALLING_BELL", "name": "Calling Bell", "character": "Necrobinder", "n": 121, "wins": 71, "last_changed_patch": "v0.98", "n_a9_10": 37, "wins_a9_10": 17}, {"relic_id": "MEAT_CLEAVER", "name": "Meat Cleaver", "character": "Ironclad", "n": 922, "wins": 637, "last_changed_patch": "v0.98", "n_a9_10": 351, "wins_a9_10": 218}, {"relic_id": "FIDDLE", "name": "Fiddle", "character": "Silent", "n": 251, "wins": 183, "last_changed_patch": "v0.98", "n_a9_10": 109, "wins_a9_10": 71}, {"relic_id": "CLAWS", "name": "Claws", "character": "Defect", "n": 372, "wins": 215, "last_changed_patch": "v0.98", "n_a9_10": 118, "wins_a9_10": 62}, {"relic_id": "SERE_TALON", "name": "Sere Talon", "character": "Necrobinder", "n": 507, "wins": 312, "last_changed_patch": "v0.98", "n_a9_10": 147, "wins_a9_10": 77}, {"relic_id": "LOOMING_FRUIT", "name": "Looming Fruit", "character": "Silent", "n": 660, "wins": 494, "last_changed_patch": "v0.98", "n_a9_10": 204, "wins_a9_10": 125}, {"relic_id": "WAR_HAMMER", "name": "War Hammer", "character": "Defect", "n": 710, "wins": 437, "last_changed_patch": "v0.98", "n_a9_10": 189, "wins_a9_10": 89}, {"relic_id": "EMPTY_CAGE", "name": "Empty Cage", "character": "Defect", "n": 190, "wins": 113, "last_changed_patch": "v0.98", "n_a9_10": 59, "wins_a9_10": 27}, {"relic_id": "THROWING_AXE", "name": "Throwing Axe", "character": "Ironclad", "n": 772, "wins": 492, "last_changed_patch": "v0.98", "n_a9_10": 225, "wins_a9_10": 111}, {"relic_id": "WHISPERING_EARRING", "name": "Whispering Earring", "character": "Regent", "n": 817, "wins": 486, "last_changed_patch": "v0.98", "n_a9_10": 219, "wins_a9_10": 95}, {"relic_id": "WHISPERING_EARRING", "name": "Whispering Earring", "character": "Defect", "n": 902, "wins": 575, "last_changed_patch": "v0.98", "n_a9_10": 251, "wins_a9_10": 105}, {"relic_id": "LOOMING_FRUIT", "name": "Looming Fruit", "character": "Ironclad", "n": 999, "wins": 674, "last_changed_patch": "v0.98", "n_a9_10": 312, "wins_a9_10": 168}, {"relic_id": "LOOMING_FRUIT", "name": "Looming Fruit", "character": "Necrobinder", "n": 734, "wins": 528, "last_changed_patch": "v0.98", "n_a9_10": 185, "wins_a9_10": 111}, {"relic_id": "MEAT_CLEAVER", "name": "Meat Cleaver", "character": "Necrobinder", "n": 936, "wins": 670, "last_changed_patch": "v0.98", "n_a9_10": 277, "wins_a9_10": 177}, {"relic_id": "SNECKO_EYE", "name": "Snecko Eye", "character": "Necrobinder", "n": 48, "wins": 39, "last_changed_patch": "v0.98", "n_a9_10": 22, "wins_a9_10": 16}, {"relic_id": "FIDDLE", "name": "Fiddle", "character": "Defect", "n": 523, "wins": 379, "last_changed_patch": "v0.98", "n_a9_10": 180, "wins_a9_10": 100}, {"relic_id": "BLACK_STAR", "name": "Black Star", "character": "Silent", "n": 113, "wins": 76, "last_changed_patch": "v0.98", "n_a9_10": 24, "wins_a9_10": 13}, {"relic_id": "DELICATE_FROND", "name": "Delicate Frond", "character": "Defect", "n": 654, "wins": 493, "last_changed_patch": "v0.98", "n_a9_10": 166, "wins_a9_10": 105}, {"relic_id": "DUSTY_TOME", "name": "Dusty Tome", "character": "Regent", "n": 552, "wins": 406, "last_changed_patch": "v0.98", "n_a9_10": 193, "wins_a9_10": 124}, {"relic_id": "VELVET_CHOKER", "name": "Velvet Choker", "character": "Silent", "n": 25, "wins": 13, "last_changed_patch": "v0.98", "n_a9_10": 9, "wins_a9_10": 2}, {"relic_id": "BLOOD_SOAKED_ROSE", "name": "Blood Soaked Rose", "character": "Silent", "n": 633, "wins": 420, "last_changed_patch": "v0.98", "n_a9_10": 196, "wins_a9_10": 118}, {"relic_id": "TANXS_WHISTLE", "name": "Tanxs Whistle", "character": "Necrobinder", "n": 437, "wins": 293, "last_changed_patch": "v0.98", "n_a9_10": 135, "wins_a9_10": 77}, {"relic_id": "WAR_HAMMER", "name": "War Hammer", "character": "Regent", "n": 565, "wins": 350, "last_changed_patch": "v0.98", "n_a9_10": 142, "wins_a9_10": 77}, {"relic_id": "JEWELRY_BOX", "name": "Jewelry Box", "character": "Silent", "n": 1002, "wins": 817, "last_changed_patch": "v0.98", "n_a9_10": 382, "wins_a9_10": 288}, {"relic_id": "BEAUTIFUL_BRACELET", "name": "Beautiful Bracelet", "character": "Silent", "n": 960, "wins": 803, "last_changed_patch": "v0.98", "n_a9_10": 326, "wins_a9_10": 249}, {"relic_id": "BRILLIANT_SCARF", "name": "Brilliant Scarf", "character": "Regent", "n": 1089, "wins": 827, "last_changed_patch": "v0.98", "n_a9_10": 448, "wins_a9_10": 315}, {"relic_id": "RUNIC_PYRAMID", "name": "Runic Pyramid", "character": "Defect", "n": 270, "wins": 216, "last_changed_patch": "v0.98", "n_a9_10": 112, "wins_a9_10": 82}, {"relic_id": "BLOOD_SOAKED_ROSE", "name": "Blood Soaked Rose", "character": "Ironclad", "n": 669, "wins": 381, "last_changed_patch": "v0.98", "n_a9_10": 193, "wins_a9_10": 75}, {"relic_id": "WHISPERING_EARRING", "name": "Whispering Earring", "character": "Ironclad", "n": 1003, "wins": 603, "last_changed_patch": "v0.98", "n_a9_10": 312, "wins_a9_10": 132}, {"relic_id": "WAR_HAMMER", "name": "War Hammer", "character": "Ironclad", "n": 530, "wins": 329, "last_changed_patch": "v0.98", "n_a9_10": 165, "wins_a9_10": 83}, {"relic_id": "ASTROLABE", "name": "Astrolabe", "character": "Ironclad", "n": 255, "wins": 167, "last_changed_patch": "v0.98", "n_a9_10": 89, "wins_a9_10": 46}, {"relic_id": "BLACK_STAR", "name": "Black Star", "character": "Regent", "n": 80, "wins": 55, "last_changed_patch": "v0.98", "n_a9_10": 18, "wins_a9_10": 11}, {"relic_id": "RUNIC_PYRAMID", "name": "Runic Pyramid", "character": "Ironclad", "n": 266, "wins": 215, "last_changed_patch": "v0.98", "n_a9_10": 118, "wins_a9_10": 82}, {"relic_id": "DUSTY_TOME", "name": "Dusty Tome", "character": "Ironclad", "n": 199, "wins": 120, "last_changed_patch": "v0.98", "n_a9_10": 77, "wins_a9_10": 37}, {"relic_id": "VELVET_CHOKER", "name": "Velvet Choker", "character": "Ironclad", "n": 78, "wins": 51, "last_changed_patch": "v0.98", "n_a9_10": 32, "wins_a9_10": 17}, {"relic_id": "PANDORAS_BOX", "name": "Pandoras Box", "character": "Ironclad", "n": 156, "wins": 117, "last_changed_patch": "v0.98", "n_a9_10": 72, "wins_a9_10": 50}, {"relic_id": "ASTROLABE", "name": "Astrolabe", "character": "Silent", "n": 209, "wins": 150, "last_changed_patch": "v0.98", "n_a9_10": 75, "wins_a9_10": 45}, {"relic_id": "JEWELRY_BOX", "name": "Jewelry Box", "character": "Necrobinder", "n": 663, "wins": 454, "last_changed_patch": "v0.98", "n_a9_10": 209, "wins_a9_10": 120}, {"relic_id": "GLITTER", "name": "Glitter", "character": "Regent", "n": 953, "wins": 661, "last_changed_patch": "v0.98", "n_a9_10": 343, "wins_a9_10": 200}, {"relic_id": "BLACK_STAR", "name": "Black Star", "character": "Necrobinder", "n": 119, "wins": 77, "last_changed_patch": "v0.98", "n_a9_10": 25, "wins_a9_10": 15}, {"relic_id": "CALLING_BELL", "name": "Calling Bell", "character": "Ironclad", "n": 164, "wins": 94, "last_changed_patch": "v0.98", "n_a9_10": 60, "wins_a9_10": 24}, {"relic_id": "BLACK_STAR", "name": "Black Star", "character": "Ironclad", "n": 117, "wins": 65, "last_changed_patch": "v0.98", "n_a9_10": 29, "wins_a9_10": 12}, {"relic_id": "THROWING_AXE", "name": "Throwing Axe", "character": "Defect", "n": 1084, "wins": 722, "last_changed_patch": "v0.98", "n_a9_10": 318, "wins_a9_10": 158}, {"relic_id": "VELVET_CHOKER", "name": "Velvet Choker", "character": "Defect", "n": 37, "wins": 20, "last_changed_patch": "v0.98", "n_a9_10": 15, "wins_a9_10": 7}, {"relic_id": "PANDORAS_BOX", "name": "Pandoras Box", "character": "Regent", "n": 144, "wins": 98, "last_changed_patch": "v0.98", "n_a9_10": 72, "wins_a9_10": 44}, {"relic_id": "WAR_HAMMER", "name": "War Hammer", "character": "Silent", "n": 718, "wins": 520, "last_changed_patch": "v0.98", "n_a9_10": 209, "wins_a9_10": 125}, {"relic_id": "EMPTY_CAGE", "name": "Empty Cage", "character": "Silent", "n": 225, "wins": 168, "last_changed_patch": "v0.98", "n_a9_10": 74, "wins_a9_10": 49}, {"relic_id": "CALLING_BELL", "name": "Calling Bell", "character": "Regent", "n": 135, "wins": 83, "last_changed_patch": "v0.98", "n_a9_10": 46, "wins_a9_10": 25}, {"relic_id": "CALLING_BELL", "name": "Calling Bell", "character": "Silent", "n": 161, "wins": 113, "last_changed_patch": "v0.98", "n_a9_10": 46, "wins_a9_10": 25}, {"relic_id": "TANXS_WHISTLE", "name": "Tanxs Whistle", "character": "Silent", "n": 333, "wins": 230, "last_changed_patch": "v0.98", "n_a9_10": 106, "wins_a9_10": 57}, {"relic_id": "SNECKO_EYE", "name": "Snecko Eye", "character": "Defect", "n": 54, "wins": 43, "last_changed_patch": "v0.98", "n_a9_10": 24, "wins_a9_10": 18}, {"relic_id": "ASTROLABE", "name": "Astrolabe", "character": "Regent", "n": 173, "wins": 111, "last_changed_patch": "v0.98", "n_a9_10": 83, "wins_a9_10": 46}, {"relic_id": "EMPTY_CAGE", "name": "Empty Cage", "character": "Ironclad", "n": 174, "wins": 103, "last_changed_patch": "v0.98", "n_a9_10": 46, "wins_a9_10": 21}, {"relic_id": "RUNIC_PYRAMID", "name": "Runic Pyramid", "character": "Regent", "n": 178, "wins": 142, "last_changed_patch": "v0.98", "n_a9_10": 79, "wins_a9_10": 63}, {"relic_id": "DUSTY_TOME", "name": "Dusty Tome", "character": "Defect", "n": 220, "wins": 131, "last_changed_patch": "v0.98", "n_a9_10": 67, "wins_a9_10": 33}, {"relic_id": "PANDORAS_BOX", "name": "Pandoras Box", "character": "Silent", "n": 183, "wins": 144, "last_changed_patch": "v0.98", "n_a9_10": 66, "wins_a9_10": 38}, {"relic_id": "SNECKO_EYE", "name": "Snecko Eye", "character": "Ironclad", "n": 76, "wins": 64, "last_changed_patch": "v0.98", "n_a9_10": 26, "wins_a9_10": 18}, {"relic_id": "RUNIC_PYRAMID", "name": "Runic Pyramid", "character": "Silent", "n": 180, "wins": 150, "last_changed_patch": "v0.98", "n_a9_10": 81, "wins_a9_10": 64}, {"relic_id": "RUNIC_PYRAMID", "name": "Runic Pyramid", "character": "Necrobinder", "n": 167, "wins": 118, "last_changed_patch": "v0.98", "n_a9_10": 67, "wins_a9_10": 41}, {"relic_id": "SNECKO_EYE", "name": "Snecko Eye", "character": "Silent", "n": 25, "wins": 15, "last_changed_patch": "v0.98", "n_a9_10": 11, "wins_a9_10": 4}, {"relic_id": "BLACK_STAR", "name": "Black Star", "character": "Defect", "n": 111, "wins": 59, "last_changed_patch": "v0.98", "n_a9_10": 24, "wins_a9_10": 14}, {"relic_id": "EMPTY_CAGE", "name": "Empty Cage", "character": "Regent", "n": 136, "wins": 87, "last_changed_patch": "v0.98", "n_a9_10": 54, "wins_a9_10": 31}, {"relic_id": "ANCIENT_AFFECTION_RELIC_DEVOTED_TRI_BOOMERANG", "name": "Ancient Affection Relic Devoted Tri Boomerang", "character": "Regent", "n": 1, "wins": 0, "last_changed_patch": "v0.98", "n_a9_10": 1, "wins_a9_10": 0}, {"relic_id": "ANCIENT_AFFECTION_RELIC_DEVOTED_TANXS_WHISTLE", "name": "Ancient Affection Relic Devoted Tanxs Whistle", "character": "Regent", "n": 1, "wins": 1, "last_changed_patch": "v0.98", "n_a9_10": 1, "wins_a9_10": 1}, {"relic_id": "ANCIENT_AFFECTION_RELIC_DEVOTED_CLAWS", "name": "Ancient Affection Relic Devoted Claws", "character": "Regent", "n": 1, "wins": 0, "last_changed_patch": "v0.98", "n_a9_10": 1, "wins_a9_10": 0}, {"relic_id": "VELVET_CHOKER", "name": "Velvet Choker", "character": "Regent", "n": 49, "wins": 26, "last_changed_patch": "v0.98", "n_a9_10": 19, "wins_a9_10": 10}, {"relic_id": "PANDORAS_BOX", "name": "Pandoras Box", "character": "Necrobinder", "n": 122, "wins": 83, "last_changed_patch": "v0.98", "n_a9_10": 43, "wins_a9_10": 24}, {"relic_id": "PHILOSOPHERS_STONE", "name": "Philosophers Stone", "character": "Defect", "n": 92, "wins": 60, "last_changed_patch": "v0.98", "n_a9_10": 27, "wins_a9_10": 15}];
+
+  var state = { sortKey: "diff", sortDir: -1, search: "", minSample: 100, character: "" };
+
+  function fmtPct(x) { return (x * 100).toFixed(1) + "%"; }
+  function fmtSignedPct(x) { return (x >= 0 ? "+" : "") + fmtPct(x); }
+
+  function aggregate() {
+    var filtered = state.character
+      ? RAW_ROWS.filter(function (r) { return r.character === state.character; })
+      : RAW_ROWS;
+
+    var byRelic = {};
+    var totalN = 0, totalWins = 0, totalN910 = 0, totalWins910 = 0;
+    filtered.forEach(function (r) {
+      var bucket = byRelic[r.relic_id] || { name: r.name, n: 0, wins: 0, n910: 0, wins910: 0,
+        lastChangedPatch: r.last_changed_patch };
+      bucket.n += r.n;
+      bucket.wins += r.wins;
+      bucket.n910 += r.n_a9_10;
+      bucket.wins910 += r.wins_a9_10;
+      byRelic[r.relic_id] = bucket;
+      totalN += r.n;
+      totalWins += r.wins;
+      totalN910 += r.n_a9_10;
+      totalWins910 += r.wins_a9_10;
+    });
+
+    var baselineRate = totalN > 0 ? totalWins / totalN : 0;
+    var baselineRate910 = totalN910 > 0 ? totalWins910 / totalN910 : 0;
+    var rows = Object.keys(byRelic).map(function (key) {
+      var b = byRelic[key];
+      var rate = b.wins / b.n;
+      var rate910 = b.n910 > 0 ? b.wins910 / b.n910 : null;
+      return { name: b.name, n: b.n, win_rate: rate, diff: rate - baselineRate,
+        n_a9_10: b.n910, diff_a9_10: rate910 === null ? null : rate910 - baselineRate910,
+        last_changed_patch: b.lastChangedPatch };
+    });
+
+    return { rows: rows, cohortSize: totalN, baselineRate: baselineRate };
+  }
+
+  function render() {
+    var agg = aggregate();
+    document.getElementById("kpiCohort").textContent = agg.cohortSize.toLocaleString("en-US");
+    document.getElementById("kpiBaseline").textContent = fmtPct(agg.baselineRate);
+
+    var LOW_N_THRESHOLD = 100;
+    var maxAbsDiff = agg.rows.reduce(function (m, r) { return Math.max(m, Math.abs(r.diff)); }, 0.0001);
+
+    var rows = agg.rows.filter(function (r) {
+      return r.n >= state.minSample &&
+        (state.search === "" || r.name.toLowerCase().indexOf(state.search) !== -1);
+    });
+    rows.forEach(function (r) {
+      r._diffA910Visible = (r.diff_a9_10 === null || r.diff_a9_10 === undefined || r.n_a9_10 < state.minSample)
+        ? null : r.diff_a9_10;
+    });
+    rows.sort(function (a, b) {
+      var key = state.sortKey === "diff_a9_10" ? "_diffA910Visible" : state.sortKey;
+      var av = a[key], bv = b[key];
+      if (av === null || av === undefined) return 1;
+      if (bv === null || bv === undefined) return -1;
+      if (typeof av === "string") return av.localeCompare(bv) * state.sortDir;
+      return (av - bv) * state.sortDir;
+    });
+
+    var tbody = document.getElementById("tableBody");
+    tbody.innerHTML = "";
+    rows.forEach(function (r) {
+      var tr = document.createElement("tr");
+
+      var nameTd = document.createElement("td");
+      nameTd.className = "name-cell" + (r.n < LOW_N_THRESHOLD ? " low-n" : "");
+      nameTd.textContent = r.name + (r.n < LOW_N_THRESHOLD ? " *" : "");
+      tr.appendChild(nameTd);
+
+      var nTd = document.createElement("td");
+      nTd.textContent = r.n;
+      tr.appendChild(nTd);
+
+      var winTd = document.createElement("td");
+      winTd.textContent = fmtPct(r.win_rate);
+      tr.appendChild(winTd);
+
+      var barTd = document.createElement("td");
+      barTd.className = "bar-cell";
+      var track = document.createElement("div");
+      track.className = "bar-track";
+      var baseline = document.createElement("div");
+      baseline.className = "bar-baseline";
+      track.appendChild(baseline);
+      var fill = document.createElement("div");
+      var pct = Math.abs(r.diff) / maxAbsDiff * 50;
+      fill.className = "bar-fill " + (r.diff >= 0 ? "pos" : "neg");
+      fill.style.width = pct + "%";
+      track.appendChild(fill);
+      barTd.appendChild(track);
+      var label = document.createElement("span");
+      label.className = "bar-label";
+      label.textContent = (r.diff >= 0 ? "+" : "") + fmtPct(r.diff);
+      barTd.appendChild(label);
+      tr.appendChild(barTd);
+
+      var deltaTd = document.createElement("td");
+      if (r.diff_a9_10 === null || r.diff_a9_10 === undefined) {
+        deltaTd.className = "delta-na";
+        deltaTd.textContent = "\u2014";
+      } else if (r.n_a9_10 < state.minSample) {
+        deltaTd.textContent = "";
+      } else {
+        deltaTd.className = r.diff_a9_10 >= 0 ? "delta-pos" : "delta-neg";
+        deltaTd.textContent = fmtSignedPct(r.diff_a9_10);
+      }
+      tr.appendChild(deltaTd);
+
+      var patchTd = document.createElement("td");
+      patchTd.textContent = r.last_changed_patch || "\u2013";
+      tr.appendChild(patchTd);
+
+      tbody.appendChild(tr);
+    });
+
+    document.getElementById("rowCount").textContent = rows.length + " relics (* = n < " + LOW_N_THRESHOLD + ")";
+  }
+
+  document.querySelectorAll("#relicTable thead th[data-key]").forEach(function (th) {
+    th.addEventListener("click", function () {
+      var key = th.getAttribute("data-key");
+      if (state.sortKey === key) { state.sortDir *= -1; }
+      else { state.sortKey = key; state.sortDir = key === "name" ? 1 : -1; }
+      document.querySelectorAll("#relicTable thead .arrow").forEach(function (a) { a.textContent = ""; });
+      th.querySelector(".arrow").textContent = state.sortDir === 1 ? "\u25B2" : "\u25BC";
+      render();
+    });
+  });
+
+  document.getElementById("search").addEventListener("input", function (e) {
+    state.search = e.target.value.toLowerCase();
+    render();
+  });
+  document.getElementById("minSample").addEventListener("input", function (e) {
+    state.minSample = parseInt(e.target.value, 10) || 0;
+    render();
+  });
+  document.getElementById("character").addEventListener("change", function (e) {
+    state.character = e.target.value;
+    render();
+  });
+
+  render();
+</script>
+</body>
+</html>

@@ -354,6 +354,49 @@
   </div>
 
   <div class="group">
+    <h2 id="methodology-elder-relics">Act 2/3 elder relic winrate (all ascensions, all characters)</h2>
+    <ul>
+      <li><a href="act2_elder_relics.html">Act 2 elder relics</a></li>
+      <li><a href="act3_elder_relics.html">Act 3 elder relics</a></li>
+    </ul>
+    <details class="method">
+      <summary>Methodology</summary>
+      <div class="method-body">
+        <p>
+          Every act opens with an encounter with an "elder". Act 1's is always Neow (see above).
+          Act 2 and Act 3 each randomly assign one of ~4 different elders per run instead (Act 2:
+          Pael, Tezcatara, Orobas, or Darv; Act 3: Nonupeipe, Tanx, Vakuu, or Darv), and that
+          elder grants a relic. Same question as the Neow report: does receiving relic X there
+          correlate with winning the whole game? Because reaching that act's elder is a single
+          fixed juncture every run in the cohort passes through identically, no landmark-floor
+          bias correction is needed — same reasoning as the Act 1 boss rare-card report.
+        </p>
+        <p>
+          <strong>Unlike Neow, this is not a pure dialogue choice</strong> — some of these elders
+          can be fought, and can kill the player. A run that dies to the elder never receives a
+          relic and is excluded from the cohort entirely, the same way the Act 1 boss report
+          excludes runs that died to the boss — it is not bucketed as a "(no relic)" comparison
+          group, since that would conflate "picked no relic" with "died before getting to pick."
+        </p>
+        <p>
+          <strong>How to read the table:</strong> <code>n</code> is how many runs received that
+          relic from the act's elder and survived the encounter. <code>Winrate</code> is the
+          full-run win rate for those runs. <code>Diff vs baseline</code> is that winrate minus
+          the overall baseline winrate across every run in the character filter (which is itself
+          already restricted to runs that reached this act). The <code>&Delta; (A9/A10 only)</code>
+          column, patch filtering, and character filter all work exactly as described in the Neow
+          methodology above.
+        </p>
+        <p>
+          Same caveat as everywhere else on this site: correlational, not causal, and which elder
+          you meet is random rather than a player choice — the relic itself is still what's being
+          compared.
+        </p>
+      </div>
+    </details>
+  </div>
+
+  <div class="group">
     <h2 id="methodology-misc">Miscellaneous hypotheses</h2>
     <ul>
       <li><a href="misc_hypotheses.html">Miscellaneous hypotheses</a></li>
