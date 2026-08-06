@@ -70,6 +70,14 @@
 
   .back-link { display: inline-block; font-size: 13px; color: var(--text-secondary); text-decoration: none; margin-bottom: 16px; }
   .back-link:hover { color: var(--text-primary); }
+
+  .card-name { cursor: help; border-bottom: 1px dotted var(--text-muted); }
+  .card-tooltip {
+    position: fixed; display: none; z-index: 1000; pointer-events: none;
+    border-radius: 8px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    background: var(--surface-1); border: 1px solid var(--border);
+  }
+  .card-tooltip img { display: block; width: 210px; height: auto; }
 </style>
 </head>
 <body>
@@ -80,9 +88,9 @@
   <p class="caveat">Full methodology and caveats: see the <a href="index.html#methodology-boss-cards">Act 1 boss rare card methodology</a> on the homepage.</p>
 
   <div class="kpi-row">
-    <div class="kpi"><div class="label">Runs in cohort</div><div class="value">13401</div></div>
-    <div class="kpi"><div class="label">Baseline winrate</div><div class="value">34.3%</div></div>
-    <div class="kpi"><div class="label">Distinct rare cards</div><div class="value">41</div></div>
+    <div class="kpi"><div class="label">Runs in cohort</div><div class="value">13345</div></div>
+    <div class="kpi"><div class="label">Baseline winrate</div><div class="value">34.1%</div></div>
+    <div class="kpi"><div class="label">Distinct rare cards</div><div class="value">36</div></div>
   </div>
 
   <div class="filters">
@@ -110,7 +118,7 @@
 
 <script>
   // card_id === null => the run beat the Act 1 boss but kept none of the 3 rares offered.
-  var ROWS = [{"card_id": "VOID_FORM", "name": "Void Form", "n": 1213, "win_rate": 0.3511953833470734, "diff": 0.008683630492808792}, {"card_id": "THE_SMITH", "name": "The Smith", "n": 519, "win_rate": 0.31021194605009633, "diff": -0.032299806804168274}, {"card_id": "BOMBARDMENT", "name": "Bombardment", "n": 714, "win_rate": 0.3473389355742297, "diff": 0.004827182719965073}, {"card_id": "MAKE_IT_SO", "name": "Make It So", "n": 649, "win_rate": 0.36517719568567025, "diff": 0.022665442831405647}, {"card_id": "HEAVENLY_DRILL", "name": "Heavenly Drill", "n": 286, "win_rate": 0.27972027972027974, "diff": -0.06279147313398487}, {"card_id": "ARSENAL", "name": "Arsenal", "n": 527, "win_rate": 0.34345351043643263, "diff": 0.0009417575821680235}, {"card_id": "BUNDLE_OF_JOY", "name": "Bundle Of Joy", "n": 419, "win_rate": 0.4033412887828162, "diff": 0.060829535928551615}, {"card_id": "SEVEN_STARS", "name": "Seven Stars", "n": 437, "win_rate": 0.2471395881006865, "diff": -0.0953721647535781}, {"card_id": "CRASH_LANDING", "name": "Crash Landing", "n": 635, "win_rate": 0.3795275590551181, "diff": 0.037015806200853485}, {"card_id": null, "name": "(skipped)", "n": 903, "win_rate": 0.3444075304540421, "diff": 0.0018957775997774928}, {"card_id": "DYING_STAR", "name": "Dying Star", "n": 816, "win_rate": 0.3125, "diff": -0.030011752854264606}, {"card_id": "GENESIS", "name": "Genesis", "n": 696, "win_rate": 0.27873563218390807, "diff": -0.06377612067035654}, {"card_id": "BIG_BANG", "name": "Big Bang", "n": 1570, "win_rate": 0.41464968152866244, "diff": 0.07213792867439783}, {"card_id": "I_AM_INVINCIBLE", "name": "I Am Invincible", "n": 434, "win_rate": 0.3087557603686636, "diff": -0.033755992485601016}, {"card_id": "DECISIONS_DECISIONS", "name": "Decisions Decisions", "n": 775, "win_rate": 0.35870967741935483, "diff": 0.016197924565090227}, {"card_id": "MONARCHS_GAZE", "name": "Monarchs Gaze", "n": 28, "win_rate": 0.21428571428571427, "diff": -0.12822603856855033}, {"card_id": "BEAT_INTO_SHAPE", "name": "Beat Into Shape", "n": 236, "win_rate": 0.2457627118644068, "diff": -0.09674904098985782}, {"card_id": "SEEKING_EDGE", "name": "Seeking Edge", "n": 599, "win_rate": 0.2988313856427379, "diff": -0.04368036721152668}, {"card_id": "FOREGONE_CONCLUSION", "name": "Foregone Conclusion", "n": 374, "win_rate": 0.31283422459893045, "diff": -0.02967752825533415}, {"card_id": "COMET", "name": "Comet", "n": 804, "win_rate": 0.39303482587064675, "diff": 0.05052307301638215}, {"card_id": "GUARDS", "name": "Guards", "n": 78, "win_rate": 0.46153846153846156, "diff": 0.11902670868419696}, {"card_id": "TYRANNY", "name": "Tyranny", "n": 73, "win_rate": 0.5205479452054794, "diff": 0.17803619235121482}, {"card_id": "HEIRLOOM_HAMMER", "name": "Heirloom Hammer", "n": 223, "win_rate": 0.26905829596412556, "diff": -0.07345345689013905}, {"card_id": "NEUTRON_AEGIS", "name": "Neutron Aegis", "n": 305, "win_rate": 0.26557377049180325, "diff": -0.07693798236246135}, {"card_id": "SCRAWL", "name": "Scrawl", "n": 1, "win_rate": 0.0, "diff": -0.3425117528542646}, {"card_id": "ROYALTIES", "name": "Royalties", "n": 34, "win_rate": 0.38235294117647056, "diff": 0.039841188322205956}, {"card_id": "AGGRESSION", "name": "Aggression", "n": 1, "win_rate": 1.0, "diff": 0.6574882471457354}, {"card_id": "SWORD_SAGE", "name": "Sword Sage", "n": 36, "win_rate": 0.2222222222222222, "diff": -0.1202895306320424}, {"card_id": "ROLLING_BOULDER", "name": "Rolling Boulder", "n": 1, "win_rate": 0.0, "diff": -0.3425117528542646}, {"card_id": "SIGNAL_BOOST", "name": "Signal Boost", "n": 1, "win_rate": 1.0, "diff": 0.6574882471457354}, {"card_id": "ALCHEMIZE", "name": "Alchemize", "n": 1, "win_rate": 0.0, "diff": -0.3425117528542646}, {"card_id": "HIDDEN_GEM", "name": "Hidden Gem", "n": 4, "win_rate": 0.0, "diff": -0.3425117528542646}, {"card_id": "SPINNER", "name": "Spinner", "n": 1, "win_rate": 0.0, "diff": -0.3425117528542646}, {"card_id": "HAND_OF_GREED", "name": "Hand Of Greed", "n": 1, "win_rate": 0.0, "diff": -0.3425117528542646}, {"card_id": "BURST", "name": "Burst", "n": 1, "win_rate": 1.0, "diff": 0.6574882471457354}, {"card_id": "TRACKING", "name": "Tracking", "n": 1, "win_rate": 0.0, "diff": -0.3425117528542646}, {"card_id": "SECRET_TECHNIQUE", "name": "Secret Technique", "n": 1, "win_rate": 1.0, "diff": 0.6574882471457354}, {"card_id": "KNIFE_TRAP", "name": "Knife Trap", "n": 1, "win_rate": 0.0, "diff": -0.3425117528542646}, {"card_id": "GENETIC_ALGORITHM", "name": "Genetic Algorithm", "n": 1, "win_rate": 0.0, "diff": -0.3425117528542646}, {"card_id": "NOSTALGIA", "name": "Nostalgia", "n": 1, "win_rate": 0.0, "diff": -0.3425117528542646}, {"card_id": "BEAT_DOWN", "name": "Beat Down", "n": 1, "win_rate": 0.0, "diff": -0.3425117528542646}];
+  var ROWS = [{"card_id": "VOID_FORM", "name": "Void Form", "n": 1209, "win_rate": 0.3490488006617039, "diff": 0.007947264505840268, "img": "cards/void-form.png"}, {"card_id": "THE_SMITH", "name": "The Smith", "n": 516, "win_rate": 0.3062015503875969, "diff": -0.03489998576826675, "img": "cards/the-smith.png"}, {"card_id": "BOMBARDMENT", "name": "Bombardment", "n": 713, "win_rate": 0.34642356241234223, "diff": 0.005322026256478596, "img": "cards/bombardment.png"}, {"card_id": "MAKE_IT_SO", "name": "Make It So", "n": 647, "win_rate": 0.36476043276661513, "diff": 0.02365889661075149, "img": "cards/make-it-so.png"}, {"card_id": "HEAVENLY_DRILL", "name": "Heavenly Drill", "n": 285, "win_rate": 0.2771929824561403, "diff": -0.06390855369972331, "img": "cards/heavenly-drill.png"}, {"card_id": "ARSENAL", "name": "Arsenal", "n": 524, "win_rate": 0.3435114503816794, "diff": 0.002409914225815768, "img": "cards/arsenal.png"}, {"card_id": "BUNDLE_OF_JOY", "name": "Bundle Of Joy", "n": 417, "win_rate": 0.4028776978417266, "diff": 0.061776161685862974, "img": "cards/bundle-of-joy.png"}, {"card_id": "SEVEN_STARS", "name": "Seven Stars", "n": 435, "win_rate": 0.24367816091954023, "diff": -0.09742337523632341, "img": "cards/seven-stars.png"}, {"card_id": "CRASH_LANDING", "name": "Crash Landing", "n": 634, "win_rate": 0.3785488958990536, "diff": 0.03744735974318997, "img": "cards/crash-landing.png"}, {"card_id": null, "name": "(skipped)", "n": 895, "win_rate": 0.3418994413407821, "diff": 0.0007979051849184571, "img": null}, {"card_id": "DYING_STAR", "name": "Dying Star", "n": 816, "win_rate": 0.3125, "diff": -0.02860153615586364, "img": "cards/dying-star.png"}, {"card_id": "GENESIS", "name": "Genesis", "n": 695, "win_rate": 0.27913669064748203, "diff": -0.061964845508381605, "img": "cards/genesis.png"}, {"card_id": "BIG_BANG", "name": "Big Bang", "n": 1561, "win_rate": 0.4125560538116592, "diff": 0.07145451765579558, "img": "cards/big-bang.png"}, {"card_id": "I_AM_INVINCIBLE", "name": "I Am Invincible", "n": 432, "win_rate": 0.3055555555555556, "diff": -0.03554598060030806, "img": "cards/i-am-invincible.png"}, {"card_id": "DECISIONS_DECISIONS", "name": "Decisions Decisions", "n": 775, "win_rate": 0.35870967741935483, "diff": 0.017608141263491195, "img": "cards/decisions-decisions.png"}, {"card_id": "MONARCHS_GAZE", "name": "Monarchs Gaze", "n": 28, "win_rate": 0.21428571428571427, "diff": -0.12681582187014936, "img": "cards/monarchs-gaze.png"}, {"card_id": "BEAT_INTO_SHAPE", "name": "Beat Into Shape", "n": 236, "win_rate": 0.2457627118644068, "diff": -0.09533882429145685, "img": "cards/beat-into-shape.png"}, {"card_id": "SEEKING_EDGE", "name": "Seeking Edge", "n": 598, "win_rate": 0.2976588628762542, "diff": -0.043442673279609434, "img": "cards/seeking-edge.png"}, {"card_id": "FOREGONE_CONCLUSION", "name": "Foregone Conclusion", "n": 371, "win_rate": 0.30997304582210244, "diff": -0.031128490333761194, "img": "cards/foregone-conclusion.png"}, {"card_id": "COMET", "name": "Comet", "n": 802, "win_rate": 0.39276807980049877, "diff": 0.05166654364463513, "img": "cards/comet.png"}, {"card_id": "GUARDS", "name": "Guards", "n": 78, "win_rate": 0.46153846153846156, "diff": 0.12043692538259793, "img": "cards/guards.png"}, {"card_id": "TYRANNY", "name": "Tyranny", "n": 72, "win_rate": 0.5277777777777778, "diff": 0.18667624162191415, "img": "cards/tyranny.png"}, {"card_id": "HEIRLOOM_HAMMER", "name": "Heirloom Hammer", "n": 222, "win_rate": 0.26576576576576577, "diff": -0.07533577039009787, "img": "cards/heirloom-hammer.png"}, {"card_id": "NEUTRON_AEGIS", "name": "Neutron Aegis", "n": 301, "win_rate": 0.2591362126245847, "diff": -0.08196532353127894, "img": "cards/neutron-aegis.png"}, {"card_id": "SCRAWL", "name": "Scrawl", "n": 1, "win_rate": 0.0, "diff": -0.34110153615586364, "img": "cards/scrawl.png"}, {"card_id": "ROYALTIES", "name": "Royalties", "n": 34, "win_rate": 0.38235294117647056, "diff": 0.041251405020606924, "img": "cards/royalties.png"}, {"card_id": "AGGRESSION", "name": "Aggression", "n": 1, "win_rate": 1.0, "diff": 0.6588984638441364, "img": "cards/aggression.png"}, {"card_id": "SWORD_SAGE", "name": "Sword Sage", "n": 36, "win_rate": 0.2222222222222222, "diff": -0.11887931393364143, "img": "cards/sword-sage.png"}, {"card_id": "ROLLING_BOULDER", "name": "Rolling Boulder", "n": 1, "win_rate": 0.0, "diff": -0.34110153615586364, "img": "cards/rolling-boulder.png"}, {"card_id": "ALCHEMIZE", "name": "Alchemize", "n": 1, "win_rate": 0.0, "diff": -0.34110153615586364, "img": "cards/alchemize.png"}, {"card_id": "HIDDEN_GEM", "name": "Hidden Gem", "n": 4, "win_rate": 0.0, "diff": -0.34110153615586364, "img": "cards/hidden-gem.png"}, {"card_id": "HAND_OF_GREED", "name": "Hand Of Greed", "n": 1, "win_rate": 0.0, "diff": -0.34110153615586364, "img": "cards/hand-of-greed.png"}, {"card_id": "BURST", "name": "Burst", "n": 1, "win_rate": 1.0, "diff": 0.6588984638441364, "img": "cards/burst.png"}, {"card_id": "SECRET_TECHNIQUE", "name": "Secret Technique", "n": 1, "win_rate": 1.0, "diff": 0.6588984638441364, "img": "cards/secret-technique.png"}, {"card_id": "NOSTALGIA", "name": "Nostalgia", "n": 1, "win_rate": 0.0, "diff": -0.34110153615586364, "img": "cards/nostalgia.png"}, {"card_id": "BEAT_DOWN", "name": "Beat Down", "n": 1, "win_rate": 0.0, "diff": -0.34110153615586364, "img": "cards/beat-down.png"}];
   var LOW_N_THRESHOLD = 40;
 
   var state = { sortKey: "diff", sortDir: -1, search: "", minSample: 40 };
@@ -137,7 +145,8 @@
       if (r.card_id === null) tr.className = "skipped";
 
       var nameTd = document.createElement("td");
-      nameTd.className = "name-cell" + (r.n < LOW_N_THRESHOLD ? " low-n" : "");
+      nameTd.className = "name-cell" + (r.n < LOW_N_THRESHOLD ? " low-n" : "") + (r.img ? " card-name" : "");
+      if (r.img) { nameTd.dataset.cardImg = r.img; nameTd.dataset.cardName = r.name; }
       nameTd.textContent = r.name + (r.n < LOW_N_THRESHOLD ? " *" : "");
       tr.appendChild(nameTd);
 
@@ -193,6 +202,40 @@
     state.minSample = parseInt(e.target.value, 10) || 0;
     render();
   });
+
+  /* Card art tooltip — hover a card name to see its art (data-card-img is set above) */
+  (function () {
+    var tip = document.createElement("div");
+    tip.className = "card-tooltip";
+    tip.innerHTML = '<img class="ct-img" alt="">';
+    document.body.appendChild(tip);
+    var img = tip.querySelector(".ct-img");
+
+    function position(e) {
+      var TW = 226, TH = 300;
+      var x = e.clientX + 16, y = e.clientY + 10;
+      if (x + TW > window.innerWidth - 8) x = e.clientX - TW - 8;
+      if (y + TH > window.innerHeight - 8) y = e.clientY - TH - 8;
+      if (y < 8) y = 8;
+      tip.style.left = x + "px";
+      tip.style.top = y + "px";
+    }
+
+    document.addEventListener("mouseover", function (e) {
+      var el = e.target.closest("[data-card-img]");
+      if (!el) return;
+      img.src = el.dataset.cardImg;
+      img.alt = el.dataset.cardName || "";
+      tip.style.display = "block";
+      position(e);
+    });
+    document.addEventListener("mousemove", function (e) {
+      if (tip.style.display === "block") position(e);
+    });
+    document.addEventListener("mouseout", function (e) {
+      if (e.target.closest("[data-card-img]")) tip.style.display = "none";
+    });
+  })();
 
   render();
 </script>

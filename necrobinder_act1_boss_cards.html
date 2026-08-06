@@ -70,6 +70,14 @@
 
   .back-link { display: inline-block; font-size: 13px; color: var(--text-secondary); text-decoration: none; margin-bottom: 16px; }
   .back-link:hover { color: var(--text-primary); }
+
+  .card-name { cursor: help; border-bottom: 1px dotted var(--text-muted); }
+  .card-tooltip {
+    position: fixed; display: none; z-index: 1000; pointer-events: none;
+    border-radius: 8px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    background: var(--surface-1); border: 1px solid var(--border);
+  }
+  .card-tooltip img { display: block; width: 210px; height: auto; }
 </style>
 </head>
 <body>
@@ -80,9 +88,9 @@
   <p class="caveat">Full methodology and caveats: see the <a href="index.html#methodology-boss-cards">Act 1 boss rare card methodology</a> on the homepage.</p>
 
   <div class="kpi-row">
-    <div class="kpi"><div class="label">Runs in cohort</div><div class="value">12937</div></div>
-    <div class="kpi"><div class="label">Baseline winrate</div><div class="value">33.7%</div></div>
-    <div class="kpi"><div class="label">Distinct rare cards</div><div class="value">37</div></div>
+    <div class="kpi"><div class="label">Runs in cohort</div><div class="value">12846</div></div>
+    <div class="kpi"><div class="label">Baseline winrate</div><div class="value">33.4%</div></div>
+    <div class="kpi"><div class="label">Distinct rare cards</div><div class="value">34</div></div>
   </div>
 
   <div class="filters">
@@ -110,7 +118,7 @@
 
 <script>
   // card_id === null => the run beat the Act 1 boss but kept none of the 3 rares offered.
-  var ROWS = [{"card_id": "REAPER_FORM", "name": "Reaper Form", "n": 504, "win_rate": 0.2976190476190476, "diff": -0.039089617450133785}, {"card_id": "SENTRY_MODE", "name": "Sentry Mode", "n": 448, "win_rate": 0.28348214285714285, "diff": -0.05322652221203855}, {"card_id": "TRANSFIGURE", "name": "Transfigure", "n": 501, "win_rate": 0.27345309381237526, "diff": -0.06325557125680614}, {"card_id": "SHARED_FATE", "name": "Shared Fate", "n": 418, "win_rate": 0.35167464114832536, "diff": 0.014965976079143961}, {"card_id": "END_OF_DAYS", "name": "End Of Days", "n": 807, "win_rate": 0.30607187112763323, "diff": -0.030636793941548168}, {"card_id": "MISERY", "name": "Misery", "n": 460, "win_rate": 0.26956521739130435, "diff": -0.06714344767787706}, {"card_id": "CALL_OF_THE_VOID", "name": "Call Of The Void", "n": 718, "win_rate": 0.35376044568245124, "diff": 0.01705178061326984}, {"card_id": "OBLIVION", "name": "Oblivion", "n": 481, "win_rate": 0.34303534303534305, "diff": 0.0063266779661616535}, {"card_id": null, "name": "(skipped)", "n": 762, "win_rate": 0.3438320209973753, "diff": 0.0071233559281939085}, {"card_id": "DEMESNE", "name": "Demesne", "n": 1070, "win_rate": 0.394392523364486, "diff": 0.05768385829530459}, {"card_id": "SPIRIT_OF_ASH", "name": "Spirit Of Ash", "n": 523, "win_rate": 0.3862332695984704, "diff": 0.049524604529288974}, {"card_id": "REANIMATE", "name": "Reanimate", "n": 600, "win_rate": 0.4083333333333333, "diff": 0.07162466826415193}, {"card_id": "NEUROSURGE", "name": "Neurosurge", "n": 1046, "win_rate": 0.43307839388145314, "diff": 0.09636972881227174}, {"card_id": "ERADICATE", "name": "Eradicate", "n": 458, "win_rate": 0.39082969432314413, "diff": 0.05412102925396273}, {"card_id": "SOUL_STORM", "name": "Soul Storm", "n": 202, "win_rate": 0.19801980198019803, "diff": -0.13868886308898337}, {"card_id": "SQUEEZE", "name": "Squeeze", "n": 336, "win_rate": 0.32142857142857145, "diff": -0.015280093640609949}, {"card_id": "SACRIFICE", "name": "Sacrifice", "n": 181, "win_rate": 0.27071823204419887, "diff": -0.06599043302498253}, {"card_id": "NECRO_MASTERY", "name": "Necro Mastery", "n": 450, "win_rate": 0.31333333333333335, "diff": -0.02337533173584805}, {"card_id": "UNDEATH", "name": "Undeath", "n": 464, "win_rate": 0.31896551724137934, "diff": -0.017743147827802064}, {"card_id": "BANSHEES_CRY", "name": "Banshees Cry", "n": 555, "win_rate": 0.4036036036036036, "diff": 0.06689493853442219}, {"card_id": "SEANCE", "name": "Seance", "n": 647, "win_rate": 0.2890262751159196, "diff": -0.047682389953261795}, {"card_id": "TIMES_UP", "name": "Times Up", "n": 257, "win_rate": 0.26459143968871596, "diff": -0.07211722538046544}, {"card_id": "DEVOUR_LIFE", "name": "Devour Life", "n": 370, "win_rate": 0.2594594594594595, "diff": -0.07724920560972193}, {"card_id": "HANG", "name": "Hang", "n": 574, "win_rate": 0.2804878048780488, "diff": -0.05622086019113259}, {"card_id": "ROLLING_BOULDER", "name": "Rolling Boulder", "n": 2, "win_rate": 0.0, "diff": -0.3367086650691814}, {"card_id": "THE_SCYTHE", "name": "The Scythe", "n": 26, "win_rate": 0.11538461538461539, "diff": -0.221324049684566}, {"card_id": "EIDOLON", "name": "Eidolon", "n": 64, "win_rate": 0.25, "diff": -0.0867086650691814}, {"card_id": "MANGLE", "name": "Mangle", "n": 1, "win_rate": 0.0, "diff": -0.3367086650691814}, {"card_id": "HIDDEN_GEM", "name": "Hidden Gem", "n": 2, "win_rate": 0.0, "diff": -0.3367086650691814}, {"card_id": "BURST", "name": "Burst", "n": 1, "win_rate": 0.0, "diff": -0.3367086650691814}, {"card_id": "MASTER_OF_STRATEGY", "name": "Master Of Strategy", "n": 1, "win_rate": 0.0, "diff": -0.3367086650691814}, {"card_id": "HAND_OF_GREED", "name": "Hand Of Greed", "n": 1, "win_rate": 0.0, "diff": -0.3367086650691814}, {"card_id": "SECRET_WEAPON", "name": "Secret Weapon", "n": 1, "win_rate": 0.0, "diff": -0.3367086650691814}, {"card_id": "NOSTALGIA", "name": "Nostalgia", "n": 1, "win_rate": 0.0, "diff": -0.3367086650691814}, {"card_id": "SCRAWL", "name": "Scrawl", "n": 3, "win_rate": 0.3333333333333333, "diff": -0.003375331735848086}, {"card_id": "AGGRESSION", "name": "Aggression", "n": 1, "win_rate": 0.0, "diff": -0.3367086650691814}, {"card_id": "ENTROPY", "name": "Entropy", "n": 1, "win_rate": 0.0, "diff": -0.3367086650691814}];
+  var ROWS = [{"card_id": "REAPER_FORM", "name": "Reaper Form", "n": 500, "win_rate": 0.292, "diff": -0.0416447143079558, "img": "cards/reaper-form.png"}, {"card_id": "SENTRY_MODE", "name": "Sentry Mode", "n": 447, "win_rate": 0.28187919463087246, "diff": -0.051765519677083316, "img": "cards/sentry-mode.png"}, {"card_id": "TRANSFIGURE", "name": "Transfigure", "n": 499, "win_rate": 0.2725450901803607, "diff": -0.061099624127595065, "img": "cards/transfigure.png"}, {"card_id": "SHARED_FATE", "name": "Shared Fate", "n": 415, "win_rate": 0.35180722891566263, "diff": 0.018162514607706848, "img": "cards/shared-fate.png"}, {"card_id": "END_OF_DAYS", "name": "End Of Days", "n": 803, "win_rate": 0.3038605230386052, "diff": -0.029784191269350557, "img": "cards/end-of-days.png"}, {"card_id": "MISERY", "name": "Misery", "n": 458, "win_rate": 0.2685589519650655, "diff": -0.06508576234289026, "img": "cards/misery.png"}, {"card_id": "CALL_OF_THE_VOID", "name": "Call Of The Void", "n": 712, "win_rate": 0.34831460674157305, "diff": 0.014669892433617271, "img": "cards/call-of-the-void.png"}, {"card_id": "OBLIVION", "name": "Oblivion", "n": 480, "win_rate": 0.34375, "diff": 0.010105285692044219, "img": "cards/oblivion.png"}, {"card_id": "DEMESNE", "name": "Demesne", "n": 1062, "win_rate": 0.3907721280602637, "diff": 0.0571274137523079, "img": "cards/demesne.png"}, {"card_id": "SPIRIT_OF_ASH", "name": "Spirit Of Ash", "n": 513, "win_rate": 0.3762183235867446, "diff": 0.04257360927878884, "img": "cards/spirit-of-ash.png"}, {"card_id": "REANIMATE", "name": "Reanimate", "n": 598, "win_rate": 0.40635451505016723, "diff": 0.07270980074221145, "img": "cards/reanimate.png"}, {"card_id": "NEUROSURGE", "name": "Neurosurge", "n": 1043, "win_rate": 0.4314477468839885, "diff": 0.09780303257603273, "img": "cards/neurosurge.png"}, {"card_id": "ERADICATE", "name": "Eradicate", "n": 457, "win_rate": 0.3916849015317287, "diff": 0.05804018722377291, "img": "cards/eradicate.png"}, {"card_id": "SOUL_STORM", "name": "Soul Storm", "n": 202, "win_rate": 0.19801980198019803, "diff": -0.13562491232775775, "img": "cards/soul-storm.png"}, {"card_id": "SQUEEZE", "name": "Squeeze", "n": 331, "win_rate": 0.32326283987915405, "diff": -0.01038187442880173, "img": "cards/squeeze.png"}, {"card_id": "SACRIFICE", "name": "Sacrifice", "n": 180, "win_rate": 0.26666666666666666, "diff": -0.06697804764128912, "img": "cards/sacrifice.png"}, {"card_id": "NECRO_MASTERY", "name": "Necro Mastery", "n": 449, "win_rate": 0.311804008908686, "diff": -0.0218407053992698, "img": "cards/necro-mastery.png"}, {"card_id": "UNDEATH", "name": "Undeath", "n": 461, "win_rate": 0.31453362255965295, "diff": -0.019111091748302833, "img": "cards/undeath.png"}, {"card_id": "BANSHEES_CRY", "name": "Banshees Cry", "n": 551, "win_rate": 0.4010889292196007, "diff": 0.06744421491164493, "img": "cards/banshees-cry.png"}, {"card_id": "SEANCE", "name": "Seance", "n": 644, "win_rate": 0.2857142857142857, "diff": -0.04793042859367008, "img": "cards/seance.png"}, {"card_id": "TIMES_UP", "name": "Times Up", "n": 257, "win_rate": 0.26459143968871596, "diff": -0.06905327461923982, "img": "cards/times-up.png"}, {"card_id": "DEVOUR_LIFE", "name": "Devour Life", "n": 367, "win_rate": 0.25340599455040874, "diff": -0.08023871975754704, "img": "cards/devour-life.png"}, {"card_id": "HANG", "name": "Hang", "n": 570, "win_rate": 0.2771929824561403, "diff": -0.056451731851815456, "img": "cards/hang.png"}, {"card_id": null, "name": "(skipped)", "n": 745, "win_rate": 0.33288590604026846, "diff": -0.0007588082676873165, "img": null}, {"card_id": "ROLLING_BOULDER", "name": "Rolling Boulder", "n": 2, "win_rate": 0.0, "diff": -0.3336447143079558, "img": "cards/rolling-boulder.png"}, {"card_id": "THE_SCYTHE", "name": "The Scythe", "n": 26, "win_rate": 0.11538461538461539, "diff": -0.2182600989233404, "img": "cards/the-scythe.png"}, {"card_id": "EIDOLON", "name": "Eidolon", "n": 64, "win_rate": 0.25, "diff": -0.08364471430795578, "img": "cards/eidolon.png"}, {"card_id": "HIDDEN_GEM", "name": "Hidden Gem", "n": 2, "win_rate": 0.0, "diff": -0.3336447143079558, "img": "cards/hidden-gem.png"}, {"card_id": "MASTER_OF_STRATEGY", "name": "Master Of Strategy", "n": 1, "win_rate": 0.0, "diff": -0.3336447143079558, "img": "cards/master-of-strategy.png"}, {"card_id": "HAND_OF_GREED", "name": "Hand Of Greed", "n": 1, "win_rate": 0.0, "diff": -0.3336447143079558, "img": "cards/hand-of-greed.png"}, {"card_id": "SECRET_WEAPON", "name": "Secret Weapon", "n": 1, "win_rate": 0.0, "diff": -0.3336447143079558, "img": "cards/secret-weapon.png"}, {"card_id": "NOSTALGIA", "name": "Nostalgia", "n": 1, "win_rate": 0.0, "diff": -0.3336447143079558, "img": "cards/nostalgia.png"}, {"card_id": "SCRAWL", "name": "Scrawl", "n": 3, "win_rate": 0.3333333333333333, "diff": -0.00031138097462246606, "img": "cards/scrawl.png"}, {"card_id": "ENTROPY", "name": "Entropy", "n": 1, "win_rate": 0.0, "diff": -0.3336447143079558, "img": "cards/entropy.png"}];
   var LOW_N_THRESHOLD = 40;
 
   var state = { sortKey: "diff", sortDir: -1, search: "", minSample: 40 };
@@ -137,7 +145,8 @@
       if (r.card_id === null) tr.className = "skipped";
 
       var nameTd = document.createElement("td");
-      nameTd.className = "name-cell" + (r.n < LOW_N_THRESHOLD ? " low-n" : "");
+      nameTd.className = "name-cell" + (r.n < LOW_N_THRESHOLD ? " low-n" : "") + (r.img ? " card-name" : "");
+      if (r.img) { nameTd.dataset.cardImg = r.img; nameTd.dataset.cardName = r.name; }
       nameTd.textContent = r.name + (r.n < LOW_N_THRESHOLD ? " *" : "");
       tr.appendChild(nameTd);
 
@@ -193,6 +202,40 @@
     state.minSample = parseInt(e.target.value, 10) || 0;
     render();
   });
+
+  /* Card art tooltip — hover a card name to see its art (data-card-img is set above) */
+  (function () {
+    var tip = document.createElement("div");
+    tip.className = "card-tooltip";
+    tip.innerHTML = '<img class="ct-img" alt="">';
+    document.body.appendChild(tip);
+    var img = tip.querySelector(".ct-img");
+
+    function position(e) {
+      var TW = 226, TH = 300;
+      var x = e.clientX + 16, y = e.clientY + 10;
+      if (x + TW > window.innerWidth - 8) x = e.clientX - TW - 8;
+      if (y + TH > window.innerHeight - 8) y = e.clientY - TH - 8;
+      if (y < 8) y = 8;
+      tip.style.left = x + "px";
+      tip.style.top = y + "px";
+    }
+
+    document.addEventListener("mouseover", function (e) {
+      var el = e.target.closest("[data-card-img]");
+      if (!el) return;
+      img.src = el.dataset.cardImg;
+      img.alt = el.dataset.cardName || "";
+      tip.style.display = "block";
+      position(e);
+    });
+    document.addEventListener("mousemove", function (e) {
+      if (tip.style.display === "block") position(e);
+    });
+    document.addEventListener("mouseout", function (e) {
+      if (e.target.closest("[data-card-img]")) tip.style.display = "none";
+    });
+  })();
 
   render();
 </script>

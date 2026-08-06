@@ -70,6 +70,14 @@
 
   .back-link { display: inline-block; font-size: 13px; color: var(--text-secondary); text-decoration: none; margin-bottom: 16px; }
   .back-link:hover { color: var(--text-primary); }
+
+  .card-name { cursor: help; border-bottom: 1px dotted var(--text-muted); }
+  .card-tooltip {
+    position: fixed; display: none; z-index: 1000; pointer-events: none;
+    border-radius: 8px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    background: var(--surface-1); border: 1px solid var(--border);
+  }
+  .card-tooltip img { display: block; width: 210px; height: auto; }
 </style>
 </head>
 <body>
@@ -80,9 +88,9 @@
   <p class="caveat">Full methodology and caveats: see the <a href="index.html#methodology-boss-cards">Act 1 boss rare card methodology</a> on the homepage.</p>
 
   <div class="kpi-row">
-    <div class="kpi"><div class="label">Runs in cohort</div><div class="value">16711</div></div>
-    <div class="kpi"><div class="label">Baseline winrate</div><div class="value">34.8%</div></div>
-    <div class="kpi"><div class="label">Distinct rare cards</div><div class="value">45</div></div>
+    <div class="kpi"><div class="label">Runs in cohort</div><div class="value">16627</div></div>
+    <div class="kpi"><div class="label">Baseline winrate</div><div class="value">34.7%</div></div>
+    <div class="kpi"><div class="label">Distinct rare cards</div><div class="value">37</div></div>
   </div>
 
   <div class="filters">
@@ -110,7 +118,7 @@
 
 <script>
   // card_id === null => the run beat the Act 1 boss but kept none of the 3 rares offered.
-  var ROWS = [{"card_id": "STOKE", "name": "Stoke", "n": 497, "win_rate": 0.4164989939637827, "diff": 0.06858444665961178}, {"card_id": "COLOSSUS", "name": "Colossus", "n": 242, "win_rate": 0.24793388429752067, "diff": -0.09998066300665026}, {"card_id": "THRASH", "name": "Thrash", "n": 764, "win_rate": 0.3337696335078534, "diff": -0.014144913796317549}, {"card_id": "FEED", "name": "Feed", "n": 778, "win_rate": 0.37275064267352187, "diff": 0.02483609536935094}, {"card_id": "CRIMSON_MANTLE", "name": "Crimson Mantle", "n": 1259, "win_rate": 0.37887212073073867, "diff": 0.03095757342656774}, {"card_id": "FIEND_FIRE", "name": "Fiend Fire", "n": 612, "win_rate": 0.3431372549019608, "diff": -0.004777292402210143}, {"card_id": "IMPERVIOUS", "name": "Impervious", "n": 794, "win_rate": 0.3916876574307305, "diff": 0.043773110126559545}, {"card_id": "PRIMAL_FORCE", "name": "Primal Force", "n": 267, "win_rate": 0.20224719101123595, "diff": -0.14566735629293498}, {"card_id": "TEAR_ASUNDER", "name": "Tear Asunder", "n": 560, "win_rate": 0.3107142857142857, "diff": -0.03720026158988521}, {"card_id": "NOT_YET", "name": "Not Yet", "n": 430, "win_rate": 0.36046511627906974, "diff": 0.012550568974898813}, {"card_id": "BRAND", "name": "Brand", "n": 845, "win_rate": 0.2958579881656805, "diff": -0.052056559138490444}, {"card_id": "DEMON_FORM", "name": "Demon Form", "n": 336, "win_rate": 0.2976190476190476, "diff": -0.05029549968512331}, {"card_id": "CRUELTY", "name": "Cruelty", "n": 790, "win_rate": 0.2974683544303797, "diff": -0.05044619287379121}, {"card_id": "OFFERING", "name": "Offering", "n": 1522, "win_rate": 0.39816031537450725, "diff": 0.050245768070336316}, {"card_id": "UNMOVABLE", "name": "Unmovable", "n": 1280, "win_rate": 0.42578125, "diff": 0.07786670269582907}, {"card_id": "ONE_TWO_PUNCH", "name": "One Two Punch", "n": 440, "win_rate": 0.26590909090909093, "diff": -0.08200545639508}, {"card_id": "HELLRAISER", "name": "Hellraiser", "n": 570, "win_rate": 0.2964912280701754, "diff": -0.05142331923399551}, {"card_id": "BARRICADE", "name": "Barricade", "n": 413, "win_rate": 0.3365617433414044, "diff": -0.011352803962766556}, {"card_id": "PYRE", "name": "Pyre", "n": 855, "win_rate": 0.3192982456140351, "diff": -0.028616301690135848}, {"card_id": "PACTS_END", "name": "Pacts End", "n": 562, "win_rate": 0.3398576512455516, "diff": -0.008056896058619312}, {"card_id": "CASCADE", "name": "Cascade", "n": 552, "win_rate": 0.38405797101449274, "diff": 0.03614342371032181}, {"card_id": null, "name": "(skipped)", "n": 590, "win_rate": 0.30338983050847457, "diff": -0.04452471679569636}, {"card_id": "AGGRESSION", "name": "Aggression", "n": 490, "win_rate": 0.35918367346938773, "diff": 0.011269126165216803}, {"card_id": "DARK_EMBRACE", "name": "Dark Embrace", "n": 529, "win_rate": 0.4102079395085066, "diff": 0.06229339220433566}, {"card_id": "CONFLAGRATION", "name": "Conflagration", "n": 86, "win_rate": 0.4069767441860465, "diff": 0.059062196881875584}, {"card_id": "MANGLE", "name": "Mangle", "n": 425, "win_rate": 0.2964705882352941, "diff": -0.05144395906887683}, {"card_id": "JUGGERNAUT", "name": "Juggernaut", "n": 169, "win_rate": 0.20118343195266272, "diff": -0.1467311153515082}, {"card_id": "SHADOWMELD", "name": "Shadowmeld", "n": 1, "win_rate": 0.0, "diff": -0.34791454730417093}, {"card_id": "HIDDEN_GEM", "name": "Hidden Gem", "n": 2, "win_rate": 0.5, "diff": 0.15208545269582907}, {"card_id": "ALCHEMIZE", "name": "Alchemize", "n": 2, "win_rate": 0.0, "diff": -0.34791454730417093}, {"card_id": "DOMINATE", "name": "Dominate", "n": 29, "win_rate": 0.3103448275862069, "diff": -0.03756971971796402}, {"card_id": "NOSTALGIA", "name": "Nostalgia", "n": 2, "win_rate": 0.0, "diff": -0.34791454730417093}, {"card_id": "JACKPOT", "name": "Jackpot", "n": 3, "win_rate": 0.0, "diff": -0.34791454730417093}, {"card_id": "BOMBARDMENT", "name": "Bombardment", "n": 1, "win_rate": 0.0, "diff": -0.34791454730417093}, {"card_id": "ADRENALINE", "name": "Adrenaline", "n": 1, "win_rate": 1.0, "diff": 0.6520854526958291}, {"card_id": "ECHO_FORM", "name": "Echo Form", "n": 2, "win_rate": 1.0, "diff": 0.6520854526958291}, {"card_id": "SECRET_TECHNIQUE", "name": "Secret Technique", "n": 2, "win_rate": 0.0, "diff": -0.34791454730417093}, {"card_id": "SECRET_WEAPON", "name": "Secret Weapon", "n": 2, "win_rate": 0.5, "diff": 0.15208545269582907}, {"card_id": "ASSASSINATE", "name": "Assassinate", "n": 1, "win_rate": 0.0, "diff": -0.34791454730417093}, {"card_id": "BIG_BANG", "name": "Big Bang", "n": 1, "win_rate": 1.0, "diff": 0.6520854526958291}, {"card_id": "HAND_OF_GREED", "name": "Hand Of Greed", "n": 1, "win_rate": 0.0, "diff": -0.34791454730417093}, {"card_id": "THE_HUNT", "name": "The Hunt", "n": 1, "win_rate": 1.0, "diff": 0.6520854526958291}, {"card_id": "SCRAWL", "name": "Scrawl", "n": 1, "win_rate": 0.0, "diff": -0.34791454730417093}, {"card_id": "BEAT_DOWN", "name": "Beat Down", "n": 1, "win_rate": 1.0, "diff": 0.6520854526958291}, {"card_id": "MODDED", "name": "Modded", "n": 1, "win_rate": 0.0, "diff": -0.34791454730417093}];
+  var ROWS = [{"card_id": "STOKE", "name": "Stoke", "n": 497, "win_rate": 0.4164989939637827, "diff": 0.06989407425487548, "img": "cards/stoke.png"}, {"card_id": "COLOSSUS", "name": "Colossus", "n": 242, "win_rate": 0.24793388429752067, "diff": -0.09867103541138655, "img": "cards/colossus.png"}, {"card_id": "THRASH", "name": "Thrash", "n": 762, "win_rate": 0.3346456692913386, "diff": -0.011959250417568623, "img": "cards/thrash.png"}, {"card_id": "FEED", "name": "Feed", "n": 777, "win_rate": 0.3732303732303732, "diff": 0.026625453521466003, "img": "cards/feed.png"}, {"card_id": "CRIMSON_MANTLE", "name": "Crimson Mantle", "n": 1258, "win_rate": 0.3783783783783784, "diff": 0.03177345866947118, "img": "cards/crimson-mantle.png"}, {"card_id": "FIEND_FIRE", "name": "Fiend Fire", "n": 610, "win_rate": 0.34262295081967215, "diff": -0.003981968889235077, "img": "cards/fiend-fire.png"}, {"card_id": "IMPERVIOUS", "name": "Impervious", "n": 790, "win_rate": 0.389873417721519, "diff": 0.04326849801261179, "img": "cards/impervious.png"}, {"card_id": "PRIMAL_FORCE", "name": "Primal Force", "n": 267, "win_rate": 0.20224719101123595, "diff": -0.14435772869767127, "img": "cards/primal-force.png"}, {"card_id": "TEAR_ASUNDER", "name": "Tear Asunder", "n": 558, "win_rate": 0.30824372759856633, "diff": -0.03836119211034089, "img": "cards/tear-asunder.png"}, {"card_id": "NOT_YET", "name": "Not Yet", "n": 428, "win_rate": 0.3598130841121495, "diff": 0.013208164403242295, "img": "cards/not-yet.png"}, {"card_id": "BRAND", "name": "Brand", "n": 843, "win_rate": 0.29537366548042704, "diff": -0.05123125422848018, "img": "cards/brand.png"}, {"card_id": "DEMON_FORM", "name": "Demon Form", "n": 330, "win_rate": 0.2878787878787879, "diff": -0.05872613183011932, "img": "cards/demon-form.png"}, {"card_id": "CRUELTY", "name": "Cruelty", "n": 787, "win_rate": 0.2960609911054638, "diff": -0.05054392860344342, "img": "cards/cruelty.png"}, {"card_id": "OFFERING", "name": "Offering", "n": 1512, "win_rate": 0.3968253968253968, "diff": 0.05022047711648958, "img": "cards/offering.png"}, {"card_id": "UNMOVABLE", "name": "Unmovable", "n": 1279, "win_rate": 0.4261141516810008, "diff": 0.07950923197209359, "img": "cards/unmovable.png"}, {"card_id": "ONE_TWO_PUNCH", "name": "One Two Punch", "n": 439, "win_rate": 0.2642369020501139, "diff": -0.08236801765879331, "img": "cards/one-two-punch.png"}, {"card_id": "HELLRAISER", "name": "Hellraiser", "n": 569, "win_rate": 0.29525483304042177, "diff": -0.05135008666848545, "img": "cards/hellraiser.png"}, {"card_id": "BARRICADE", "name": "Barricade", "n": 410, "win_rate": 0.33414634146341465, "diff": -0.012458578245492569, "img": "cards/barricade.png"}, {"card_id": "PYRE", "name": "Pyre", "n": 847, "win_rate": 0.31286894923258557, "diff": -0.03373597047632165, "img": "cards/pyre.png"}, {"card_id": "PACTS_END", "name": "Pacts End", "n": 559, "win_rate": 0.33810375670840787, "diff": -0.008501163000499357, "img": "cards/pacts-end.png"}, {"card_id": "CASCADE", "name": "Cascade", "n": 551, "win_rate": 0.38294010889292196, "diff": 0.03633518918401474, "img": "cards/cascade.png"}, {"card_id": null, "name": "(skipped)", "n": 572, "win_rate": 0.2972027972027972, "diff": -0.049402122506110036, "img": null}, {"card_id": "AGGRESSION", "name": "Aggression", "n": 489, "win_rate": 0.35991820040899797, "diff": 0.013313280700090746, "img": "cards/aggression.png"}, {"card_id": "DARK_EMBRACE", "name": "Dark Embrace", "n": 526, "win_rate": 0.41254752851711024, "diff": 0.06594260880820302, "img": "cards/dark-embrace.png"}, {"card_id": "CONFLAGRATION", "name": "Conflagration", "n": 86, "win_rate": 0.4069767441860465, "diff": 0.06037182447713929, "img": "cards/conflagration.png"}, {"card_id": "MANGLE", "name": "Mangle", "n": 425, "win_rate": 0.2964705882352941, "diff": -0.050134331473613125, "img": "cards/mangle.png"}, {"card_id": "JUGGERNAUT", "name": "Juggernaut", "n": 169, "win_rate": 0.20118343195266272, "diff": -0.1454214877562445, "img": "cards/juggernaut.png"}, {"card_id": "HIDDEN_GEM", "name": "Hidden Gem", "n": 2, "win_rate": 0.5, "diff": 0.15339508029109278, "img": "cards/hidden-gem.png"}, {"card_id": "ALCHEMIZE", "name": "Alchemize", "n": 2, "win_rate": 0.0, "diff": -0.3466049197089072, "img": "cards/alchemize.png"}, {"card_id": "DOMINATE", "name": "Dominate", "n": 29, "win_rate": 0.3103448275862069, "diff": -0.036260092122700316, "img": "cards/dominate.png"}, {"card_id": "NOSTALGIA", "name": "Nostalgia", "n": 2, "win_rate": 0.0, "diff": -0.3466049197089072, "img": "cards/nostalgia.png"}, {"card_id": "JACKPOT", "name": "Jackpot", "n": 3, "win_rate": 0.0, "diff": -0.3466049197089072, "img": "cards/jackpot.png"}, {"card_id": "SECRET_TECHNIQUE", "name": "Secret Technique", "n": 2, "win_rate": 0.0, "diff": -0.3466049197089072, "img": "cards/secret-technique.png"}, {"card_id": "SECRET_WEAPON", "name": "Secret Weapon", "n": 2, "win_rate": 0.5, "diff": 0.15339508029109278, "img": "cards/secret-weapon.png"}, {"card_id": "HAND_OF_GREED", "name": "Hand Of Greed", "n": 1, "win_rate": 0.0, "diff": -0.3466049197089072, "img": "cards/hand-of-greed.png"}, {"card_id": "SCRAWL", "name": "Scrawl", "n": 1, "win_rate": 0.0, "diff": -0.3466049197089072, "img": "cards/scrawl.png"}, {"card_id": "BEAT_DOWN", "name": "Beat Down", "n": 1, "win_rate": 1.0, "diff": 0.6533950802910928, "img": "cards/beat-down.png"}];
   var LOW_N_THRESHOLD = 40;
 
   var state = { sortKey: "diff", sortDir: -1, search: "", minSample: 40 };
@@ -137,7 +145,8 @@
       if (r.card_id === null) tr.className = "skipped";
 
       var nameTd = document.createElement("td");
-      nameTd.className = "name-cell" + (r.n < LOW_N_THRESHOLD ? " low-n" : "");
+      nameTd.className = "name-cell" + (r.n < LOW_N_THRESHOLD ? " low-n" : "") + (r.img ? " card-name" : "");
+      if (r.img) { nameTd.dataset.cardImg = r.img; nameTd.dataset.cardName = r.name; }
       nameTd.textContent = r.name + (r.n < LOW_N_THRESHOLD ? " *" : "");
       tr.appendChild(nameTd);
 
@@ -193,6 +202,40 @@
     state.minSample = parseInt(e.target.value, 10) || 0;
     render();
   });
+
+  /* Card art tooltip — hover a card name to see its art (data-card-img is set above) */
+  (function () {
+    var tip = document.createElement("div");
+    tip.className = "card-tooltip";
+    tip.innerHTML = '<img class="ct-img" alt="">';
+    document.body.appendChild(tip);
+    var img = tip.querySelector(".ct-img");
+
+    function position(e) {
+      var TW = 226, TH = 300;
+      var x = e.clientX + 16, y = e.clientY + 10;
+      if (x + TW > window.innerWidth - 8) x = e.clientX - TW - 8;
+      if (y + TH > window.innerHeight - 8) y = e.clientY - TH - 8;
+      if (y < 8) y = 8;
+      tip.style.left = x + "px";
+      tip.style.top = y + "px";
+    }
+
+    document.addEventListener("mouseover", function (e) {
+      var el = e.target.closest("[data-card-img]");
+      if (!el) return;
+      img.src = el.dataset.cardImg;
+      img.alt = el.dataset.cardName || "";
+      tip.style.display = "block";
+      position(e);
+    });
+    document.addEventListener("mousemove", function (e) {
+      if (tip.style.display === "block") position(e);
+    });
+    document.addEventListener("mouseout", function (e) {
+      if (e.target.closest("[data-card-img]")) tip.style.display = "none";
+    });
+  })();
 
   render();
 </script>

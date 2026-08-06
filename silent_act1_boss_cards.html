@@ -70,6 +70,14 @@
 
   .back-link { display: inline-block; font-size: 13px; color: var(--text-secondary); text-decoration: none; margin-bottom: 16px; }
   .back-link:hover { color: var(--text-primary); }
+
+  .card-name { cursor: help; border-bottom: 1px dotted var(--text-muted); }
+  .card-tooltip {
+    position: fixed; display: none; z-index: 1000; pointer-events: none;
+    border-radius: 8px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    background: var(--surface-1); border: 1px solid var(--border);
+  }
+  .card-tooltip img { display: block; width: 210px; height: auto; }
 </style>
 </head>
 <body>
@@ -80,9 +88,9 @@
   <p class="caveat">Full methodology and caveats: see the <a href="index.html#methodology-boss-cards">Act 1 boss rare card methodology</a> on the homepage.</p>
 
   <div class="kpi-row">
-    <div class="kpi"><div class="label">Runs in cohort</div><div class="value">14388</div></div>
-    <div class="kpi"><div class="label">Baseline winrate</div><div class="value">37.6%</div></div>
-    <div class="kpi"><div class="label">Distinct rare cards</div><div class="value">37</div></div>
+    <div class="kpi"><div class="label">Runs in cohort</div><div class="value">14318</div></div>
+    <div class="kpi"><div class="label">Baseline winrate</div><div class="value">37.4%</div></div>
+    <div class="kpi"><div class="label">Distinct rare cards</div><div class="value">33</div></div>
   </div>
 
   <div class="filters">
@@ -110,7 +118,7 @@
 
 <script>
   // card_id === null => the run beat the Act 1 boss but kept none of the 3 rares offered.
-  var ROWS = [{"card_id": null, "name": "(skipped)", "n": 673, "win_rate": 0.3952451708766716, "diff": 0.018820372433524524}, {"card_id": "KNIFE_TRAP", "name": "Knife Trap", "n": 544, "win_rate": 0.43566176470588236, "diff": 0.05923696626273528}, {"card_id": "TOOLS_OF_THE_TRADE", "name": "Tools Of The Trade", "n": 953, "win_rate": 0.4176285414480588, "diff": 0.0412037430049117}, {"card_id": "SHADOW_STEP", "name": "Shadow Step", "n": 290, "win_rate": 0.1896551724137931, "diff": -0.18676962602935399}, {"card_id": "BURST", "name": "Burst", "n": 606, "win_rate": 0.30528052805280526, "diff": -0.07114427039034182}, {"card_id": "ACCELERANT", "name": "Accelerant", "n": 487, "win_rate": 0.3326488706365503, "diff": -0.04377592780659678}, {"card_id": "ABRASIVE", "name": "Abrasive", "n": 990, "win_rate": 0.401010101010101, "diff": 0.024585302566953904}, {"card_id": "ECHOING_SLASH", "name": "Echoing Slash", "n": 432, "win_rate": 0.30324074074074076, "diff": -0.07318405770240632}, {"card_id": "ENVENOM", "name": "Envenom", "n": 433, "win_rate": 0.26096997690531176, "diff": -0.11545482153783532}, {"card_id": "ADRENALINE", "name": "Adrenaline", "n": 1352, "win_rate": 0.4467455621301775, "diff": 0.07032076368703044}, {"card_id": "TRACKING", "name": "Tracking", "n": 794, "win_rate": 0.4068010075566751, "diff": 0.030376209113528008}, {"card_id": "SERPENT_FORM", "name": "Serpent Form", "n": 453, "win_rate": 0.37969094922737306, "diff": 0.003266150784225985}, {"card_id": "FAN_OF_KNIVES", "name": "Fan Of Knives", "n": 756, "win_rate": 0.3835978835978836, "diff": 0.007173085154736525}, {"card_id": "THE_HUNT", "name": "The Hunt", "n": 548, "win_rate": 0.3594890510948905, "diff": -0.01693574734825659}, {"card_id": "BULLET_TIME", "name": "Bullet Time", "n": 314, "win_rate": 0.29936305732484075, "diff": -0.07706174111830633}, {"card_id": "MURDER", "name": "Murder", "n": 293, "win_rate": 0.26621160409556316, "diff": -0.11021319434758392}, {"card_id": "MALAISE", "name": "Malaise", "n": 578, "win_rate": 0.43079584775086505, "diff": 0.05437104930771797}, {"card_id": "CORROSIVE_WAVE", "name": "Corrosive Wave", "n": 585, "win_rate": 0.335042735042735, "diff": -0.04138206340041206}, {"card_id": "AFTERIMAGE", "name": "Afterimage", "n": 1240, "win_rate": 0.47419354838709676, "diff": 0.09776874994394968}, {"card_id": "MASTER_PLANNER", "name": "Master Planner", "n": 513, "win_rate": 0.23196881091617932, "diff": -0.14445598752696776}, {"card_id": "STORM_OF_STEEL", "name": "Storm Of Steel", "n": 247, "win_rate": 0.25101214574898784, "diff": -0.12541265269415924}, {"card_id": "GRAND_FINALE", "name": "Grand Finale", "n": 83, "win_rate": 0.4578313253012048, "diff": 0.08140652685805772}, {"card_id": "ASSASSINATE", "name": "Assassinate", "n": 578, "win_rate": 0.3737024221453287, "diff": -0.002722376297818352}, {"card_id": "BLADE_OF_INK", "name": "Blade Of Ink", "n": 104, "win_rate": 0.4423076923076923, "diff": 0.06588289386454521}, {"card_id": "SHADOWMELD", "name": "Shadowmeld", "n": 480, "win_rate": 0.3645833333333333, "diff": -0.011841465109813765}, {"card_id": "WELL_LAID_PLANS", "name": "Well Laid Plans", "n": 25, "win_rate": 0.6, "diff": 0.2235752015568529}, {"card_id": "NIGHTMARE", "name": "Nightmare", "n": 22, "win_rate": 0.22727272727272727, "diff": -0.14915207117041981}, {"card_id": "JACKPOT", "name": "Jackpot", "n": 1, "win_rate": 0.0, "diff": -0.3764247984431471}, {"card_id": "NOT_YET", "name": "Not Yet", "n": 1, "win_rate": 1.0, "diff": 0.623575201556853}, {"card_id": "PYRE", "name": "Pyre", "n": 1, "win_rate": 1.0, "diff": 0.623575201556853}, {"card_id": "OUTBREAK", "name": "Outbreak", "n": 2, "win_rate": 0.0, "diff": -0.3764247984431471}, {"card_id": "SECRET_TECHNIQUE", "name": "Secret Technique", "n": 3, "win_rate": 0.3333333333333333, "diff": -0.043091465109813765}, {"card_id": "BOLAS", "name": "Bolas", "n": 1, "win_rate": 0.0, "diff": -0.3764247984431471}, {"card_id": "NOSTALGIA", "name": "Nostalgia", "n": 3, "win_rate": 0.0, "diff": -0.3764247984431471}, {"card_id": "ARSENAL", "name": "Arsenal", "n": 1, "win_rate": 1.0, "diff": 0.623575201556853}, {"card_id": "HAND_OF_GREED", "name": "Hand Of Greed", "n": 1, "win_rate": 0.0, "diff": -0.3764247984431471}, {"card_id": "MAKE_IT_SO", "name": "Make It So", "n": 1, "win_rate": 1.0, "diff": 0.623575201556853}];
+  var ROWS = [{"card_id": null, "name": "(skipped)", "n": 660, "win_rate": 0.38484848484848483, "diff": 0.010564366954924298, "img": null}, {"card_id": "KNIFE_TRAP", "name": "Knife Trap", "n": 537, "win_rate": 0.4301675977653631, "diff": 0.05588347987180259, "img": "cards/knife-trap.png"}, {"card_id": "TOOLS_OF_THE_TRADE", "name": "Tools Of The Trade", "n": 950, "win_rate": 0.41578947368421054, "diff": 0.04150535579065001, "img": "cards/tools-of-the-trade.png"}, {"card_id": "SHADOW_STEP", "name": "Shadow Step", "n": 288, "win_rate": 0.1875, "diff": -0.18678411789356053, "img": "cards/shadow-step.png"}, {"card_id": "BURST", "name": "Burst", "n": 606, "win_rate": 0.30528052805280526, "diff": -0.06900358984075528, "img": "cards/burst.png"}, {"card_id": "ACCELERANT", "name": "Accelerant", "n": 484, "win_rate": 0.3285123966942149, "diff": -0.04577172119934564, "img": "cards/accelerant.png"}, {"card_id": "ABRASIVE", "name": "Abrasive", "n": 987, "win_rate": 0.4012158054711246, "diff": 0.02693168757756409, "img": "cards/abrasive.png"}, {"card_id": "ECHOING_SLASH", "name": "Echoing Slash", "n": 431, "win_rate": 0.30162412993039445, "diff": -0.07265998796316608, "img": "cards/echoing-slash.png"}, {"card_id": "ENVENOM", "name": "Envenom", "n": 431, "win_rate": 0.25986078886310904, "diff": -0.11442332903045149, "img": "cards/envenom.png"}, {"card_id": "ADRENALINE", "name": "Adrenaline", "n": 1347, "win_rate": 0.4461766889383816, "diff": 0.07189257104482105, "img": "cards/adrenaline.png"}, {"card_id": "TRACKING", "name": "Tracking", "n": 790, "win_rate": 0.40379746835443037, "diff": 0.029513350460869836, "img": "cards/tracking.png"}, {"card_id": "SERPENT_FORM", "name": "Serpent Form", "n": 451, "win_rate": 0.376940133037694, "diff": 0.0026560151441334945, "img": "cards/serpent-form.png"}, {"card_id": "FAN_OF_KNIVES", "name": "Fan Of Knives", "n": 750, "win_rate": 0.38133333333333336, "diff": 0.007049215439772827, "img": "cards/fan-of-knives.png"}, {"card_id": "THE_HUNT", "name": "The Hunt", "n": 547, "win_rate": 0.3583180987202925, "diff": -0.01596601917326801, "img": "cards/the-hunt.png"}, {"card_id": "BULLET_TIME", "name": "Bullet Time", "n": 313, "win_rate": 0.3003194888178914, "diff": -0.07396462907566914, "img": "cards/bullet-time.png"}, {"card_id": "MURDER", "name": "Murder", "n": 293, "win_rate": 0.26621160409556316, "diff": -0.10807251379799737, "img": "cards/murder.png"}, {"card_id": "MALAISE", "name": "Malaise", "n": 578, "win_rate": 0.43079584775086505, "diff": 0.056511729857304516, "img": "cards/malaise.png"}, {"card_id": "CORROSIVE_WAVE", "name": "Corrosive Wave", "n": 584, "win_rate": 0.3339041095890411, "diff": -0.04038000830451943, "img": "cards/corrosive-wave.png"}, {"card_id": "AFTERIMAGE", "name": "Afterimage", "n": 1235, "win_rate": 0.4720647773279352, "diff": 0.0977806594343747, "img": "cards/afterimage.png"}, {"card_id": "MASTER_PLANNER", "name": "Master Planner", "n": 510, "win_rate": 0.22941176470588234, "diff": -0.1448723531876782, "img": "cards/master-planner.png"}, {"card_id": "STORM_OF_STEEL", "name": "Storm Of Steel", "n": 247, "win_rate": 0.25101214574898784, "diff": -0.1232719721445727, "img": "cards/storm-of-steel.png"}, {"card_id": "GRAND_FINALE", "name": "Grand Finale", "n": 83, "win_rate": 0.4578313253012048, "diff": 0.08354720740764426, "img": "cards/grand-finale.png"}, {"card_id": "ASSASSINATE", "name": "Assassinate", "n": 577, "win_rate": 0.37261698440207974, "diff": -0.0016671334914807878, "img": "cards/assassinate.png"}, {"card_id": "BLADE_OF_INK", "name": "Blade Of Ink", "n": 103, "win_rate": 0.44660194174757284, "diff": 0.07231782385401231, "img": "cards/blade-of-ink.png"}, {"card_id": "SHADOWMELD", "name": "Shadowmeld", "n": 478, "win_rate": 0.3619246861924686, "diff": -0.012359431701091939, "img": "cards/shadowmeld.png"}, {"card_id": "WELL_LAID_PLANS", "name": "Well Laid Plans", "n": 25, "win_rate": 0.6, "diff": 0.22571588210643945, "img": "cards/well-laid-plans.png"}, {"card_id": "NIGHTMARE", "name": "Nightmare", "n": 22, "win_rate": 0.22727272727272727, "diff": -0.14701139062083327, "img": "cards/nightmare.png"}, {"card_id": "JACKPOT", "name": "Jackpot", "n": 1, "win_rate": 0.0, "diff": -0.37428411789356053, "img": "cards/jackpot.png"}, {"card_id": "OUTBREAK", "name": "Outbreak", "n": 2, "win_rate": 0.0, "diff": -0.37428411789356053, "img": "cards/outbreak.png"}, {"card_id": "SECRET_TECHNIQUE", "name": "Secret Technique", "n": 3, "win_rate": 0.3333333333333333, "diff": -0.040950784560227216, "img": "cards/secret-technique.png"}, {"card_id": "BOLAS", "name": "Bolas", "n": 1, "win_rate": 0.0, "diff": -0.37428411789356053, "img": "cards/bolas.png"}, {"card_id": "NOSTALGIA", "name": "Nostalgia", "n": 3, "win_rate": 0.0, "diff": -0.37428411789356053, "img": "cards/nostalgia.png"}, {"card_id": "HAND_OF_GREED", "name": "Hand Of Greed", "n": 1, "win_rate": 0.0, "diff": -0.37428411789356053, "img": "cards/hand-of-greed.png"}];
   var LOW_N_THRESHOLD = 40;
 
   var state = { sortKey: "diff", sortDir: -1, search: "", minSample: 40 };
@@ -137,7 +145,8 @@
       if (r.card_id === null) tr.className = "skipped";
 
       var nameTd = document.createElement("td");
-      nameTd.className = "name-cell" + (r.n < LOW_N_THRESHOLD ? " low-n" : "");
+      nameTd.className = "name-cell" + (r.n < LOW_N_THRESHOLD ? " low-n" : "") + (r.img ? " card-name" : "");
+      if (r.img) { nameTd.dataset.cardImg = r.img; nameTd.dataset.cardName = r.name; }
       nameTd.textContent = r.name + (r.n < LOW_N_THRESHOLD ? " *" : "");
       tr.appendChild(nameTd);
 
@@ -193,6 +202,40 @@
     state.minSample = parseInt(e.target.value, 10) || 0;
     render();
   });
+
+  /* Card art tooltip — hover a card name to see its art (data-card-img is set above) */
+  (function () {
+    var tip = document.createElement("div");
+    tip.className = "card-tooltip";
+    tip.innerHTML = '<img class="ct-img" alt="">';
+    document.body.appendChild(tip);
+    var img = tip.querySelector(".ct-img");
+
+    function position(e) {
+      var TW = 226, TH = 300;
+      var x = e.clientX + 16, y = e.clientY + 10;
+      if (x + TW > window.innerWidth - 8) x = e.clientX - TW - 8;
+      if (y + TH > window.innerHeight - 8) y = e.clientY - TH - 8;
+      if (y < 8) y = 8;
+      tip.style.left = x + "px";
+      tip.style.top = y + "px";
+    }
+
+    document.addEventListener("mouseover", function (e) {
+      var el = e.target.closest("[data-card-img]");
+      if (!el) return;
+      img.src = el.dataset.cardImg;
+      img.alt = el.dataset.cardName || "";
+      tip.style.display = "block";
+      position(e);
+    });
+    document.addEventListener("mousemove", function (e) {
+      if (tip.style.display === "block") position(e);
+    });
+    document.addEventListener("mouseout", function (e) {
+      if (e.target.closest("[data-card-img]")) tip.style.display = "none";
+    });
+  })();
 
   render();
 </script>
