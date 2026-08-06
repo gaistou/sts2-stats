@@ -42,11 +42,13 @@
 <div class="root">
   <h1>Slay the Spire 2 - Community Run Stats</h1>
   <p class="sub">
-    Computed from ~330,000 scraped runs from <a href="https://sts2.fun">sts2.fun</a>, ascension 9-10 only.
+    Computed from ~330,000 scraped runs from <a href="https://sts2.fun">sts2.fun</a>. Reports pool
+    every ascension level by default, each with a secondary &Delta; (A9/A10 only) column isolating
+    ascension 9-10; the miscellaneous hypotheses page uses ascension 9-10 only.
   </p>
 
   <div class="group">
-    <h2 id="methodology-cards">Act 1 card effectiveness (A9/A10)</h2>
+    <h2 id="methodology-cards">Act 1 card effectiveness (all ascensions)</h2>
     <ul>
       <li><a href="ironclad_act1_cards.html">Ironclad</a></li>
       <li><a href="silent_act1_cards.html">Silent</a></li>
@@ -89,6 +91,16 @@
           late-pickup survivorship bias described above — a card that's mostly obtained near the
           end of a run will look great here even if it's mediocre. Read it as "of the runs that
           ended up with this card, how many won," not as evidence the card is strong early.
+        </p>
+        <p>
+          The main <code>With</code> / <code>Without</code> / <code>Diff</code> columns pool
+          <strong>every ascension level</strong>, for more volume, at the cost of mixing
+          difficulty levels where a card's power can differ. The <code>&Delta; (A9/A10
+          only)</code> column re-runs the same floor-8 comparison restricted to ascension 9-10
+          runs only, as a sanity check on whether the main result still holds at high ascension;
+          it respects the same min-sample filter as the main columns, applied to that restricted
+          sample specifically — a dash means no A9/A10 data existed at all, an empty cell means
+          some existed but not enough to clear the current min-sample threshold.
         </p>
         <p>
           Each card is also only scored using runs played <em>after</em> its most recent balance
@@ -159,7 +171,7 @@
   </div>
 
   <div class="group">
-    <h2 id="methodology-relics">Neow starting relic winrate (A9/A10, all characters)</h2>
+    <h2 id="methodology-relics">Neow starting relic winrate (all ascensions, all characters)</h2>
     <ul>
       <li><a href="neow_relics.html">Neow relics</a></li>
     </ul>
@@ -182,6 +194,22 @@
           informative comparison point, not noise to discard.
         </p>
         <p>
+          The main columns pool <strong>every ascension level</strong>, for more volume, at the
+          cost of mixing difficulty levels where a relic's value can differ. The <code>&Delta;
+          (A9/A10 only)</code> column re-runs the same comparison restricted to ascension 9-10
+          runs only, as a sanity check on whether the main result still holds at high ascension;
+          it respects the same min-sample filter as the main column, applied to that restricted
+          sample specifically — a dash means no A9/A10 data existed at all, an empty cell means
+          some existed but not enough to clear the current min-sample threshold.
+        </p>
+        <p>
+          Each relic is also only scored using runs played <em>after</em> its most recent balance
+          patch (see <code>last changed patch</code> column) — a buffed, nerfed, or reworked relic
+          isn't evaluated using data from its old, different version. Runs older than that are
+          simply dropped for that relic (there's no other bucket to move them to, since a run's
+          Neow pick is fixed). Most relics have never been changed and use the full dataset.
+        </p>
+        <p>
           Use the character filter at the top of the table: relic strength varies a lot by class,
           so a relic's value is only meaningful within one character at a time, not pooled across
           all five.
@@ -196,7 +224,7 @@
   </div>
 
   <div class="group">
-    <h2 id="methodology-boss-cards">Act 1 boss rare card winrate (A9/A10)</h2>
+    <h2 id="methodology-boss-cards">Act 1 boss rare card winrate (all ascensions)</h2>
     <ul>
       <li><a href="ironclad_act1_boss_cards.html">Ironclad</a></li>
       <li><a href="silent_act1_boss_cards.html">Silent</a></li>
@@ -225,6 +253,15 @@
           <code>(skipped)</code> covers runs that beat the boss but kept none of the 3 rares offered
           — a real comparison point, not noise. Rows marked * have a sample below the current
           minimum-sample filter (40 by default, adjustable).
+        </p>
+        <p>
+          The main columns pool <strong>every ascension level</strong>, for more volume, at the
+          cost of mixing difficulty levels where a card's value can differ. The <code>&Delta;
+          (A9/A10 only)</code> column re-runs the same comparison restricted to ascension 9-10
+          runs only, as a sanity check on whether the main result still holds at high ascension;
+          it respects the same min-sample filter as the main column, applied to that restricted
+          sample specifically — a dash means no A9/A10 data existed at all, an empty cell means
+          some existed but not enough to clear the current min-sample threshold.
         </p>
         <p>
           Each card is only scored using runs played after its most recent balance patch, same as

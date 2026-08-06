@@ -5,7 +5,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Necrobinder — Act 1 boss rare card winrate (A9, A10)</title>
+<title>Necrobinder — Act 1 boss rare card winrate (all ascensions)</title>
 <style>
   :root {
     color-scheme: light;
@@ -68,6 +68,10 @@
   .bar-fill.neg { background: var(--neg); right: 50%; }
   .bar-label { display: inline-block; width: 50px; text-align: right; margin-left: 6px; }
 
+  .delta-pos { color: var(--pos); }
+  .delta-neg { color: var(--neg); }
+  .delta-na { color: var(--text-muted); }
+
   .back-link { display: inline-block; font-size: 13px; color: var(--text-secondary); text-decoration: none; margin-bottom: 16px; }
   .back-link:hover { color: var(--text-primary); }
 
@@ -83,14 +87,14 @@
 <body>
 <div class="viz-root">
   <a class="back-link" href="index.html">&larr; Back to home</a>
-  <h1>Necrobinder — Act 1 boss rare card winrate (A9, A10)</h1>
-  <p class="subtitle">n = runs that beat the Act 1 boss and kept that rare card from its 3-card reward choice. Winrate = full-run (3 acts) win rate for those runs. Diff vs baseline = that winrate minus the baseline for this character. “(skipped)” = runs that beat the boss but kept none of the 3 rares. Rows marked * have a sample &lt; 40.</p>
+  <h1>Necrobinder — Act 1 boss rare card winrate (all ascensions)</h1>
+  <p class="subtitle">n = runs that beat the Act 1 boss and kept that rare card from its 3-card reward choice. Winrate = full-run (3 acts) win rate for those runs. Diff vs baseline = that winrate minus the baseline for this character. Δ (A9/A10 only) re-runs the same comparison restricted to ascension 9-10 — dash = no A9/A10 data, blank = below the min-sample filter. “(skipped)” = runs that beat the boss but kept none of the 3 rares. Rows marked * have a sample &lt; 40.</p>
   <p class="caveat">Full methodology and caveats: see the <a href="index.html#methodology-boss-cards">Act 1 boss rare card methodology</a> on the homepage.</p>
 
   <div class="kpi-row">
-    <div class="kpi"><div class="label">Runs in cohort</div><div class="value">12846</div></div>
-    <div class="kpi"><div class="label">Baseline winrate</div><div class="value">33.4%</div></div>
-    <div class="kpi"><div class="label">Distinct rare cards</div><div class="value">34</div></div>
+    <div class="kpi"><div class="label">Runs in cohort</div><div class="value">38643</div></div>
+    <div class="kpi"><div class="label">Baseline winrate</div><div class="value">43.8%</div></div>
+    <div class="kpi"><div class="label">Distinct rare cards</div><div class="value">42</div></div>
   </div>
 
   <div class="filters">
@@ -109,6 +113,7 @@
           <th data-key="n">n<span class="arrow"></span></th>
           <th data-key="win_rate">Winrate<span class="arrow"></span></th>
           <th data-key="diff" class="bar-cell">Diff vs baseline<span class="arrow"></span></th>
+          <th data-key="diff_a9_10">&Delta; (A9/A10 only)<span class="arrow"></span></th>
         </tr>
       </thead>
       <tbody id="tableBody"></tbody>
@@ -118,12 +123,13 @@
 
 <script>
   // card_id === null => the run beat the Act 1 boss but kept none of the 3 rares offered.
-  var ROWS = [{"card_id": "REAPER_FORM", "name": "Reaper Form", "n": 500, "win_rate": 0.292, "diff": -0.0416447143079558, "img": "cards/reaper-form.png"}, {"card_id": "SENTRY_MODE", "name": "Sentry Mode", "n": 447, "win_rate": 0.28187919463087246, "diff": -0.051765519677083316, "img": "cards/sentry-mode.png"}, {"card_id": "TRANSFIGURE", "name": "Transfigure", "n": 499, "win_rate": 0.2725450901803607, "diff": -0.061099624127595065, "img": "cards/transfigure.png"}, {"card_id": "SHARED_FATE", "name": "Shared Fate", "n": 415, "win_rate": 0.35180722891566263, "diff": 0.018162514607706848, "img": "cards/shared-fate.png"}, {"card_id": "END_OF_DAYS", "name": "End Of Days", "n": 803, "win_rate": 0.3038605230386052, "diff": -0.029784191269350557, "img": "cards/end-of-days.png"}, {"card_id": "MISERY", "name": "Misery", "n": 458, "win_rate": 0.2685589519650655, "diff": -0.06508576234289026, "img": "cards/misery.png"}, {"card_id": "CALL_OF_THE_VOID", "name": "Call Of The Void", "n": 712, "win_rate": 0.34831460674157305, "diff": 0.014669892433617271, "img": "cards/call-of-the-void.png"}, {"card_id": "OBLIVION", "name": "Oblivion", "n": 480, "win_rate": 0.34375, "diff": 0.010105285692044219, "img": "cards/oblivion.png"}, {"card_id": "DEMESNE", "name": "Demesne", "n": 1062, "win_rate": 0.3907721280602637, "diff": 0.0571274137523079, "img": "cards/demesne.png"}, {"card_id": "SPIRIT_OF_ASH", "name": "Spirit Of Ash", "n": 513, "win_rate": 0.3762183235867446, "diff": 0.04257360927878884, "img": "cards/spirit-of-ash.png"}, {"card_id": "REANIMATE", "name": "Reanimate", "n": 598, "win_rate": 0.40635451505016723, "diff": 0.07270980074221145, "img": "cards/reanimate.png"}, {"card_id": "NEUROSURGE", "name": "Neurosurge", "n": 1043, "win_rate": 0.4314477468839885, "diff": 0.09780303257603273, "img": "cards/neurosurge.png"}, {"card_id": "ERADICATE", "name": "Eradicate", "n": 457, "win_rate": 0.3916849015317287, "diff": 0.05804018722377291, "img": "cards/eradicate.png"}, {"card_id": "SOUL_STORM", "name": "Soul Storm", "n": 202, "win_rate": 0.19801980198019803, "diff": -0.13562491232775775, "img": "cards/soul-storm.png"}, {"card_id": "SQUEEZE", "name": "Squeeze", "n": 331, "win_rate": 0.32326283987915405, "diff": -0.01038187442880173, "img": "cards/squeeze.png"}, {"card_id": "SACRIFICE", "name": "Sacrifice", "n": 180, "win_rate": 0.26666666666666666, "diff": -0.06697804764128912, "img": "cards/sacrifice.png"}, {"card_id": "NECRO_MASTERY", "name": "Necro Mastery", "n": 449, "win_rate": 0.311804008908686, "diff": -0.0218407053992698, "img": "cards/necro-mastery.png"}, {"card_id": "UNDEATH", "name": "Undeath", "n": 461, "win_rate": 0.31453362255965295, "diff": -0.019111091748302833, "img": "cards/undeath.png"}, {"card_id": "BANSHEES_CRY", "name": "Banshees Cry", "n": 551, "win_rate": 0.4010889292196007, "diff": 0.06744421491164493, "img": "cards/banshees-cry.png"}, {"card_id": "SEANCE", "name": "Seance", "n": 644, "win_rate": 0.2857142857142857, "diff": -0.04793042859367008, "img": "cards/seance.png"}, {"card_id": "TIMES_UP", "name": "Times Up", "n": 257, "win_rate": 0.26459143968871596, "diff": -0.06905327461923982, "img": "cards/times-up.png"}, {"card_id": "DEVOUR_LIFE", "name": "Devour Life", "n": 367, "win_rate": 0.25340599455040874, "diff": -0.08023871975754704, "img": "cards/devour-life.png"}, {"card_id": "HANG", "name": "Hang", "n": 570, "win_rate": 0.2771929824561403, "diff": -0.056451731851815456, "img": "cards/hang.png"}, {"card_id": null, "name": "(skipped)", "n": 745, "win_rate": 0.33288590604026846, "diff": -0.0007588082676873165, "img": null}, {"card_id": "ROLLING_BOULDER", "name": "Rolling Boulder", "n": 2, "win_rate": 0.0, "diff": -0.3336447143079558, "img": "cards/rolling-boulder.png"}, {"card_id": "THE_SCYTHE", "name": "The Scythe", "n": 26, "win_rate": 0.11538461538461539, "diff": -0.2182600989233404, "img": "cards/the-scythe.png"}, {"card_id": "EIDOLON", "name": "Eidolon", "n": 64, "win_rate": 0.25, "diff": -0.08364471430795578, "img": "cards/eidolon.png"}, {"card_id": "HIDDEN_GEM", "name": "Hidden Gem", "n": 2, "win_rate": 0.0, "diff": -0.3336447143079558, "img": "cards/hidden-gem.png"}, {"card_id": "MASTER_OF_STRATEGY", "name": "Master Of Strategy", "n": 1, "win_rate": 0.0, "diff": -0.3336447143079558, "img": "cards/master-of-strategy.png"}, {"card_id": "HAND_OF_GREED", "name": "Hand Of Greed", "n": 1, "win_rate": 0.0, "diff": -0.3336447143079558, "img": "cards/hand-of-greed.png"}, {"card_id": "SECRET_WEAPON", "name": "Secret Weapon", "n": 1, "win_rate": 0.0, "diff": -0.3336447143079558, "img": "cards/secret-weapon.png"}, {"card_id": "NOSTALGIA", "name": "Nostalgia", "n": 1, "win_rate": 0.0, "diff": -0.3336447143079558, "img": "cards/nostalgia.png"}, {"card_id": "SCRAWL", "name": "Scrawl", "n": 3, "win_rate": 0.3333333333333333, "diff": -0.00031138097462246606, "img": "cards/scrawl.png"}, {"card_id": "ENTROPY", "name": "Entropy", "n": 1, "win_rate": 0.0, "diff": -0.3336447143079558, "img": "cards/entropy.png"}];
+  var ROWS = [{"card_id": "SENTRY_MODE", "name": "Sentry Mode", "n": 1636, "win_rate": 0.42114914425427874, "diff": -0.017170861956419203, "n_a9_10": 447, "diff_a9_10": -0.051765519677083316, "img": "cards/sentry-mode.png"}, {"card_id": "REAPER_FORM", "name": "Reaper Form", "n": 1591, "win_rate": 0.37900691389063484, "diff": -0.0593130923200631, "n_a9_10": 500, "diff_a9_10": -0.0416447143079558, "img": "cards/reaper-form.png"}, {"card_id": null, "name": "(skipped)", "n": 2489, "win_rate": 0.44033748493370833, "diff": 0.0020174787230103908, "n_a9_10": 745, "diff_a9_10": -0.0007588082676873165, "img": null}, {"card_id": "TRANSFIGURE", "name": "Transfigure", "n": 1558, "win_rate": 0.40629011553273425, "diff": -0.03202989067796369, "n_a9_10": 499, "diff_a9_10": -0.061099624127595065, "img": "cards/transfigure.png"}, {"card_id": "SEANCE", "name": "Seance", "n": 2006, "win_rate": 0.44715852442671983, "diff": 0.008838518216021884, "n_a9_10": 644, "diff_a9_10": -0.04793042859367008, "img": "cards/seance.png"}, {"card_id": "SACRIFICE", "name": "Sacrifice", "n": 583, "win_rate": 0.3893653516295026, "diff": -0.048954654581195356, "n_a9_10": 180, "diff_a9_10": -0.06697804764128912, "img": "cards/sacrifice.png"}, {"card_id": "SPIRIT_OF_ASH", "name": "Spirit Of Ash", "n": 1268, "win_rate": 0.47397476340694006, "diff": 0.035654757196242115, "n_a9_10": 513, "diff_a9_10": 0.04257360927878884, "img": "cards/spirit-of-ash.png"}, {"card_id": "DEMESNE", "name": "Demesne", "n": 2947, "win_rate": 0.497794367153037, "diff": 0.059474360942339044, "n_a9_10": 1062, "diff_a9_10": 0.0571274137523079, "img": "cards/demesne.png"}, {"card_id": "CALL_OF_THE_VOID", "name": "Call Of The Void", "n": 1837, "win_rate": 0.4349482852476865, "diff": -0.003371720963011471, "n_a9_10": 712, "diff_a9_10": 0.014669892433617271, "img": "cards/call-of-the-void.png"}, {"card_id": "ERADICATE", "name": "Eradicate", "n": 1102, "win_rate": 0.4646098003629764, "diff": 0.026289794152278445, "n_a9_10": 457, "diff_a9_10": 0.05804018722377291, "img": "cards/eradicate.png"}, {"card_id": "HANG", "name": "Hang", "n": 1840, "win_rate": 0.3918478260869565, "diff": -0.046472180123741436, "n_a9_10": 570, "diff_a9_10": -0.056451731851815456, "img": "cards/hang.png"}, {"card_id": "OBLIVION", "name": "Oblivion", "n": 1448, "win_rate": 0.4240331491712707, "diff": -0.014286857039427225, "n_a9_10": 480, "diff_a9_10": 0.010105285692044219, "img": "cards/oblivion.png"}, {"card_id": "NEUROSURGE", "name": "Neurosurge", "n": 2454, "win_rate": 0.5236348818255909, "diff": 0.08531487561489298, "n_a9_10": 1043, "diff_a9_10": 0.09780303257603273, "img": "cards/neurosurge.png"}, {"card_id": "SHARED_FATE", "name": "Shared Fate", "n": 1109, "win_rate": 0.4824165915238954, "diff": 0.044096585313197434, "n_a9_10": 415, "diff_a9_10": 0.018162514607706848, "img": "cards/shared-fate.png"}, {"card_id": "BANSHEES_CRY", "name": "Banshees Cry", "n": 1314, "win_rate": 0.5007610350076104, "diff": 0.062441028796912434, "n_a9_10": 551, "diff_a9_10": 0.06744421491164493, "img": "cards/banshees-cry.png"}, {"card_id": "END_OF_DAYS", "name": "End Of Days", "n": 2112, "win_rate": 0.3896780303030303, "diff": -0.04864197590766767, "n_a9_10": 803, "diff_a9_10": -0.029784191269350557, "img": "cards/end-of-days.png"}, {"card_id": "TIMES_UP", "name": "Times Up", "n": 944, "win_rate": 0.3580508474576271, "diff": -0.08026915875307084, "n_a9_10": 257, "diff_a9_10": -0.06905327461923982, "img": "cards/times-up.png"}, {"card_id": "MISERY", "name": "Misery", "n": 1388, "win_rate": 0.42363112391930835, "diff": -0.014688882291389593, "n_a9_10": 458, "diff_a9_10": -0.06508576234289026, "img": "cards/misery.png"}, {"card_id": "DEVOUR_LIFE", "name": "Devour Life", "n": 1671, "win_rate": 0.38539796529024534, "diff": -0.05292204092045261, "n_a9_10": 367, "diff_a9_10": -0.08023871975754704, "img": "cards/devour-life.png"}, {"card_id": "NECRO_MASTERY", "name": "Necro Mastery", "n": 1789, "win_rate": 0.4477361654555618, "diff": 0.009416159244863831, "n_a9_10": 449, "diff_a9_10": -0.0218407053992698, "img": "cards/necro-mastery.png"}, {"card_id": "UNDEATH", "name": "Undeath", "n": 1396, "win_rate": 0.42406876790830944, "diff": -0.014251238302388503, "n_a9_10": 461, "diff_a9_10": -0.019111091748302833, "img": "cards/undeath.png"}, {"card_id": "REANIMATE", "name": "Reanimate", "n": 1677, "win_rate": 0.48300536672629696, "diff": 0.044685360515599015, "n_a9_10": 598, "diff_a9_10": 0.07270980074221145, "img": "cards/reanimate.png"}, {"card_id": "EIDOLON", "name": "Eidolon", "n": 199, "win_rate": 0.4120603015075377, "diff": -0.026259704703160247, "n_a9_10": 64, "diff_a9_10": -0.08364471430795578, "img": "cards/eidolon.png"}, {"card_id": "SOUL_STORM", "name": "Soul Storm", "n": 1106, "win_rate": 0.3752260397830018, "diff": -0.06309396642769616, "n_a9_10": 202, "diff_a9_10": -0.13562491232775775, "img": "cards/soul-storm.png"}, {"card_id": "SQUEEZE", "name": "Squeeze", "n": 1117, "win_rate": 0.4377797672336616, "diff": -0.0005402389770363669, "n_a9_10": 331, "diff_a9_10": -0.01038187442880173, "img": "cards/squeeze.png"}, {"card_id": "ROLLING_BOULDER", "name": "Rolling Boulder", "n": 3, "win_rate": 0.3333333333333333, "diff": -0.10498667287736463, "n_a9_10": 2, "diff_a9_10": -0.3336447143079558, "img": "cards/rolling-boulder.png"}, {"card_id": "THE_SCYTHE", "name": "The Scythe", "n": 35, "win_rate": 0.22857142857142856, "diff": -0.20974857763926938, "n_a9_10": 26, "diff_a9_10": -0.2182600989233404, "img": "cards/the-scythe.png"}, {"card_id": "NOSTALGIA", "name": "Nostalgia", "n": 4, "win_rate": 0.5, "diff": 0.06167999378930206, "n_a9_10": 1, "diff_a9_10": -0.3336447143079558, "img": "cards/nostalgia.png"}, {"card_id": "SCRAWL", "name": "Scrawl", "n": 4, "win_rate": 0.5, "diff": 0.06167999378930206, "n_a9_10": 3, "diff_a9_10": -0.00031138097462246606, "img": "cards/scrawl.png"}, {"card_id": "ALCHEMIZE", "name": "Alchemize", "n": 1, "win_rate": 1.0, "diff": 0.561679993789302, "n_a9_10": 0, "diff_a9_10": null, "img": "cards/alchemize.png"}, {"card_id": "UNMOVABLE", "name": "Unmovable", "n": 1, "win_rate": 0.0, "diff": -0.43832000621069794, "n_a9_10": 0, "diff_a9_10": null, "img": "cards/unmovable.png"}, {"card_id": "HIDDEN_GEM", "name": "Hidden Gem", "n": 4, "win_rate": 0.25, "diff": -0.18832000621069794, "n_a9_10": 2, "diff_a9_10": -0.3336447143079558, "img": "cards/hidden-gem.png"}, {"card_id": "MAYHEM", "name": "Mayhem", "n": 1, "win_rate": 0.0, "diff": -0.43832000621069794, "n_a9_10": 0, "diff_a9_10": null, "img": "cards/mayhem.png"}, {"card_id": "NOT_YET", "name": "Not Yet", "n": 1, "win_rate": 1.0, "diff": 0.561679993789302, "n_a9_10": 0, "diff_a9_10": null, "img": "cards/not-yet.png"}, {"card_id": "MASTER_OF_STRATEGY", "name": "Master Of Strategy", "n": 1, "win_rate": 0.0, "diff": -0.43832000621069794, "n_a9_10": 1, "diff_a9_10": -0.3336447143079558, "img": "cards/master-of-strategy.png"}, {"card_id": "HAND_OF_GREED", "name": "Hand Of Greed", "n": 1, "win_rate": 0.0, "diff": -0.43832000621069794, "n_a9_10": 1, "diff_a9_10": -0.3336447143079558, "img": "cards/hand-of-greed.png"}, {"card_id": "BEAT_DOWN", "name": "Beat Down", "n": 1, "win_rate": 0.0, "diff": -0.43832000621069794, "n_a9_10": 0, "diff_a9_10": null, "img": "cards/beat-down.png"}, {"card_id": "SECRET_WEAPON", "name": "Secret Weapon", "n": 1, "win_rate": 0.0, "diff": -0.43832000621069794, "n_a9_10": 1, "diff_a9_10": -0.3336447143079558, "img": "cards/secret-weapon.png"}, {"card_id": "ETERNAL_ARMOR", "name": "Eternal Armor", "n": 1, "win_rate": 1.0, "diff": 0.561679993789302, "n_a9_10": 0, "diff_a9_10": null, "img": "cards/eternal-armor.png"}, {"card_id": "BIG_BANG", "name": "Big Bang", "n": 1, "win_rate": 1.0, "diff": 0.561679993789302, "n_a9_10": 0, "diff_a9_10": null, "img": "cards/big-bang.png"}, {"card_id": "MURDER", "name": "Murder", "n": 1, "win_rate": 1.0, "diff": 0.561679993789302, "n_a9_10": 0, "diff_a9_10": null, "img": "cards/murder.png"}, {"card_id": "ENTROPY", "name": "Entropy", "n": 1, "win_rate": 0.0, "diff": -0.43832000621069794, "n_a9_10": 1, "diff_a9_10": -0.3336447143079558, "img": "cards/entropy.png"}];
   var LOW_N_THRESHOLD = 40;
 
   var state = { sortKey: "diff", sortDir: -1, search: "", minSample: 40 };
 
   function fmtPct(x) { return (x * 100).toFixed(1) + "%"; }
+  function fmtSignedPct(x) { return (x >= 0 ? "+" : "") + fmtPct(x); }
 
   function render() {
     var maxAbsDiff = ROWS.reduce(function (m, r) { return Math.max(m, Math.abs(r.diff)); }, 0.0001);
@@ -132,8 +138,15 @@
       return r.n >= state.minSample &&
         (state.search === "" || r.name.toLowerCase().indexOf(state.search) !== -1);
     });
+    rows.forEach(function (r) {
+      r._diffA910Visible = (r.diff_a9_10 === null || r.diff_a9_10 === undefined || r.n_a9_10 < state.minSample)
+        ? null : r.diff_a9_10;
+    });
     rows.sort(function (a, b) {
-      var av = a[state.sortKey], bv = b[state.sortKey];
+      var key = state.sortKey === "diff_a9_10" ? "_diffA910Visible" : state.sortKey;
+      var av = a[key], bv = b[key];
+      if (av === null || av === undefined) return 1;
+      if (bv === null || bv === undefined) return -1;
       if (typeof av === "string") return av.localeCompare(bv) * state.sortDir;
       return (av - bv) * state.sortDir;
     });
@@ -176,6 +189,18 @@
       label.textContent = (r.diff >= 0 ? "+" : "") + fmtPct(r.diff);
       barTd.appendChild(label);
       tr.appendChild(barTd);
+
+      var deltaTd = document.createElement("td");
+      if (r.diff_a9_10 === null || r.diff_a9_10 === undefined) {
+        deltaTd.className = "delta-na";
+        deltaTd.textContent = "\u2014";
+      } else if (r.n_a9_10 < state.minSample) {
+        deltaTd.textContent = "";
+      } else {
+        deltaTd.className = r.diff_a9_10 >= 0 ? "delta-pos" : "delta-neg";
+        deltaTd.textContent = fmtSignedPct(r.diff_a9_10);
+      }
+      tr.appendChild(deltaTd);
 
       tbody.appendChild(tr);
     });
