@@ -72,8 +72,31 @@
   details.method .method-body p:last-child { margin-bottom: 0; }
   details.method code { background: var(--accent-soft); color: var(--accent); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
 
+  .grid-wrap {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px;
+    box-shadow: var(--shadow-sm); overflow-x: auto; margin-bottom: 8px;
+  }
+  .report-grid { width: 100%; border-collapse: collapse; }
+  .report-grid th, .report-grid td { padding: 10px 14px; white-space: nowrap; }
+  .report-grid thead th {
+    text-align: center; font-size: 11px; font-weight: 600; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.03em; border-bottom: 1px solid var(--border);
+  }
+  .report-grid thead th:first-child { text-align: left; }
+  .report-grid tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
+  .report-grid tbody tr:hover td { background: var(--accent-soft); }
+  .report-grid td { text-align: center; }
+  .report-grid td.char-cell { text-align: left; font-size: 14px; font-weight: 600; color: var(--text-primary); }
+  .report-grid td a {
+    display: inline-block; font-size: 13px; font-weight: 600; text-decoration: none;
+    color: var(--accent); background: var(--accent-soft); padding: 5px 12px; border-radius: 999px;
+    transition: background .15s ease, color .15s ease, transform .15s ease;
+  }
+  .report-grid td a:hover { background: var(--accent); color: #fff; transform: translateY(-1px); }
+
   @media (max-width: 600px) {
     .root { padding: 32px 16px 48px; }
+    .report-grid th, .report-grid td { padding: 8px 10px; }
   }
 </style>
 </head>
@@ -87,16 +110,54 @@
   </p>
 
   <div class="group">
-    <h2 id="methodology-cards">Act 1 card effectiveness (all ascensions)</h2>
-    <ul>
-      <li><a href="ironclad_act1_cards.html">Ironclad</a></li>
-      <li><a href="silent_act1_cards.html">Silent</a></li>
-      <li><a href="defect_act1_cards.html">Defect</a></li>
-      <li><a href="necrobinder_act1_cards.html">Necrobinder</a></li>
-      <li><a href="regent_act1_cards.html">Regent</a></li>
-    </ul>
-    <details class="method">
-      <summary>Methodology</summary>
+    <h2>Act 1 &amp; boss reports, per character (all ascensions)</h2>
+    <div class="grid-wrap">
+      <table class="report-grid">
+        <thead>
+          <tr>
+            <th>Character</th>
+            <th>Card effectiveness</th>
+            <th>Smith value</th>
+            <th>Rare card (boss)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="char-cell">Ironclad</td>
+            <td><a href="ironclad_act1_cards.html">View &rarr;</a></td>
+            <td><a href="ironclad_act1_card_upgrade_value.html">View &rarr;</a></td>
+            <td><a href="ironclad_act1_boss_cards.html">View &rarr;</a></td>
+          </tr>
+          <tr>
+            <td class="char-cell">Silent</td>
+            <td><a href="silent_act1_cards.html">View &rarr;</a></td>
+            <td><a href="silent_act1_card_upgrade_value.html">View &rarr;</a></td>
+            <td><a href="silent_act1_boss_cards.html">View &rarr;</a></td>
+          </tr>
+          <tr>
+            <td class="char-cell">Defect</td>
+            <td><a href="defect_act1_cards.html">View &rarr;</a></td>
+            <td><a href="defect_act1_card_upgrade_value.html">View &rarr;</a></td>
+            <td><a href="defect_act1_boss_cards.html">View &rarr;</a></td>
+          </tr>
+          <tr>
+            <td class="char-cell">Necrobinder</td>
+            <td><a href="necrobinder_act1_cards.html">View &rarr;</a></td>
+            <td><a href="necrobinder_act1_card_upgrade_value.html">View &rarr;</a></td>
+            <td><a href="necrobinder_act1_boss_cards.html">View &rarr;</a></td>
+          </tr>
+          <tr>
+            <td class="char-cell">Regent</td>
+            <td><a href="regent_act1_cards.html">View &rarr;</a></td>
+            <td><a href="regent_act1_card_upgrade_value.html">View &rarr;</a></td>
+            <td><a href="regent_act1_boss_cards.html">View &rarr;</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <details class="method" id="methodology-cards">
+      <summary>Methodology &mdash; Card effectiveness</summary>
       <div class="method-body">
         <p>
           A naive "winrate by card" stat is misleading: a card can only be picked up on the floor
@@ -153,19 +214,9 @@
         </p>
       </div>
     </details>
-  </div>
 
-  <div class="group">
-    <h2 id="methodology-upgrade">Act 1 card upgrade value (all ascensions)</h2>
-    <ul>
-      <li><a href="ironclad_act1_card_upgrade_value.html">Ironclad</a></li>
-      <li><a href="silent_act1_card_upgrade_value.html">Silent</a></li>
-      <li><a href="defect_act1_card_upgrade_value.html">Defect</a></li>
-      <li><a href="necrobinder_act1_card_upgrade_value.html">Necrobinder</a></li>
-      <li><a href="regent_act1_card_upgrade_value.html">Regent</a></li>
-    </ul>
-    <details class="method">
-      <summary>Methodology</summary>
+    <details class="method" id="methodology-upgrade">
+      <summary>Methodology &mdash; Smith value</summary>
       <div class="method-body">
         <p>
           A different question from card effectiveness above: given a card is already in the
@@ -204,6 +255,46 @@
           runs on a patch at or after its most recent balance change. Starting-deck cards (Strike,
           Defend, and each character's two unique starting cards) are included by treating them as
           owned from floor 1, rather than requiring a reward pickup like every other card.
+        </p>
+      </div>
+    </details>
+
+    <details class="method" id="methodology-boss-cards">
+      <summary>Methodology &mdash; Rare card (boss)</summary>
+      <div class="method-body">
+        <p>
+          The Act 1 boss always offers a choice of 3 rare cards as its reward. Does which one you
+          keep correlate with winning the whole run? Unlike the Act 1 card effectiveness report
+          above, no landmark-floor bias correction is needed here: every run being compared already
+          beat the Act 1 boss, so every run faced the exact same choice at the exact same point —
+          there's no "survived longer, so naturally looks better" confound to control for.
+        </p>
+        <p>
+          <strong>Cohort:</strong> runs that beat the Act 1 boss (won the game, or kept going past
+          that floor). Runs that died to the boss itself never got the choice and aren't counted.
+        </p>
+        <p>
+          <strong>How to read the table:</strong> <code>n</code> is how many runs kept that card.
+          <code>Winrate</code> is the full-run (3 acts) win rate for those runs. <code>Diff vs
+          baseline</code> is that winrate minus the baseline winrate for this character's cohort.
+          <code>(skipped)</code> covers runs that beat the boss but kept none of the 3 rares offered
+          — a real comparison point, not noise. Rows marked * have a sample below the current
+          minimum-sample filter (40 by default, adjustable).
+        </p>
+        <p>
+          The main columns pool <strong>every ascension level</strong>, for more volume, at the
+          cost of mixing difficulty levels where a card's value can differ. The <code>&Delta;
+          (A9/A10 only)</code> column re-runs the same comparison restricted to ascension 9-10
+          runs only, as a sanity check on whether the main result still holds at high ascension;
+          it respects the same min-sample filter as the main column, applied to that restricted
+          sample specifically — a dash means no A9/A10 data existed at all, an empty cell means
+          some existed but not enough to clear the current min-sample threshold.
+        </p>
+        <p>
+          Each card is only scored using runs played after its most recent balance patch, same as
+          the Act 1 card effectiveness report. Same caveat too: correlational, not causal — which
+          rare card a player keeps is a choice, not a coin flip, so a stronger player's picks will
+          still tend to win more regardless of the card itself.
         </p>
       </div>
     </details>
@@ -257,56 +348,6 @@
           Same caveat as everywhere else on this site: correlational, not causal. Neow's relic
           choice is partly the player's pick and partly luck of what's offered, and a stronger
           player's runs will still tend to win more regardless of relic.
-        </p>
-      </div>
-    </details>
-  </div>
-
-  <div class="group">
-    <h2 id="methodology-boss-cards">Act 1 boss rare card winrate (all ascensions)</h2>
-    <ul>
-      <li><a href="ironclad_act1_boss_cards.html">Ironclad</a></li>
-      <li><a href="silent_act1_boss_cards.html">Silent</a></li>
-      <li><a href="defect_act1_boss_cards.html">Defect</a></li>
-      <li><a href="necrobinder_act1_boss_cards.html">Necrobinder</a></li>
-      <li><a href="regent_act1_boss_cards.html">Regent</a></li>
-    </ul>
-    <details class="method">
-      <summary>Methodology</summary>
-      <div class="method-body">
-        <p>
-          The Act 1 boss always offers a choice of 3 rare cards as its reward. Does which one you
-          keep correlate with winning the whole run? Unlike the Act 1 card effectiveness report
-          above, no landmark-floor bias correction is needed here: every run being compared already
-          beat the Act 1 boss, so every run faced the exact same choice at the exact same point —
-          there's no "survived longer, so naturally looks better" confound to control for.
-        </p>
-        <p>
-          <strong>Cohort:</strong> runs that beat the Act 1 boss (won the game, or kept going past
-          that floor). Runs that died to the boss itself never got the choice and aren't counted.
-        </p>
-        <p>
-          <strong>How to read the table:</strong> <code>n</code> is how many runs kept that card.
-          <code>Winrate</code> is the full-run (3 acts) win rate for those runs. <code>Diff vs
-          baseline</code> is that winrate minus the baseline winrate for this character's cohort.
-          <code>(skipped)</code> covers runs that beat the boss but kept none of the 3 rares offered
-          — a real comparison point, not noise. Rows marked * have a sample below the current
-          minimum-sample filter (40 by default, adjustable).
-        </p>
-        <p>
-          The main columns pool <strong>every ascension level</strong>, for more volume, at the
-          cost of mixing difficulty levels where a card's value can differ. The <code>&Delta;
-          (A9/A10 only)</code> column re-runs the same comparison restricted to ascension 9-10
-          runs only, as a sanity check on whether the main result still holds at high ascension;
-          it respects the same min-sample filter as the main column, applied to that restricted
-          sample specifically — a dash means no A9/A10 data existed at all, an empty cell means
-          some existed but not enough to clear the current min-sample threshold.
-        </p>
-        <p>
-          Each card is only scored using runs played after its most recent balance patch, same as
-          the Act 1 card effectiveness report. Same caveat too: correlational, not causal — which
-          rare card a player keeps is a choice, not a coin flip, so a stronger player's picks will
-          still tend to win more regardless of the card itself.
         </p>
       </div>
     </details>
