@@ -301,27 +301,40 @@
   </div>
 
   <div class="group">
-    <h2 id="methodology-relics">Neow starting relic winrate (all ascensions, all characters)</h2>
+    <h2 id="methodology-relics">Elder relic winrate — Neow, Act 2, Act 3 (all ascensions, all characters)</h2>
     <ul>
-      <li><a href="neow_relics.html">Neow relics</a></li>
+      <li><a href="neow_relics.html">Neow relics (Act 1)</a></li>
+      <li><a href="act2_elder_relics.html">Act 2 elder relics</a></li>
+      <li><a href="act3_elder_relics.html">Act 3 elder relics</a></li>
     </ul>
     <details class="method">
       <summary>Methodology</summary>
       <div class="method-body">
         <p>
-          Simpler than the two reports above: does starting a run with relic X from Neow correlate
-          with winning the whole game? Neow's choice is always made on floor 1, and <em>every</em>
-          run reaches it, so there's no landmark-floor bias to correct for here — comparing "took
-          relic X" against "didn't" is a valid straight comparison, unlike the floor-8/floor-range
-          restrictions the other two reports need.
+          Every act opens with an encounter with an "elder". Act 1's is always Neow. Act 2 and
+          Act 3 each randomly assign one of ~4 different elders per run instead (Act 2: Pael,
+          Tezcatara, Orobas, or Darv; Act 3: Nonupeipe, Tanx, Vakuu, or Darv), and that elder
+          grants a relic. Simpler than the card reports above: does receiving relic X there
+          correlate with winning the whole game? Neow's choice is always made on floor 1, and
+          <em>every</em> run reaches it; Act 2/3's elder is likewise a single fixed juncture every
+          run that reaches that act passes through identically — so there's no landmark-floor bias
+          to correct for on any of these three pages, comparing "got relic X" against "didn't" is
+          a valid straight comparison, unlike the floor-8/floor-range restrictions the card reports
+          need.
         </p>
         <p>
-          <strong>How to read the table:</strong> <code>n</code> is how many runs started with
-          that relic. <code>Winrate</code> is the full-run win rate for those runs. <code>Diff vs
+          <strong>How to read the table:</strong> <code>n</code> is how many runs received that
+          relic. <code>Winrate</code> is the full-run win rate for those runs. <code>Diff vs
           baseline</code> is that winrate minus the overall baseline winrate across every run in
-          the character filter. Runs where Neow granted no relic at all (the player picked gold,
-          max HP, or a card removal instead) are bucketed as <code>(no relic)</code> — a real,
-          informative comparison point, not noise to discard.
+          the character filter. On the Neow page, runs where Neow granted no relic at all (the
+          player picked gold, max HP, or a card removal instead) are bucketed as
+          <code>(no relic)</code> — a real, informative comparison point, not noise to discard.
+          <strong>Act 2/3 elders work differently</strong>: unlike Neow's pure dialogue choice,
+          some of them can be fought and can kill the player — a run that dies to the elder never
+          receives a relic and is excluded from that page's cohort entirely (the same way the Act
+          1 boss report excludes runs killed by the boss), rather than being bucketed as
+          "(no relic)", since that would wrongly conflate "picked no relic" with "died before
+          getting to pick."
         </p>
         <p>
           The main columns pool <strong>every ascension level</strong>, for more volume, at the
@@ -336,61 +349,24 @@
           Each relic is also only scored using runs played <em>after</em> its most recent balance
           patch (see <code>last changed patch</code> column) — a buffed, nerfed, or reworked relic
           isn't evaluated using data from its old, different version. Runs older than that are
-          simply dropped for that relic (there's no other bucket to move them to, since a run's
-          Neow pick is fixed). Most relics have never been changed and use the full dataset.
+          simply dropped for that relic. Most relics have never been changed and use the full
+          dataset.
         </p>
         <p>
-          Use the character filter at the top of the table: relic strength varies a lot by class,
+          Use the character filter at the top of each table: relic strength varies a lot by class,
           so a relic's value is only meaningful within one character at a time, not pooled across
-          all five.
+          all five. A few relics on the Act 2/3 pages (Archaic Tooth, Touch Of Orobas, Dusty Tome)
+          go further than that — their in-game <em>effect</em> itself differs by character, not
+          just its measured value — so those are always shown as one row per class, labeled
+          "&lt;relic&gt; (&lt;character&gt;)", regardless of the character filter; averaging them
+          across classes would blend together mechanically different relics that happen to share
+          a name.
         </p>
         <p>
-          Same caveat as everywhere else on this site: correlational, not causal. Neow's relic
-          choice is partly the player's pick and partly luck of what's offered, and a stronger
+          Same caveat as everywhere else on this site: correlational, not causal. Which relic a
+          run ends up with is partly the player's pick and partly luck of what's offered (and, for
+          Act 2/3, which elder shows up at all is random rather than chosen), and a stronger
           player's runs will still tend to win more regardless of relic.
-        </p>
-      </div>
-    </details>
-  </div>
-
-  <div class="group">
-    <h2 id="methodology-elder-relics">Act 2/3 elder relic winrate (all ascensions, all characters)</h2>
-    <ul>
-      <li><a href="act2_elder_relics.html">Act 2 elder relics</a></li>
-      <li><a href="act3_elder_relics.html">Act 3 elder relics</a></li>
-    </ul>
-    <details class="method">
-      <summary>Methodology</summary>
-      <div class="method-body">
-        <p>
-          Every act opens with an encounter with an "elder". Act 1's is always Neow (see above).
-          Act 2 and Act 3 each randomly assign one of ~4 different elders per run instead (Act 2:
-          Pael, Tezcatara, Orobas, or Darv; Act 3: Nonupeipe, Tanx, Vakuu, or Darv), and that
-          elder grants a relic. Same question as the Neow report: does receiving relic X there
-          correlate with winning the whole game? Because reaching that act's elder is a single
-          fixed juncture every run in the cohort passes through identically, no landmark-floor
-          bias correction is needed — same reasoning as the Act 1 boss rare-card report.
-        </p>
-        <p>
-          <strong>Unlike Neow, this is not a pure dialogue choice</strong> — some of these elders
-          can be fought, and can kill the player. A run that dies to the elder never receives a
-          relic and is excluded from the cohort entirely, the same way the Act 1 boss report
-          excludes runs that died to the boss — it is not bucketed as a "(no relic)" comparison
-          group, since that would conflate "picked no relic" with "died before getting to pick."
-        </p>
-        <p>
-          <strong>How to read the table:</strong> <code>n</code> is how many runs received that
-          relic from the act's elder and survived the encounter. <code>Winrate</code> is the
-          full-run win rate for those runs. <code>Diff vs baseline</code> is that winrate minus
-          the overall baseline winrate across every run in the character filter (which is itself
-          already restricted to runs that reached this act). The <code>&Delta; (A9/A10 only)</code>
-          column, patch filtering, and character filter all work exactly as described in the Neow
-          methodology above.
-        </p>
-        <p>
-          Same caveat as everywhere else on this site: correlational, not causal, and which elder
-          you meet is random rather than a player choice — the relic itself is still what's being
-          compared.
         </p>
       </div>
     </details>
