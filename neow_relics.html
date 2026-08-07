@@ -79,6 +79,13 @@
   tbody tr.no-relic td.name-cell { font-style: italic; color: var(--text-secondary); }
   .low-n { color: var(--text-muted); }
 
+  .help-hint {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 14px; height: 14px; margin-left: 6px; border-radius: 50%;
+    background: var(--accent-soft); color: var(--accent); font-size: 10px; font-weight: 700;
+    cursor: help; vertical-align: middle; font-style: normal;
+  }
+
   .bar-cell { width: 220px; }
   .bar-track { position: relative; height: 16px; }
   .bar-baseline { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--baseline); }
@@ -236,7 +243,17 @@
       var nameTd = document.createElement("td");
       nameTd.className = "name-cell" + (r.n < LOW_N_THRESHOLD ? " low-n" : "") + (r.img ? " relic-name" : "");
       if (r.img) { nameTd.dataset.relicImg = r.img; nameTd.dataset.relicName = r.name; }
-      nameTd.textContent = r.name + (r.n < LOW_N_THRESHOLD ? " *" : "");
+      nameTd.appendChild(document.createTextNode(r.name + (r.n < LOW_N_THRESHOLD ? " *" : "")));
+      if (r.isNone) {
+        var hint = document.createElement("span");
+        hint.className = "help-hint";
+        hint.textContent = "?";
+        hint.title = "Only ever legitimately seen at ascension 0 — a brand new account's very "
+          + "first run, before Neow is unlocked, so there's no relic choice to grant. Anything "
+          + "showing up here at ascension 1+ would be custom-mode contamination that slipped "
+          + "past filtering.";
+        nameTd.appendChild(hint);
+      }
       tr.appendChild(nameTd);
 
       var nTd = document.createElement("td");
