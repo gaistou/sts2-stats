@@ -124,31 +124,31 @@
         <tbody>
           <tr>
             <td class="char-cell">Ironclad</td>
-            <td><a href="ironclad_act1_cards.html?v=a0b0ae1">View &rarr;</a></td>
+            <td><a href="ironclad_act1_cards.html?v=50255c1">View &rarr;</a></td>
             <td><a href="ironclad_act1_card_upgrade_value.html?v=a0b0ae1">View &rarr;</a></td>
             <td><a href="ironclad_act1_boss_cards.html?v=a0b0ae1">View &rarr;</a></td>
           </tr>
           <tr>
             <td class="char-cell">Silent</td>
-            <td><a href="silent_act1_cards.html?v=a0b0ae1">View &rarr;</a></td>
+            <td><a href="silent_act1_cards.html?v=50255c1">View &rarr;</a></td>
             <td><a href="silent_act1_card_upgrade_value.html?v=a0b0ae1">View &rarr;</a></td>
             <td><a href="silent_act1_boss_cards.html?v=a0b0ae1">View &rarr;</a></td>
           </tr>
           <tr>
             <td class="char-cell">Defect</td>
-            <td><a href="defect_act1_cards.html?v=a0b0ae1">View &rarr;</a></td>
+            <td><a href="defect_act1_cards.html?v=50255c1">View &rarr;</a></td>
             <td><a href="defect_act1_card_upgrade_value.html?v=a0b0ae1">View &rarr;</a></td>
             <td><a href="defect_act1_boss_cards.html?v=a0b0ae1">View &rarr;</a></td>
           </tr>
           <tr>
             <td class="char-cell">Necrobinder</td>
-            <td><a href="necrobinder_act1_cards.html?v=a0b0ae1">View &rarr;</a></td>
+            <td><a href="necrobinder_act1_cards.html?v=50255c1">View &rarr;</a></td>
             <td><a href="necrobinder_act1_card_upgrade_value.html?v=a0b0ae1">View &rarr;</a></td>
             <td><a href="necrobinder_act1_boss_cards.html?v=a0b0ae1">View &rarr;</a></td>
           </tr>
           <tr>
             <td class="char-cell">Regent</td>
-            <td><a href="regent_act1_cards.html?v=a0b0ae1">View &rarr;</a></td>
+            <td><a href="regent_act1_cards.html?v=50255c1">View &rarr;</a></td>
             <td><a href="regent_act1_card_upgrade_value.html?v=a0b0ae1">View &rarr;</a></td>
             <td><a href="regent_act1_boss_cards.html?v=a0b0ae1">View &rarr;</a></td>
           </tr>
@@ -168,8 +168,8 @@
         </p>
         <p>
           To avoid that, Act 1 card effectiveness here only counts a card if it was picked up by
-          <strong>floor 8</strong> (roughly the midpoint of Act 1), and only compares it against
-          other runs that had <em>also</em> already reached floor 8 — whether they picked the card
+          <strong>floor 9</strong> (roughly the midpoint of Act 1), and only compares it against
+          other runs that had <em>also</em> already reached floor 9 — whether they picked the card
           up or not. So "having the card" isn't just a stand-in for "survived long enough to get
           it": every run being compared already cleared the same amount of ground. The tradeoff:
           cards that are typically offered later in Act 1 are underrepresented, since those late
@@ -177,8 +177,8 @@
         </p>
         <p>
           <strong>How to read the table:</strong> <code>N</code> is how many times the card was
-          picked up by floor 8. <code>With</code> is the Act 1 clear rate (reached Act 2) among
-          runs that had the card by floor 8; <code>Without</code> is the same clear rate for runs
+          picked up by floor 9. <code>With</code> is the Act 1 clear rate (reached Act 2) among
+          runs that had the card by floor 9; <code>Without</code> is the same clear rate for runs
           that didn't. <code>Diff</code> is With minus Without. Be careful with rows that have a
           very low <code>N</code> (rarely picked) — their numbers can swing wildly and are easy to
           misread as a strong signal when it's really just a small sample.
@@ -196,7 +196,7 @@
           The main <code>With</code> / <code>Without</code> / <code>Diff</code> columns pool
           <strong>every ascension level</strong>, for more volume, at the cost of mixing
           difficulty levels where a card's power can differ. The <code>&Delta; (A9/A10
-          only)</code> column re-runs the same floor-8 comparison restricted to ascension 9-10
+          only)</code> column re-runs the same floor-9 comparison restricted to ascension 9-10
           runs only, as a sanity check on whether the main result still holds at high ascension;
           it respects the same min-sample filter as the main columns, applied to that restricted
           sample specifically — a dash means no A9/A10 data existed at all, an empty cell means
@@ -301,6 +301,57 @@
   </div>
 
   <div class="group">
+    <h2>Act 1 relic effectiveness (all ascensions, all characters combined)</h2>
+    <ul>
+      <li><a href="act1_relics.html?v=50255c1">Act 1 relic effectiveness</a></li>
+    </ul>
+    <details class="method" id="methodology-act1-relics">
+      <summary>Methodology &mdash; Act 1 relic effectiveness</summary>
+      <div class="method-body">
+        <p>
+          Same question as the Act 1 card effectiveness report above (does picking something up
+          early correlate with clearing Act 1?), applied to relics found during Act 1 instead of
+          cards, and pooled across all five characters rather than split per class.
+        </p>
+        <p>
+          The landmark floor here is <strong>floor 10</strong>, not floor 9 — floor 10 is Act 1's
+          guaranteed treasure chest (verified against this dataset: 99.97% of runs that reach
+          floor 10 find a <code>treasure</code> room there, versus no such pattern at floor 9),
+          so it's the natural "everyone gets the same shot at a relic by here" cutoff for this
+          report specifically. Neow's floor-1 starting relic is excluded everywhere on this page —
+          see the Elder relic winrate section below for that separate question.
+        </p>
+        <p>
+          <strong>How to read the table:</strong> <code>N</code> is how many times the relic was
+          picked up (excluding Neow's pick) by floor 10. <code>With</code> is the Act 1 clear rate
+          (reached Act 2) among runs that had the relic by then; <code>Without</code> is the same
+          clear rate for runs that didn't. <code>Diff</code> is With minus Without. The separate
+          <code>Global winrate (all 3 acts)</code> column is a different, deliberately
+          unrestricted question — of any run that had the relic at any point past floor 1, how
+          many won the whole game — and carries the same late-pickup survivorship bias described
+          above, so read it as "of the runs that ended up with this relic, how many won," not as
+          evidence the relic is strong early.
+        </p>
+        <p>
+          The main columns pool <strong>every ascension level</strong>, for more volume, at the
+          cost of mixing difficulty levels where a relic's power can differ. The <code>&Delta;
+          (A9/A10 only)</code> column re-runs the same floor-10 comparison restricted to ascension
+          9-10 runs only; a dash means no A9/A10 data existed at all, an empty cell means some
+          existed but not enough to clear the current min-sample threshold. Each relic is only
+          scored using runs played after its most recent balance patch, same convention as every
+          other report on this site.
+        </p>
+        <p>
+          Pooled across all characters rather than split per class — a strong pooled result is a
+          first pass, not proof it holds for every character individually (relic power can vary a
+          lot by class, as the Elder relic section below documents for a few specific relics).
+          Same caveat as everywhere else: correlational, not causal.
+        </p>
+      </div>
+    </details>
+  </div>
+
+  <div class="group">
     <h2 id="methodology-relics">Elder relic winrate — Neow, Act 2, Act 3 (all ascensions, all characters)</h2>
     <ul>
       <li><a href="neow_relics.html?v=a0b0ae1">Act 1 elder relics (Neow)</a></li>
@@ -319,7 +370,7 @@
           <em>every</em> run reaches it; Act 2/3's elder is likewise a single fixed juncture every
           run that reaches that act passes through identically — so there's no landmark-floor bias
           to correct for on any of these three pages, comparing "got relic X" against "didn't" is
-          a valid straight comparison, unlike the floor-8/floor-range restrictions the card reports
+          a valid straight comparison, unlike the floor-9/floor-range restrictions the card reports
           need.
         </p>
         <p>
