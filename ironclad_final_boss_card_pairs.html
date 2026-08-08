@@ -132,6 +132,8 @@
     </select>
     <label for="search">Card</label>
     <input type="search" id="search" placeholder="Filter by name...">
+    <label for="minSample">Min sample (n)</label>
+    <input type="number" id="minSample" value="100" min="100">
     <span id="rowCount"></span>
   </div>
 
@@ -170,7 +172,7 @@
     bossSelect.appendChild(opt);
   });
 
-  var state = { boss: "combined", sortKey: "diff", sortDir: -1, search: "" };
+  var state = { boss: "combined", sortKey: "diff", sortDir: -1, search: "", minSample: MIN_SAMPLE };
 
   function fmt1(x) { return x.toFixed(1); }
   function fmtSigned1(x) { return (x >= 0 ? "+" : "") + fmt1(x); }
@@ -185,7 +187,8 @@
 
     var q = state.search;
     var rows = rows0.filter(function (r) {
-      return q === "" || r.name_1.toLowerCase().indexOf(q) !== -1 || r.name_2.toLowerCase().indexOf(q) !== -1;
+      return Math.min(r.n_with, r.n_without) >= state.minSample &&
+        (q === "" || r.name_1.toLowerCase().indexOf(q) !== -1 || r.name_2.toLowerCase().indexOf(q) !== -1);
     });
     rows.sort(function (a, b) {
       var av = a[state.sortKey], bv = b[state.sortKey];
@@ -288,6 +291,10 @@
 
   document.getElementById("search").addEventListener("input", function (e) {
     state.search = e.target.value.toLowerCase();
+    render();
+  });
+  document.getElementById("minSample").addEventListener("input", function (e) {
+    state.minSample = Math.max(MIN_SAMPLE, parseInt(e.target.value, 10) || MIN_SAMPLE);
     render();
   });
 
