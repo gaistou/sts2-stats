@@ -424,6 +424,95 @@
   </div>
 
   <div class="group">
+    <h2 id="methodology-final-boss">Act 3 double-boss (ascension 10) card effectiveness, per character</h2>
+    <div class="grid-wrap">
+      <table class="report-grid">
+        <thead>
+          <tr>
+            <th>Character</th>
+            <th>Card effectiveness</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="char-cell">Ironclad</td>
+            <td><a href="ironclad_final_boss_cards.html?v=e47fe0a">View &rarr;</a></td>
+          </tr>
+          <tr>
+            <td class="char-cell">Silent</td>
+            <td><a href="silent_final_boss_cards.html?v=e47fe0a">View &rarr;</a></td>
+          </tr>
+          <tr>
+            <td class="char-cell">Defect</td>
+            <td><a href="defect_final_boss_cards.html?v=e47fe0a">View &rarr;</a></td>
+          </tr>
+          <tr>
+            <td class="char-cell">Necrobinder</td>
+            <td><a href="necrobinder_final_boss_cards.html?v=e47fe0a">View &rarr;</a></td>
+          </tr>
+          <tr>
+            <td class="char-cell">Regent</td>
+            <td><a href="regent_final_boss_cards.html?v=e47fe0a">View &rarr;</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <details class="method">
+      <summary>Methodology</summary>
+      <div class="method-body">
+        <p>
+          At ascension 10 and above, Act 3 ends with <strong>two</strong> boss fights back to
+          back instead of one. The two bosses are randomly drawn (in random order) from a pool
+          of four: Queen, Test Subject, Doormaker, and Aeonglass. This report asks a different
+          shape of question than every other report on this site: not "does this correlate
+          with winning," but <strong>does owning this card correlate with taking less damage in
+          that specific boss fight</strong> — measured directly as HP lost
+          (<code>damage_taken</code> on that fight's floor, not a percentage of max HP, since
+          max HP itself varies run to run from relics and Neow picks).
+        </p>
+        <p>
+          <strong>Cohort:</strong> runs that beat <em>both</em> Act 3 bosses at ascension 10.
+          Like the rare-card-from-the-Act-1-boss report, this is a fixed appointment every run
+          in the cohort passes through identically, so no landmark-floor bias correction is
+          needed — every run being compared already reached and beat both fights.
+        </p>
+        <p>
+          <strong>Card ownership.</strong> A card counts as owned for a given boss's fight if
+          it's a starting-deck card, or its earliest reward pickup anywhere in the run (any
+          act) is on a floor strictly before that boss's own floor. That means a relic or card
+          granted as the reward for beating the <em>first</em> boss correctly counts toward the
+          <em>second</em> boss's fight, but never toward the first boss's own fight.
+        </p>
+        <p>
+          <strong>How to read the table:</strong> <code>n (with)</code> is the number of boss
+          fights (one per boss a run actually faced) where the card was owned going in.
+          <code>Avg HP lost, with/without</code> are the average <code>damage_taken</code> for
+          that fight in each group. <code>Diff (HP saved)</code> is without minus with,
+          <strong>combined across all 4 possible bosses</strong> using a stratified average
+          weighted by the smaller of the two group sizes per boss — the same technique the
+          Smith-value report above uses to combine across campfire floor ranges — rather than
+          pooling raw damage unweighted, since both a card's pick rate and a boss's baseline
+          difficulty vary enough by boss that an unweighted pool would let whichever boss has
+          the most observations dominate. Positive means the card correlates with less HP lost
+          (a good result); the sign convention is kept the same as every winrate-based report
+          on this site (positive = good) even though the underlying arithmetic here is an
+          averaged HP reduction rather than a win-rate delta. Rows marked * have a sample
+          (the smaller of the with/without groups) below 100.
+        </p>
+        <p>
+          Unlike every other report on this site, there's no "all ascensions" version to pool
+          against — the whole report only exists because of the ascension-10 double-boss rule,
+          so ascension 10 is the only cohort that makes sense here. Same patch-filtering
+          convention as elsewhere (a card is only scored using runs on a patch at or after its
+          most recent balance change) and the same caveat: correlational, not causal — a
+          stronger deck both plays better cards and takes less damage, regardless of which
+          specific card gets the credit here.
+        </p>
+      </div>
+    </details>
+  </div>
+
+  <div class="group">
     <h2 id="methodology-misc">Miscellaneous hypotheses</h2>
     <ul>
       <li><a href="misc_hypotheses.html?v=a0b0ae1">Miscellaneous hypotheses</a></li>
