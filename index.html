@@ -438,33 +438,33 @@
         <tbody>
           <tr>
             <td class="char-cell">Ironclad</td>
-            <td><a href="ironclad_final_boss_cards.html?v=471be91">View &rarr;</a></td>
-            <td><a href="ironclad_final_boss_card_pairs.html?v=471be91">View &rarr;</a></td>
-            <td><a href="ironclad_final_boss_card_triples.html?v=471be91">View &rarr;</a></td>
+            <td><a href="ironclad_final_boss_cards.html?v=3fcd93e">View &rarr;</a></td>
+            <td><a href="ironclad_final_boss_card_pairs.html?v=3fcd93e">View &rarr;</a></td>
+            <td><a href="ironclad_final_boss_card_triples.html?v=3fcd93e">View &rarr;</a></td>
           </tr>
           <tr>
             <td class="char-cell">Silent</td>
-            <td><a href="silent_final_boss_cards.html?v=471be91">View &rarr;</a></td>
-            <td><a href="silent_final_boss_card_pairs.html?v=471be91">View &rarr;</a></td>
-            <td><a href="silent_final_boss_card_triples.html?v=471be91">View &rarr;</a></td>
+            <td><a href="silent_final_boss_cards.html?v=3fcd93e">View &rarr;</a></td>
+            <td><a href="silent_final_boss_card_pairs.html?v=3fcd93e">View &rarr;</a></td>
+            <td><a href="silent_final_boss_card_triples.html?v=3fcd93e">View &rarr;</a></td>
           </tr>
           <tr>
             <td class="char-cell">Defect</td>
-            <td><a href="defect_final_boss_cards.html?v=471be91">View &rarr;</a></td>
-            <td><a href="defect_final_boss_card_pairs.html?v=471be91">View &rarr;</a></td>
-            <td><a href="defect_final_boss_card_triples.html?v=471be91">View &rarr;</a></td>
+            <td><a href="defect_final_boss_cards.html?v=3fcd93e">View &rarr;</a></td>
+            <td><a href="defect_final_boss_card_pairs.html?v=3fcd93e">View &rarr;</a></td>
+            <td><a href="defect_final_boss_card_triples.html?v=3fcd93e">View &rarr;</a></td>
           </tr>
           <tr>
             <td class="char-cell">Necrobinder</td>
-            <td><a href="necrobinder_final_boss_cards.html?v=471be91">View &rarr;</a></td>
-            <td><a href="necrobinder_final_boss_card_pairs.html?v=471be91">View &rarr;</a></td>
-            <td><a href="necrobinder_final_boss_card_triples.html?v=471be91">View &rarr;</a></td>
+            <td><a href="necrobinder_final_boss_cards.html?v=3fcd93e">View &rarr;</a></td>
+            <td><a href="necrobinder_final_boss_card_pairs.html?v=3fcd93e">View &rarr;</a></td>
+            <td><a href="necrobinder_final_boss_card_triples.html?v=3fcd93e">View &rarr;</a></td>
           </tr>
           <tr>
             <td class="char-cell">Regent</td>
-            <td><a href="regent_final_boss_cards.html?v=471be91">View &rarr;</a></td>
-            <td><a href="regent_final_boss_card_pairs.html?v=471be91">View &rarr;</a></td>
-            <td><a href="regent_final_boss_card_triples.html?v=471be91">View &rarr;</a></td>
+            <td><a href="regent_final_boss_cards.html?v=3fcd93e">View &rarr;</a></td>
+            <td><a href="regent_final_boss_card_pairs.html?v=3fcd93e">View &rarr;</a></td>
+            <td><a href="regent_final_boss_card_triples.html?v=3fcd93e">View &rarr;</a></td>
           </tr>
         </tbody>
       </table>
@@ -522,9 +522,9 @@
           ascension — same convention as every other report on this site; a dash means that
           card had no A9/A10 data at the minimum-sample threshold. Same patch-filtering
           convention as elsewhere (a card is only scored using runs on a patch at or after its
-          most recent balance change) and the same caveat: correlational, not causal — a
-          stronger deck both plays better cards and takes less damage, regardless of which
-          specific card gets the credit here.
+          most recent balance change, see <code>Last changed patch</code> column) and the same
+          caveat: correlational, not causal — a stronger deck both plays better cards and
+          takes less damage, regardless of which specific card gets the credit here.
         </p>
       </div>
     </details>
@@ -571,7 +571,9 @@
           A9/A10 subset alone (there's no adjustable minimum-sample filter on this report, unlike
           the card effectiveness report above — 100 is fixed at generation time, since it's what
           determines which pairs get computed at all, not just which ones are displayed). Rows
-          marked * have a sample (the smaller of the with/without groups) below 200. Same
+          marked * have a sample (the smaller of the with/without groups) below 200. Each pair
+          is only scored using runs on a patch at or after the more recent of its two cards'
+          last balance changes (see <code>Last changed patch</code> column). Same
           correlational-not-causal caveat as everywhere else on this site.
         </p>
       </div>
@@ -606,7 +608,9 @@
           <strong>How to read the table:</strong> same boss selector, same <code>n
           (with)</code> / <code>Diff (HP saved)</code> / <code>&Delta; (A9/A10 only)</code>
           columns as the 2-card combo report, just for three cards instead of two. Fixed at a
-          100-sample threshold, same reasoning as the pair report; same correlational-not-causal
+          100-sample threshold, same reasoning as the pair report. Each trio is only scored
+          using runs on a patch at or after the most recent of its three cards' last balance
+          changes (see <code>Last changed patch</code> column); same correlational-not-causal
           caveat as everywhere else on this site. These pages run larger than any other report
           on this site (multiple megabytes per character) simply because there are many more
           qualifying trios than pairs — still a single static page, just a bigger one.
