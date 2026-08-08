@@ -431,34 +431,40 @@
           <tr>
             <th>Character</th>
             <th>Card effectiveness</th>
+            <th>2-card combo effectiveness</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td class="char-cell">Ironclad</td>
             <td><a href="ironclad_final_boss_cards.html?v=e47fe0a">View &rarr;</a></td>
+            <td><a href="ironclad_final_boss_card_pairs.html?v=4dce600">View &rarr;</a></td>
           </tr>
           <tr>
             <td class="char-cell">Silent</td>
             <td><a href="silent_final_boss_cards.html?v=e47fe0a">View &rarr;</a></td>
+            <td><a href="silent_final_boss_card_pairs.html?v=4dce600">View &rarr;</a></td>
           </tr>
           <tr>
             <td class="char-cell">Defect</td>
             <td><a href="defect_final_boss_cards.html?v=e47fe0a">View &rarr;</a></td>
+            <td><a href="defect_final_boss_card_pairs.html?v=4dce600">View &rarr;</a></td>
           </tr>
           <tr>
             <td class="char-cell">Necrobinder</td>
             <td><a href="necrobinder_final_boss_cards.html?v=e47fe0a">View &rarr;</a></td>
+            <td><a href="necrobinder_final_boss_card_pairs.html?v=4dce600">View &rarr;</a></td>
           </tr>
           <tr>
             <td class="char-cell">Regent</td>
             <td><a href="regent_final_boss_cards.html?v=e47fe0a">View &rarr;</a></td>
+            <td><a href="regent_final_boss_card_pairs.html?v=4dce600">View &rarr;</a></td>
           </tr>
         </tbody>
       </table>
     </div>
     <details class="method">
-      <summary>Methodology</summary>
+      <summary>Methodology &mdash; Card effectiveness</summary>
       <div class="method-body">
         <p>
           At ascension 10 and above, Act 3 ends with <strong>two</strong> boss fights back to
@@ -507,6 +513,50 @@
           most recent balance change) and the same caveat: correlational, not causal — a
           stronger deck both plays better cards and takes less damage, regardless of which
           specific card gets the credit here.
+        </p>
+      </div>
+    </details>
+
+    <details class="method" id="methodology-final-boss-pairs">
+      <summary>Methodology &mdash; 2-card combo effectiveness</summary>
+      <div class="method-body">
+        <p>
+          A direct extension of the card effectiveness report above: instead of asking whether
+          owning one card correlates with less damage, does owning a specific <strong>pair</strong>
+          of cards together? Same cohort (runs that beat both Act 3 bosses at ascension 10),
+          same outcome metric (HP lost in that fight), same with/without/diff shape — "owned"
+          is just redefined as owning <em>both</em> cards instead of one.
+        </p>
+        <p>
+          <strong>This is not a synergy test.</strong> "Without" means the run didn't have both
+          cards — it could have had just one of the two, or neither. So a pair scoring well here
+          doesn't prove the two cards interact; it could just mean both cards are independently
+          good and tend to show up in similar decks. Isolating a true interaction effect (having
+          both vs. what you'd expect from adding each card's individual effect) isn't computed
+          here.
+        </p>
+        <p>
+          <strong>Which pairs are even considered.</strong> Testing every possible pair of ~300
+          cards would mean roughly 45,000 combinations per character, the vast majority far too
+          rare to trust. Two cutoffs keep this tractable and the results trustworthy: only cards
+          individually owned more than 50 times are considered as pairing candidates in the
+          first place, and a pair is only kept if the smaller of its "with" / "without" groups
+          exceeds 50 — both for a single boss and for the "all 4 combined" ranking. Starting-deck
+          cards are excluded from pairing entirely, since they're owned by virtually every run
+          in the cohort — "card X + a starting card" would just reproduce card X's own
+          single-card result under a different name.
+        </p>
+        <p>
+          <strong>How to read the table:</strong> use the boss selector to switch between a
+          single Act 3 boss and the "all 4 combined" ranking — both are computed directly (the
+          combined ranking is a weighted stratified average across bosses, same technique as the
+          card effectiveness report above), not re-aggregated in your browser. <code>n
+          (with)</code> is how many boss fights had both cards owned going in. <code>Diff (HP
+          saved)</code> is the average HP lost without that pair minus with it — positive means
+          the pair correlates with less damage. Rows marked * have a sample (the smaller of the
+          with/without groups) below 100. Fixed at ascension 10, same reasoning as the card
+          effectiveness report; same correlational-not-causal caveat as everywhere else on this
+          site.
         </p>
       </div>
     </details>
