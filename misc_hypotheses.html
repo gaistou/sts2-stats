@@ -115,7 +115,7 @@
   <div class="facts">
     <h2>Fast facts</h2>
     <ul>
-      <li>Shopping before floor 7 helps overall (+2.4% Act 1 clear) — and much more with a Golden Pearl start (+7.4%) than without (+2.1%).</li><li>Fighting an elite before floor 7 hurts on average (−6.6% Act 1 clear) — true for every Neow relic with a decent sample; no relic makes it clearly worth it.</li><li>Fighting elites late in Act 1 (floor 9-16) helps a lot, and monotonically: 0→3+ elites is +15.5% Act 1 clear, +30.6% winrate.</li><li>More events than monster fights in floor 1-7 helps, but only up to a point — 0→2 events is +6.2% Act 1 clear, then it plateaus (no further gain past 2).</li><li>At a campfire, Smith beats Heal on average whether you're above 50% HP (+11.6% clear) or at/below it (+7.7% clear) — no HP threshold where Heal wins. Likely reflects who chooses to skip healing, not that healing itself hurts.</li><li>Act 2 only half-mirrors Act 1: fighting an elite early in Act 2 is roughly neutral (+0.6% clear, +4.4% winrate) — not bad the way early Act 1 elites are.</li><li>...but late Act 2 elites help even more than late Act 1 elites: 0→3+ elites (floor 8 of the act to the boss) is +20.1% Act 2 clear, +34.5% winrate.</li><li class="abandoned">Buy-a-card vs remove-a-card in shops: not testable — card removal isn't captured anywhere in the scraped data (no reward marker for it, unlike card/relic/potion purchases).</li>
+      <li>Shopping before floor 7 helps overall (+2.4% Act 1 clear) — and much more with a Golden Pearl start (+7.4%) than without (+2.1%).</li><li>Fighting an elite before floor 7 hurts on average (−6.6% Act 1 clear) — true for every Neow relic with a decent sample; no relic makes it clearly worth it.</li><li>Early elites hurt every character's Act 1 clear rate, but not equally: Defect is hit least (−5.9%) and Silent most (−7.5%) — a ~1.6 point spread between the best- and worst-suited class for it.</li><li>Fighting elites late in Act 1 (floor 9-16) helps a lot, and monotonically: 0→3+ elites is +15.5% Act 1 clear, +30.6% winrate.</li><li>More events than monster fights in floor 1-7 helps, but only up to a point — 0→2 events is +6.2% Act 1 clear, then it plateaus (no further gain past 2).</li><li>At a campfire, Smith beats Heal on average whether you're above 50% HP (+11.6% clear) or at/below it (+7.7% clear) — no HP threshold where Heal wins. Likely reflects who chooses to skip healing, not that healing itself hurts.</li><li>Act 2 only half-mirrors Act 1: fighting an elite early in Act 2 is roughly neutral (+0.6% clear, +4.4% winrate) — not bad the way early Act 1 elites are.</li><li>...but late Act 2 elites help even more than late Act 1 elites: 0→3+ elites (floor 8 of the act to the boss) is +20.1% Act 2 clear, +34.5% winrate.</li><li>Deck bloat by Act 2 start: the opposite of "bloat" — more cards added since the starting deck correlates with a BETTER Act 2 clear rate, peaking around 8-9 cards added (+4.4% Act 2 clear, +3.0-3.1% winrate vs. the 3-card baseline), tapering slightly at 10+.</li><li>Deck bloat by Act 3 start: flat — from the 6-card baseline up through 16+, winrate barely moves (within about ±1.7%), unlike the Act 2 landmark's clear positive trend.</li><li class="abandoned">Buy-a-card vs remove-a-card in shops: not testable — card removal isn't captured anywhere in the scraped data (no reward marker for it, unlike card/relic/potion purchases).</li>
     </ul>
   </div>
   
@@ -404,18 +404,69 @@
   </div>
 
   <div class="hcard">
+    <h2>Fighting an elite early, by character</h2>
+    <p class="question">Is fighting an elite by floor 7 equally risky for every character, or does one class handle it noticeably better (or worse) than the others?</p>
+    
+    <table class="rtable">
+      <thead>
+        <tr>
+          <th>Character</th>
+          <th>n (with / without)</th>
+          <th>Act 1 diff</th>
+          <th>Winrate diff</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td class="name-cell">Defect</td>
+          <td>4,520 / 19,290</td>
+          <td class="diff neg">-5.9%</td>
+          <td class="diff pos">+2.2%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Ironclad</td>
+          <td>6,739 / 22,892</td>
+          <td class="diff neg">-6.2%</td>
+          <td class="diff pos">+0.6%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Regent</td>
+          <td>5,024 / 20,113</td>
+          <td class="diff neg">-6.3%</td>
+          <td class="diff neg">-0.8%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Necrobinder</td>
+          <td>4,041 / 18,304</td>
+          <td class="diff neg">-7.2%</td>
+          <td class="diff pos">+0.3%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">Silent</td>
+          <td>4,874 / 21,211</td>
+          <td class="diff neg">-7.5%</td>
+          <td class="diff pos">+0.5%</td>
+        </tr>
+      </tbody>
+    </table>
+<div class="n-note">A9, A10, reached floor 7+</div>
+    <div class="method"><p>Same landmark-floor cohort and with/without split as the general hypothesis above, computed separately per character instead of pooled across all 5 — unlike the general hypothesis and the per-relic breakdown, there is no cross-character combining here, since the point is to compare characters against each other rather than produce one number. Sorted by Act 1 diff, descending — the character at the top handles an early elite fight least badly (or best); the one at the bottom is hurt most by it.</p><p>Correlational, not causal, like everything else on this page: a character whose kit is simply stronger overall (independent of elite timing) will tend to show a smaller with/without gap regardless, not necessarily because that class specifically makes an early elite safer.</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+  </div>
+
+  <div class="hcard">
     <h2>Fighting elites late in Act 1 (floor 9 to the boss)</h2>
     <p class="question">Should you fight as many elites as possible between floor 9 and the Act 1 boss?</p>
     
     <table class="rtable">
       <thead>
         <tr>
-          <th>Elites fought (floor 9-16)</th>
+          <th>Elites fought (9-16)</th>
           <th>n</th>
           <th>Act 1 clear rate</th>
-          <th>&Delta; vs 0</th>
+          <th>&Delta; vs baseline</th>
           <th>Winrate</th>
-          <th>&Delta; vs 0</th>
+          <th>&Delta; vs baseline</th>
         </tr>
       </thead>
       <tbody>
@@ -465,12 +516,12 @@
     <table class="rtable">
       <thead>
         <tr>
-          <th>Events (floor 1-7)</th>
+          <th>Events (1-7)</th>
           <th>n</th>
           <th>Act 1 clear rate</th>
-          <th>&Delta; vs 0</th>
+          <th>&Delta; vs baseline</th>
           <th>Winrate</th>
-          <th>&Delta; vs 0</th>
+          <th>&Delta; vs baseline</th>
         </tr>
       </thead>
       <tbody>
@@ -637,12 +688,12 @@
     <table class="rtable">
       <thead>
         <tr>
-          <th>Elites fought (floor 25-32)</th>
+          <th>Elites fought (25-32)</th>
           <th>n</th>
           <th>Act 2 clear rate</th>
-          <th>&Delta; vs 0</th>
+          <th>&Delta; vs baseline</th>
           <th>Winrate</th>
-          <th>&Delta; vs 0</th>
+          <th>&Delta; vs baseline</th>
         </tr>
       </thead>
       <tbody>
@@ -683,6 +734,240 @@
     </table>
 <div class="n-note">cohort = runs that reached the Act 2 boss &middot; A9, A10</div>
     <div class="method"><p>Act 2 mirror of the "fighting elites late" hypothesis above (floor 9-16, before the Act 1 boss). Cohort: runs that reached the Act 2 boss, so every run had the full floor 25-32 (absolute) window available — "floor 8 of Act 2" to just before its boss, using the dominant Act 2 boss floor (33, ~96.5% of runs that reach it; the remaining ~3.5% have a boss at floor 35, a negligible approximation this fixed window doesn't chase, same as the Act 1 version).</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+  </div>
+
+  <div class="hcard">
+    <h2>Deck bloat by Act 2 start</h2>
+    <p class="question">Does having more cards in your deck by the start of Act 2 correlate with clearing Act 2 / winning the run?</p>
+    
+    <table class="rtable">
+      <thead>
+        <tr>
+          <th>Cards added since starting deck (by Act 2 start)</th>
+          <th>n</th>
+          <th>Act 2 clear rate</th>
+          <th>&Delta; vs baseline</th>
+          <th>Winrate</th>
+          <th>&Delta; vs baseline</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td class="name-cell">0</td>
+          <td>2</td>
+          <td>100.0%</td>
+          <td class="diff pos">+49.9%</td>
+          <td>100.0%</td>
+          <td class="diff pos">+69.1%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">1</td>
+          <td>11</td>
+          <td>63.6%</td>
+          <td class="diff pos">+10.2%</td>
+          <td>36.4%</td>
+          <td class="diff pos">+4.6%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">2</td>
+          <td>89</td>
+          <td>42.7%</td>
+          <td class="diff neg">-10.5%</td>
+          <td>19.1%</td>
+          <td class="diff neg">-12.2%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">3</td>
+          <td>531</td>
+          <td>53.1%</td>
+          <td class="diff baseline">baseline</td>
+          <td>31.3%</td>
+          <td class="diff baseline">baseline</td>
+        </tr>
+        <tr>
+          <td class="name-cell">4</td>
+          <td>2,045</td>
+          <td>53.9%</td>
+          <td class="diff pos">+1.0%</td>
+          <td>31.6%</td>
+          <td class="diff pos">+0.4%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">5</td>
+          <td>6,227</td>
+          <td>56.2%</td>
+          <td class="diff pos">+3.4%</td>
+          <td>33.8%</td>
+          <td class="diff pos">+2.8%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">6</td>
+          <td>13,345</td>
+          <td>56.7%</td>
+          <td class="diff pos">+3.6%</td>
+          <td>34.1%</td>
+          <td class="diff pos">+2.9%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">7</td>
+          <td>19,585</td>
+          <td>57.0%</td>
+          <td class="diff pos">+4.1%</td>
+          <td>34.2%</td>
+          <td class="diff pos">+3.0%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">8</td>
+          <td>18,680</td>
+          <td>57.5%</td>
+          <td class="diff pos">+4.4%</td>
+          <td>34.3%</td>
+          <td class="diff pos">+3.0%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">9</td>
+          <td>11,120</td>
+          <td>57.8%</td>
+          <td class="diff pos">+4.4%</td>
+          <td>34.5%</td>
+          <td class="diff pos">+3.1%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">10+</td>
+          <td>5,736</td>
+          <td>57.1%</td>
+          <td class="diff pos">+3.4%</td>
+          <td>34.5%</td>
+          <td class="diff pos">+2.9%</td>
+        </tr>
+      </tbody>
+    </table>
+<div class="n-note">cohort = runs that reached Act 2 &middot; A9, A10</div>
+    <div class="method"><p>Cohort: runs that reached Act 2 (the landmark floor is each run's own actual first Act 2 floor, not an approximated fixed one). Bucketed by how many cards were added since the character's fixed starting deck — not raw deck size, which never approaches 0 by this point (everyone has picked up at least one card by Act 2), so "cards added" is used instead to give the bucket table a real low-end baseline to diff against. The baseline bucket is 3, not the literal lowest value ever seen (1) — at 1 card added, 3 of the 5 characters have fewer than 5 runs total, too thin to anchor a diff computed per character; 3 cards added is the lowest bucket where every character has a solid sample (88-128 runs), while still sitting well below the median of ~7. "Act 2 clear rate" = reached Act 3. This says nothing about which cards were added, only how many — a companion question to the per-card effectiveness report elsewhere on this site.</p><p>Correlational, not causal, like everything else on this page: a stronger run both survives long enough to accumulate more Act 1 floors' worth of rewards <em>and</em> tends to win more, so "more cards" can partly just be standing in for "had a longer, more successful Act 1" rather than the cards themselves causing anything.</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+  </div>
+
+  <div class="hcard">
+    <h2>Deck bloat by Act 3 start</h2>
+    <p class="question">Does having more cards in your deck by the start of Act 3 correlate with winning the run?</p>
+    
+    <table class="rtable">
+      <thead>
+        <tr>
+          <th>Cards added since starting deck (by Act 3 start)</th>
+          <th>n</th>
+          <th>Winrate</th>
+          <th>&Delta; vs baseline</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td class="name-cell">0</td>
+          <td>1</td>
+          <td>0.0%</td>
+          <td class="diff neg">-58.7%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">1</td>
+          <td>3</td>
+          <td>100.0%</td>
+          <td class="diff pos">+37.8%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">2</td>
+          <td>3</td>
+          <td>100.0%</td>
+          <td class="diff pos">+39.1%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">3</td>
+          <td>13</td>
+          <td>53.8%</td>
+          <td class="diff neg">-6.2%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">4</td>
+          <td>54</td>
+          <td>46.3%</td>
+          <td class="diff neg">-13.1%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">5</td>
+          <td>131</td>
+          <td>51.1%</td>
+          <td class="diff neg">-8.8%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">6</td>
+          <td>408</td>
+          <td>60.0%</td>
+          <td class="diff baseline">baseline</td>
+        </tr>
+        <tr>
+          <td class="name-cell">7</td>
+          <td>922</td>
+          <td>59.4%</td>
+          <td class="diff neg">-0.6%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">8</td>
+          <td>1,824</td>
+          <td>60.7%</td>
+          <td class="diff pos">+0.5%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">9</td>
+          <td>3,243</td>
+          <td>59.2%</td>
+          <td class="diff neg">-1.0%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">10</td>
+          <td>5,018</td>
+          <td>59.7%</td>
+          <td class="diff neg">-0.2%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">11</td>
+          <td>6,487</td>
+          <td>59.6%</td>
+          <td class="diff neg">-0.5%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">12</td>
+          <td>7,087</td>
+          <td>59.7%</td>
+          <td class="diff neg">-0.3%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">13</td>
+          <td>6,541</td>
+          <td>59.8%</td>
+          <td class="diff neg">-0.1%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">14</td>
+          <td>5,181</td>
+          <td>60.1%</td>
+          <td class="diff pos">+0.0%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">15</td>
+          <td>3,358</td>
+          <td>58.7%</td>
+          <td class="diff neg">-1.3%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">16+</td>
+          <td>3,833</td>
+          <td>62.2%</td>
+          <td class="diff pos">+1.7%</td>
+        </tr>
+      </tbody>
+    </table>
+<div class="n-note">cohort = runs that reached Act 3 &middot; A9, A10</div>
+    <div class="method"><p>Same "cards added since the starting deck" framing as the Act 2 start card above, measured at each run's own actual first Act 3 floor instead. Cohort: runs that reached Act 3 (a subset of the Act 2 card's cohort — every run here already cleared Act 2 to get here). No "cleared the next act" column — Act 3 is the last act, so winrate is the only outcome left to compare against. Baseline bucket is 6, not the literal lowest value ever seen (0, which had exactly 1 run total across all 5 characters — nowhere near enough to anchor a per-character diff); 6 cards added is the lowest bucket where every character has a solid sample (56-110 runs), still well below the median of ~12.</p><p>Same correlational caveat as the Act 2 card: a longer, more successful run naturally accumulates more Act 1+2 rewards along the way, independent of whether the extra cards themselves help or hurt.</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
   </div>
 
 </div>
