@@ -121,8 +121,6 @@
             <th>Act 1 Smith</th>
             <th>Act 1 boss card</th>
             <th>Act 3 cards</th>
-            <th>Act 3 pairs</th>
-            <th>Act 3 trios</th>
           </tr>
         </thead>
         <tbody>
@@ -132,8 +130,6 @@
             <td><a href="ironclad_act1_card_upgrade_value.html?v=a0b0ae1">View &rarr;</a></td>
             <td><a href="ironclad_act1_boss_cards.html?v=a0b0ae1">View &rarr;</a></td>
             <td><a href="ironclad_final_boss_cards.html?v=3fcd93e">View &rarr;</a></td>
-            <td><a href="ironclad_final_boss_card_pairs.html?v=c9aa8cd">View &rarr;</a></td>
-            <td><a href="ironclad_final_boss_card_triples.html?v=c9aa8cd">View &rarr;</a></td>
           </tr>
           <tr>
             <td class="char-cell">Silent</td>
@@ -141,8 +137,6 @@
             <td><a href="silent_act1_card_upgrade_value.html?v=a0b0ae1">View &rarr;</a></td>
             <td><a href="silent_act1_boss_cards.html?v=a0b0ae1">View &rarr;</a></td>
             <td><a href="silent_final_boss_cards.html?v=3fcd93e">View &rarr;</a></td>
-            <td><a href="silent_final_boss_card_pairs.html?v=c9aa8cd">View &rarr;</a></td>
-            <td><a href="silent_final_boss_card_triples.html?v=c9aa8cd">View &rarr;</a></td>
           </tr>
           <tr>
             <td class="char-cell">Defect</td>
@@ -150,8 +144,6 @@
             <td><a href="defect_act1_card_upgrade_value.html?v=a0b0ae1">View &rarr;</a></td>
             <td><a href="defect_act1_boss_cards.html?v=a0b0ae1">View &rarr;</a></td>
             <td><a href="defect_final_boss_cards.html?v=3fcd93e">View &rarr;</a></td>
-            <td><a href="defect_final_boss_card_pairs.html?v=c9aa8cd">View &rarr;</a></td>
-            <td><a href="defect_final_boss_card_triples.html?v=c9aa8cd">View &rarr;</a></td>
           </tr>
           <tr>
             <td class="char-cell">Necrobinder</td>
@@ -159,8 +151,6 @@
             <td><a href="necrobinder_act1_card_upgrade_value.html?v=a0b0ae1">View &rarr;</a></td>
             <td><a href="necrobinder_act1_boss_cards.html?v=a0b0ae1">View &rarr;</a></td>
             <td><a href="necrobinder_final_boss_cards.html?v=3fcd93e">View &rarr;</a></td>
-            <td><a href="necrobinder_final_boss_card_pairs.html?v=c9aa8cd">View &rarr;</a></td>
-            <td><a href="necrobinder_final_boss_card_triples.html?v=c9aa8cd">View &rarr;</a></td>
           </tr>
           <tr>
             <td class="char-cell">Regent</td>
@@ -168,8 +158,6 @@
             <td><a href="regent_act1_card_upgrade_value.html?v=a0b0ae1">View &rarr;</a></td>
             <td><a href="regent_act1_boss_cards.html?v=a0b0ae1">View &rarr;</a></td>
             <td><a href="regent_final_boss_cards.html?v=3fcd93e">View &rarr;</a></td>
-            <td><a href="regent_final_boss_card_pairs.html?v=c9aa8cd">View &rarr;</a></td>
-            <td><a href="regent_final_boss_card_triples.html?v=c9aa8cd">View &rarr;</a></td>
           </tr>
         </tbody>
       </table>
@@ -374,117 +362,6 @@
           most recent balance change, see <code>Last changed patch</code> column) and the same
           caveat: correlational, not causal — a stronger deck both plays better cards and
           takes less damage, regardless of which specific card gets the credit here.
-        </p>
-      </div>
-    </details>
-
-    <details class="method" id="methodology-final-boss-pairs">
-      <summary>Methodology &mdash; Act 3 2-card combo effectiveness</summary>
-      <div class="method-body">
-        <p>
-          A direct extension of the Act 3 boss card effectiveness report above: instead of
-          asking whether owning one card correlates with less damage, does owning a specific
-          <strong>pair</strong> of cards together? Same cohort (runs that beat their Act 3
-          boss(es), each fight scored independently), same outcome metric (HP lost in that
-          fight), same with/without/diff shape — "owned" is just redefined as owning
-          <em>both</em> cards instead of one.
-        </p>
-        <p>
-          <strong>The plain "Diff" column is not a synergy test.</strong> "Without" means the
-          run didn't have both cards — it could have had just one of the two, or neither. So a
-          pair scoring well on Diff alone doesn't prove the two cards interact; it usually just
-          means both cards are independently good and tend to show up in the same strong decks
-          (the pair report used to rank purely by this Diff column, and the top of the ranking
-          was dominated by exactly that — pairings of whichever individual cards already scored
-          best on their own).
-        </p>
-        <p>
-          <strong>The "Synergy" column fixes this.</strong> For each pair and boss, every
-          eligible fight is split into 4 groups by ownership: both cards, only card 1, only card
-          2, or neither. Using "neither" as the reference point, each card's own effect is
-          measured in isolation (its "only" group vs. "neither") — call these the two cards'
-          <em>solo</em> effects. If the two cards simply added up independently, owning both
-          should produce roughly <code>solo effect 1 + solo effect 2</code>. Synergy is the
-          difference between what actually happens with both cards and that expected sum. A pair
-          of two individually great cards with no real interaction scores synergy close to zero
-          and drops out of a synergy-sorted ranking; only pairs that do genuinely better together
-          than the sum of their parts score positive synergy — this is the metric the table sorts
-          by default. Synergy shows as a dash for a pair whose two cards are almost always picked
-          up together, since that leaves no "only one of them" group to measure a solo effect
-          from.
-        </p>
-        <p>
-          <strong>Which pairs are even considered.</strong> Testing every possible pair of ~300
-          cards would mean roughly 45,000 combinations per character, the vast majority far too
-          rare to trust. Two cutoffs keep this tractable and the results trustworthy: only cards
-          individually owned more than 100 times are considered as pairing candidates in the
-          first place, and a pair is only kept if the smaller of its "with" / "without" groups
-          exceeds 100 — both for a single boss and for the "all 4 combined" ranking. Starting-deck
-          cards are excluded from pairing entirely, since they're owned by virtually every run
-          in the cohort — "card X + a starting card" would just reproduce card X's own
-          single-card result under a different name.
-        </p>
-        <p>
-          <strong>How to read the table:</strong> use the boss selector to switch between a
-          single Act 3 boss and the "all 4 combined" ranking — both are computed directly (the
-          combined ranking is a weighted stratified average across bosses, same technique as the
-          Act 3 card effectiveness report above), not re-aggregated in your browser. <code>n
-          (with)</code> is how many boss fights had both cards owned going in. <code>Diff (HP
-          saved)</code> is the average HP lost without that pair minus with it (see the caveat
-          above — this is not a synergy measure by itself). <code>Synergy</code> is the
-          bias-corrected metric described above; the table sorts by it by default, and its bar
-          label is greyed out where its own sample (the smallest of the 4 ownership groups
-          feeding it) is below 200. The <code>&Delta; Synergy (A9/A10 only)</code> column
-          re-computes synergy restricted to ascension 9-10 — a dash means that pair's synergy
-          couldn't be computed on the A9/A10 subset alone. Rows marked * have a Diff sample (the
-          smaller of the with/without groups) below 200. Each pair is only scored using runs on a
-          patch at or after the more recent of its two cards' last balance changes (see
-          <code>Last changed patch</code> column). Same correlational-not-causal caveat as
-          everywhere else on this site — a positive synergy means the two cards' measured
-          combined effect exceeds the sum of their individually-measured effects, not that they
-          mechanically interact in-game.
-        </p>
-      </div>
-    </details>
-
-    <details class="method" id="methodology-final-boss-triples">
-      <summary>Methodology &mdash; Act 3 3-card combo effectiveness</summary>
-      <div class="method-body">
-        <p>
-          One step further than the Act 3 2-card combo report above: does owning a specific
-          <strong>trio</strong> of cards together correlate with less damage? Same cohort,
-          outcome metric, and with/without/diff/synergy shape — "owned" is redefined as owning
-          all <em>three</em> cards instead of two, and the same Synergy correction from the pair
-          report above applies, generalized to 5 groups (all three, only card 1, only card 2,
-          only card 3, none) instead of 4. It's a smaller correction than a true three-way
-          interaction test (it doesn't isolate a three-way-only effect from the three pairwise
-          ones), but it removes the same "just three individually strong cards" bias the pair
-          report's Synergy column fixes.
-        </p>
-        <p>
-          <strong>Which trios are even considered.</strong> Testing every possible trio of
-          ~150 pairing-eligible cards would mean roughly half a million combinations per
-          character — most destined to fail the sample-size cutoff anyway. Rather than brute-force
-          that, the search reuses a standard trick from frequent-itemset mining (the same idea
-          behind the "Apriori algorithm"): a trio can only clear the 100-sample threshold if
-          <em>all three</em> of its constituent pairs already do, since owning all three cards is
-          always rarer than owning any two of them. So only card pairs that already clear the
-          threshold on their own are ever extended into trios, and only when the third card also
-          forms two more qualifying pairs with the original two — cutting the search by roughly
-          two orders of magnitude versus testing every combination blindly. Starting-deck cards
-          are excluded from trios entirely, same reasoning as the pair report.
-        </p>
-        <p>
-          <strong>How to read the table:</strong> same boss selector, same <code>n (with)</code>
-          / <code>Diff (HP saved)</code> / <code>Synergy</code> / <code>&Delta; Synergy (A9/A10
-          only)</code> columns as the Act 3 2-card combo report, sorted by Synergy by default,
-          just for three cards instead of two. Fixed at a 100-sample threshold, same reasoning as
-          the pair report. Each trio is only scored using runs on a patch at or after the most
-          recent of its three cards' last balance changes (see <code>Last changed patch</code>
-          column); same correlational-not-causal caveat as everywhere else on this site. These
-          pages run larger than any other report on this site (multiple megabytes per character)
-          simply because there are many more qualifying trios than pairs — still a single static
-          page, just a bigger one.
         </p>
       </div>
     </details>
