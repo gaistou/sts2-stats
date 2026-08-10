@@ -108,14 +108,15 @@
   <a class="back-link" href="index.html">&larr; Back to home</a>
   <h1>Miscellaneous hypotheses</h1>
   <p class="subtitle">
-    Small, one-off questions that don't warrant their own dedicated report. Each is scored as a
+    Small, one-off questions that don't warrant their own dedicated report. Most are scored as a
     single number across all 5 characters combined (rather than broken out per character like the
-    other reports on this site).
+    other reports on this site) — a few cards break the same question down by character instead,
+    where the point is comparing classes against each other.
   </p>
   <div class="facts">
     <h2>Fast facts</h2>
     <ul>
-      <li>Shopping before floor 7 helps overall (+2.4% Act 1 clear) — and much more with a Golden Pearl start (+7.4%) than without (+2.1%).</li><li>Fighting an elite before floor 7 hurts on average (−6.6% Act 1 clear) — true for every Neow relic with a decent sample; no relic makes it clearly worth it.</li><li>Early elites hurt every character's Act 1 clear rate, but not equally: Defect is hit least (−5.9%) and Silent most (−7.5%) — a ~1.6 point spread between the best- and worst-suited class for it.</li><li>Fighting elites late in Act 1 (floor 9-16) helps a lot, and monotonically: 0→3+ elites is +15.5% Act 1 clear, +30.6% winrate.</li><li>More events than monster fights in floor 1-7 helps, but only up to a point — 0→2 events is +6.2% Act 1 clear, then it plateaus (no further gain past 2).</li><li>At a campfire, Smith beats Heal on average whether you're above 50% HP (+11.6% clear) or at/below it (+7.7% clear) — no HP threshold where Heal wins. Likely reflects who chooses to skip healing, not that healing itself hurts.</li><li>Act 2 only half-mirrors Act 1: fighting an elite early in Act 2 is roughly neutral (+0.6% clear, +4.4% winrate) — not bad the way early Act 1 elites are.</li><li>...but late Act 2 elites help even more than late Act 1 elites: 0→3+ elites (floor 8 of the act to the boss) is +20.1% Act 2 clear, +34.5% winrate.</li><li>Deck bloat by Act 2 start: the opposite of "bloat" — more cards added since the starting deck correlates with a BETTER Act 2 clear rate, peaking around 8-9 cards added (+4.4% Act 2 clear, +3.0-3.1% winrate vs. the 3-card baseline), tapering slightly at 10+.</li><li>Deck bloat by Act 3 start: flat — from the 6-card baseline up through 16+, winrate barely moves (within about ±1.7%), unlike the Act 2 landmark's clear positive trend.</li><li class="abandoned">Buy-a-card vs remove-a-card in shops: not testable — card removal isn't captured anywhere in the scraped data (no reward marker for it, unlike card/relic/potion purchases).</li>
+      <li>Shopping before floor 7 helps overall (+2.4% Act 1 clear) — and much more with a Golden Pearl start (+7.4%) than without (+2.1%).</li><li>Fighting an elite before floor 7 hurts on average (−6.6% Act 1 clear) — true for every Neow relic with a decent sample; no relic makes it clearly worth it.</li><li>Early elites hurt every character's Act 1 clear rate, but not equally: Defect is hit least (−5.9%) and Silent most (−7.5%) — a ~1.6 point spread between the best- and worst-suited class for it.</li><li>Fighting elites late in Act 1 (floor 9-16) helps a lot, and monotonically: 0→3+ elites is +15.5% Act 1 clear, +30.6% winrate.</li><li>More events than monster fights in floor 1-7 helps, but only up to a point — 0→2 events is +6.2% Act 1 clear, then it plateaus (no further gain past 2).</li><li>Event choice at "The Legends Were True": taking the damage correlates with a BETTER Act 1 clear rate (+9.1% at A9/A10, +5.5% pooled) but a WORSE full-run winrate (−2.3% at A9/A10, −4.5% pooled) — it seems to help survive Act 1 but cost more than it's worth by the end of the run.</li><li>At a campfire, Smith beats Heal on average whether you're above 50% HP (+11.6% clear) or at/below it (+7.7% clear) — no HP threshold where Heal wins. Likely reflects who chooses to skip healing, not that healing itself hurts.</li><li>Act 2 only half-mirrors Act 1: fighting an elite early in Act 2 is roughly neutral (+0.6% clear, +4.4% winrate) — not bad the way early Act 1 elites are.</li><li>...but late Act 2 elites help even more than late Act 1 elites: 0→3+ elites (floor 8 of the act to the boss) is +20.1% Act 2 clear, +34.5% winrate.</li><li>Deck bloat by Act 2 start: the opposite of "bloat" — more cards added since the starting deck correlates with a BETTER Act 2 clear rate, peaking around 8-9 cards added (+4.4% Act 2 clear, +3.0-3.1% winrate vs. the 3-card baseline), tapering slightly at 10+.</li><li>Deck bloat by Act 3 start: flat — from the 6-card baseline up through 16+, winrate barely moves (within about ±1.7%), unlike the Act 2 landmark's clear positive trend.</li><li class="abandoned">Buy-a-card vs remove-a-card in shops: not testable — card removal isn't captured anywhere in the scraped data (no reward marker for it, unlike card/relic/potion purchases).</li>
     </ul>
   </div>
   
@@ -578,6 +579,75 @@
     </table>
 <div class="n-note">cohort = runs that reached floor 7+ &middot; A9, A10</div>
     <div class="method"><p>"Event" here means room_type <code>unknown</code> in the scraped data — confirmed by spot-checking: these rows carry event names (e.g. "Trash Heap", "Sunken Statue", "Brain Leech") in the encounter field, distinct from shops, treasure rooms, and monster/elite fights, which already have their own room_type. About 9% of event rows have no recorded encounter name (an event that resolved to nothing worth logging, or a data gap) but are still counted as events here.</p><p>Cohort: runs that reached at least floor 7 (so every run had the same 7-floor window available). Floor 1 is Neow's pick, not a real path choice, and is almost never a monster or event room itself, so it contributes negligibly to the count either way. Bucketed by how many of floor 1-7 were events; "5+" absorbs the rare 5/6-event runs. Diffs are relative to the 0-events bucket.</p><p>Floor 1-7 has other room types too (shop, rest, elite, treasure) that compete for the same floor slots — more events mechanically means fewer of <em>something else</em>, not purely fewer monster fights specifically, though monster and event are by far the two most common early room types (see the raw per-floor counts in the codebase notes). Read this as "more events, whatever they displace" rather than a strict one-for-one events-vs-monsters swap.</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+  </div>
+
+  <div class="hcard">
+    <h2>Event choice: "The Legends Were True" — take the damage or not?</h2>
+    <p class="question">The Act 1 event "The Legends Were True" has two choices: one costs HP, the other doesn't. Is taking the damage worth it?</p>
+    
+    <div class="subgroup">
+      <div class="subgroup-label">Ascension 9-10</div>
+      
+    <div class="metric-row">
+      <div class="metric">
+        <div class="metric-label">Act 1 clear rate</div>
+        <div class="metric-values">With: 61.4% &middot; Without: 52.6%</div>
+        <div class="bar-wrap">
+          <div class="bar-track">
+            <div class="bar-baseline"></div>
+            <div class="bar-fill pos" style="width: 45.39032317643139%;"></div>
+          </div>
+          <span class="bar-label">+9.1%</span>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Full-run winrate</div>
+        <div class="metric-values">With: 19.3% &middot; Without: 21.6%</div>
+        <div class="bar-wrap">
+          <div class="bar-track">
+            <div class="bar-baseline"></div>
+            <div class="bar-fill neg" style="width: 11.49104190163914%;"></div>
+          </div>
+          <span class="bar-label">-2.3%</span>
+        </div>
+      </div>
+    </div>
+
+      <div class="n-note">n = 4,256 runs with &middot; 12,526 without &middot; runs that ran into this event, any floor of Act 1</div>
+    </div>
+
+    <div class="subgroup">
+      <div class="subgroup-label">All ascensions</div>
+      
+    <div class="metric-row">
+      <div class="metric">
+        <div class="metric-label">Act 1 clear rate</div>
+        <div class="metric-values">With: 66.2% &middot; Without: 60.7%</div>
+        <div class="bar-wrap">
+          <div class="bar-track">
+            <div class="bar-baseline"></div>
+            <div class="bar-fill pos" style="width: 27.662055638183453%;"></div>
+          </div>
+          <span class="bar-label">+5.5%</span>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Full-run winrate</div>
+        <div class="metric-values">With: 26.1% &middot; Without: 30.6%</div>
+        <div class="bar-wrap">
+          <div class="bar-track">
+            <div class="bar-baseline"></div>
+            <div class="bar-fill neg" style="width: 22.531161227217243%;"></div>
+          </div>
+          <span class="bar-label">-4.5%</span>
+        </div>
+      </div>
+    </div>
+
+      <div class="n-note">n = 7,780 runs with &middot; 32,865 without &middot; runs that ran into this event, any floor of Act 1</div>
+    </div>
+
+    <div class="method"><p>The scraped data has no field for the literal choice text at an event — only the event's name and what came out of it (a card, relic, potion, or nothing) — so most events can't be split by choice at all (see the Act 1 event effectiveness report, which only measures which event a run ran into, not what it picked inside it). "The Legends Were True" is the exception: it's confirmed (by the project owner's own game knowledge) to have exactly two branches, one that costs HP and one that doesn't, so whether that floor's <code>damage_taken</code> is nonzero is a reliable stand-in for which branch was taken — a 0-damage floor row (blank in the site's own table) means 0, not missing, same convention as the Act 3 boss card report.</p><p>No landmark-floor restriction: unlike a card or relic pickup, which can happen at varying floors with a "survived longer to get it" bias, this compares two branches of the <em>same</em> single decision point, once a run has already reached the event — every run that ran into it at all, at whatever floor, is one observation, split only by which branch it took.</p><p>All 5 characters combined, same stratified-weighted-average technique as every other card on this page. Shown at both ascension 9-10 and pooled across every ascension, side by side, rather than picking one — the two roughly agree in direction but not magnitude.</p><p>Correlational, not causal: which branch a player picks isn't random — it can correlate with their HP buffer or risk tolerance at the time, not just the branch's own effect.</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
   </div>
 
   <div class="hcard">
