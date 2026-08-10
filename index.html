@@ -419,6 +419,102 @@
   </div>
 
   <div class="group">
+    <h2>Act 1 event effectiveness (all ascensions)</h2>
+    <div class="grid-wrap">
+      <table class="report-grid">
+        <thead>
+          <tr>
+            <th>Character</th>
+            <th>Act 1 events</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="char-cell">All characters combined</td>
+            <td><a href="act1_events.html">View &rarr;</a></td>
+          </tr>
+          <tr>
+            <td class="char-cell">Ironclad</td>
+            <td><a href="ironclad_act1_events.html">View &rarr;</a></td>
+          </tr>
+          <tr>
+            <td class="char-cell">Silent</td>
+            <td><a href="silent_act1_events.html">View &rarr;</a></td>
+          </tr>
+          <tr>
+            <td class="char-cell">Defect</td>
+            <td><a href="defect_act1_events.html">View &rarr;</a></td>
+          </tr>
+          <tr>
+            <td class="char-cell">Necrobinder</td>
+            <td><a href="necrobinder_act1_events.html">View &rarr;</a></td>
+          </tr>
+          <tr>
+            <td class="char-cell">Regent</td>
+            <td><a href="regent_act1_events.html">View &rarr;</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <details class="method" id="methodology-events">
+      <summary>Methodology &mdash; Act 1 event effectiveness</summary>
+      <div class="method-body">
+        <p>
+          Same question as the Act 1 card effectiveness report above (does running into
+          something early correlate with clearing Act 1?), applied to Act 1's "?" events
+          instead of cards. The landmark floor is <strong>floor 9</strong>, same as the card
+          report — events, like cards, are spread across the whole act rather than
+          concentrated at one guaranteed floor, so the same reasoning applies.
+        </p>
+        <p>
+          <strong>This measures which event you ran into, not which choice you made inside
+          it.</strong> The underlying site records an event's name and what came out of it
+          (a card, a relic, a potion, nothing), but never the literal option text a player
+          picked — there's no "chose option 2 of 3" anywhere in the data. So a row here answers
+          "does running into event X by floor 9 correlate with clearing Act 1," not "was the
+          top choice inside event X the right call."
+        </p>
+        <p>
+          <strong>Data quirk worth flagging:</strong> not every "?" floor in the underlying data
+          is a narrative event — about half of the distinct encounter names under Act 1's "?"
+          rooms turned out to be ordinary monster or elite fights that just kept the "?" map
+          icon instead of showing a choice (confirmed by cross-referencing: those same encounter
+          names also show up under ordinary monster/elite rooms elsewhere in the dataset). Those
+          are excluded here; only genuine narrative events are scored.
+        </p>
+        <p>
+          <strong>How to read the table:</strong> <code>N</code> is how many times the event was
+          run into by floor 9. <code>With</code> is the Act 1 clear rate (reached Act 2) among
+          runs that ran into the event by then; <code>Without</code> is the same clear rate for
+          runs that didn't. <code>Diff</code> is With minus Without. The separate
+          <code>Global winrate (all 3 acts)</code> column is a different, deliberately
+          unrestricted question — of any run that ran into the event at any point in Act 1, how
+          many won the whole game — and carries the same late-encounter survivorship bias
+          described above, so read it as "of the runs that ran into this event, how many won,"
+          not as evidence the event is good or bad to hit early. Rows marked * have a small
+          sample (n &lt; 100).
+        </p>
+        <p>
+          The main columns pool <strong>every ascension level</strong>, for more volume, at the
+          cost of mixing difficulty levels. The <code>&Delta; (A9/A10 only)</code> column re-runs
+          the same floor-9 comparison restricted to ascension 9-10 runs only; a dash means no
+          A9/A10 data existed at all, an empty cell means some existed but not enough to clear
+          the current min-sample threshold. Unlike the card and relic effectiveness reports
+          above, there's no per-event patch-change data to filter on (no changelog extraction
+          exists for events), so every run in the ascension-filtered cohort is used regardless of
+          patch.
+        </p>
+        <p>
+          Use the character filter (one page per class, plus an all-characters-combined page) —
+          which events are good or bad to hit early can vary by class. Same caveat as everywhere
+          else on this site: correlational, not causal. Which Act 1 events a run encounters is
+          shaped by the path a player takes, which can itself correlate with skill.
+        </p>
+      </div>
+    </details>
+  </div>
+
+  <div class="group">
     <h2 id="methodology-relics">Elder relic winrate — Neow, Act 2, Act 3 (all ascensions, all characters)</h2>
     <ul>
       <li><a href="neow_relics.html?v=7e5c2be">Act 1 elder relics (Neow)</a></li>

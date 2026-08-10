@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>All characters combined — Act 1 event effectiveness (all ascensions)</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --pos: #2a78d6; --neg: #e34948;
+    --accent: #6c5ce7; --accent-soft: rgba(108,92,231,0.12);
+    --shadow-sm: 0 1px 2px rgba(11,11,11,0.05);
+    --shadow-md: 0 10px 28px rgba(11,11,11,0.10);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--page);
+    background-image: radial-gradient(900px 420px at 20% -12%, rgba(108,92,231,0.07), transparent 60%),
+                       radial-gradient(700px 360px at 100% 0%, rgba(42,120,214,0.05), transparent 55%);
+    background-attachment: fixed;
+  }
+  ::selection { background: var(--accent-soft); color: var(--text-primary); }
+  .viz-root { max-width: 900px; margin: 0 auto; padding: 32px 20px 64px; }
+
+  h1 { font-size: 23px; font-weight: 650; letter-spacing: -0.01em; margin: 0 0 4px; }
+  .subtitle { color: var(--text-secondary); font-size: 13px; margin: 0 0 6px; line-height: 1.5; }
+  .caveat { color: var(--text-muted); font-size: 12px; margin: 0 0 24px; line-height: 1.5; max-width: 720px; }
+
+  .kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 20px; }
+  .kpi {
+    background: var(--surface-1); border: 1px solid var(--border); border-top: 2px solid var(--accent);
+    border-radius: 12px; padding: 14px 16px; box-shadow: var(--shadow-sm);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .kpi:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .kpi .label { font-size: 11px; color: var(--text-secondary); margin-bottom: 4px; }
+  .kpi .value { font-size: 21px; font-weight: 650; line-height: 1.15; font-variant-numeric: tabular-nums; }
+
+  .filters { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+  .filters label { font-size: 12px; color: var(--text-secondary); margin-right: 4px; }
+  .filters input {
+    font: inherit; font-size: 13px; color: var(--text-primary);
+    background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 8px; padding: 6px 10px; transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .filters input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .filters input[type="search"] { width: 200px; }
+  .filters input[type="number"] { width: 70px; }
+  #rowCount { font-size: 12px; color: var(--text-muted); margin-left: auto; }
+
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 16px 20px 20px; box-shadow: var(--shadow-sm); }
+
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  thead th {
+    position: sticky; top: 0; background: var(--surface-1); box-shadow: 0 1px 0 var(--gridline);
+    text-align: right; font-size: 11px; font-weight: 600; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.03em; padding: 8px 6px;
+    border-bottom: 1px solid var(--gridline); cursor: pointer; user-select: none; white-space: nowrap;
+  }
+  thead th:first-child, tbody td:first-child { text-align: left; }
+  thead th:hover { color: var(--accent); }
+  thead th .arrow { color: var(--text-muted); font-size: 10px; margin-left: 3px; }
+  tbody td { text-align: right; font-size: 13px; padding: 7px 6px; border-bottom: 1px solid var(--gridline); transition: background .1s ease; }
+  tbody td.name-cell { text-align: left; font-variant-numeric: normal; color: var(--text-primary); }
+  tbody tr:hover td { background: var(--accent-soft); }
+  .low-n { color: var(--text-muted); }
+
+  .bar-cell { width: 200px; }
+  .bar-track { position: relative; height: 16px; }
+  .bar-baseline { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--baseline); }
+  .bar-fill { position: absolute; top: 2px; height: 12px; border-radius: 3px; }
+  .bar-fill.pos { background: var(--pos); left: 50%; }
+  .bar-fill.neg { background: var(--neg); right: 50%; }
+  .bar-label { display: inline-block; width: 46px; text-align: right; margin-left: 6px; }
+
+  .delta-pos { color: var(--pos); font-weight: 600; }
+  .delta-neg { color: var(--neg); font-weight: 600; }
+  .delta-na { color: var(--text-muted); }
+
+  .back-link {
+    display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 500;
+    color: var(--text-secondary); text-decoration: none; margin-bottom: 16px;
+    padding: 5px 10px 5px 8px; border-radius: 999px; transition: background .15s ease, color .15s ease;
+  }
+  .back-link:hover { color: var(--accent); background: var(--accent-soft); }
+
+  @media (max-width: 640px) {
+    .viz-root { padding: 20px 14px 48px; }
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .filters { flex-direction: column; align-items: stretch; }
+    #rowCount { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <a class="back-link" href="index.html">&larr; Back to home</a>
+  <h1>All characters combined — Act 1 event effectiveness (all ascensions)</h1>
+  <p class="subtitle">N = times run into by floor 9. With / Without = Act 1 clear rate (reached Act 2) for runs that ran into the event by then vs runs that didn&#x27;t; Diff = With minus Without. Δ (A9/A10 only) re-runs the same comparison restricted to ascension 9-10 — dash = no A9/A10 data, blank = below the min-sample filter. Global winrate (all 3 acts) is a separate, unrestricted stat: of runs that ran into the event at any point in Act 1, how many won the whole game. Rows marked * have a small sample (n &lt; 100). This measures which event you ran into, not which choice you made inside it — the site doesn&#x27;t record that.</p>
+  <p class="caveat">Full methodology and caveats: see the <a href="index.html#methodology-events">Act 1 event effectiveness methodology</a> on the homepage.</p>
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="label">Runs in cohort</div><div class="value">293604</div></div>
+    <div class="kpi"><div class="label">Act 1 clear rate (baseline)</div><div class="value">72.6%</div></div>
+    <div class="kpi"><div class="label">Global winrate, all 3 acts (baseline)</div><div class="value">28.6%</div></div>
+    <div class="kpi"><div class="label">Landmark floor</div><div class="value">9</div></div>
+    <div class="kpi"><div class="label">Distinct events</div><div class="value">32</div></div>
+  </div>
+
+  <div class="filters">
+    <label for="search">Event</label>
+    <input type="search" id="search" placeholder="Filter by name...">
+    <label for="minSample">Min sample (n)</label>
+    <input type="number" id="minSample" value="50" min="0">
+    <span id="rowCount"></span>
+  </div>
+
+  <div class="card">
+    <table id="eventTable">
+      <thead>
+        <tr>
+          <th data-key="name">Event<span class="arrow"></span></th>
+          <th data-key="n">n<span class="arrow"></span></th>
+          <th data-key="with_rate">With %<span class="arrow"></span></th>
+          <th data-key="without_rate">Without %<span class="arrow"></span></th>
+          <th data-key="diff" class="bar-cell">Diff<span class="arrow"></span></th>
+          <th data-key="diff_a9_10">&Delta; (A9/A10 only)<span class="arrow"></span></th>
+          <th data-key="win_rate">Global winrate (all 3 acts)<span class="arrow"></span></th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  var ROWS = [{"encounter": "Endless Conveyor", "name": "Endless Conveyor", "n": 8279, "with_rate": 0.7848774006522526, "without_rate": 0.7244335406992026, "diff": 0.060443859953050016, "win_rate": 0.35707867004329713, "diff_a9_10": 0.07682215584640484, "n_a9_10": 2966}, {"encounter": "Spiraling Whirlpool", "name": "Spiraling Whirlpool", "n": 16221, "with_rate": 0.7807163553418408, "without_rate": 0.7229462512122228, "diff": 0.05777010412961803, "win_rate": 0.33034870641169856, "diff_a9_10": 0.07415381315626557, "n_a9_10": 6929}, {"encounter": "Doors Of Light And Dark", "name": "Doors Of Light And Dark", "n": 16036, "with_rate": 0.7731978049388875, "without_rate": 0.7234191261240489, "diff": 0.04977867881483855, "win_rate": 0.3314774579033134, "diff_a9_10": 0.07228690650026681, "n_a9_10": 6877}, {"encounter": "Sapphire Seed", "name": "Sapphire Seed", "n": 14657, "with_rate": 0.7710309067339838, "without_rate": 0.7237790691421668, "diff": 0.04725183759181695, "win_rate": 0.3413238630758607, "diff_a9_10": 0.03915504283747284, "n_a9_10": 5634}, {"encounter": "The Future Of Potions", "name": "The Future Of Potions", "n": 6577, "with_rate": 0.770564086969743, "without_rate": 0.7251199364519714, "diff": 0.04544415051777162, "win_rate": 0.3358512985910711, "diff_a9_10": 0.060381972352487434, "n_a9_10": 2774}, {"encounter": "Morphic Grove", "name": "Morphic Grove", "n": 10227, "with_rate": 0.7643492715361299, "without_rate": 0.7247588901004669, "diff": 0.03959038143566296, "win_rate": 0.33962791998880965, "diff_a9_10": 0.05043971667720415, "n_a9_10": 4094}, {"encounter": "Byrdonis Nest", "name": "Byrdonis Nest", "n": 14890, "with_rate": 0.7596373404969778, "without_rate": 0.7243482566358346, "diff": 0.03528908386114327, "win_rate": 0.32112991054064566, "diff_a9_10": 0.01655020738911972, "n_a9_10": 5568}, {"encounter": "Aroma Of Chaos", "name": "Aroma Of Chaos", "n": 13438, "with_rate": 0.7539068313737163, "without_rate": 0.7248060078667647, "diff": 0.029100823506951534, "win_rate": 0.3327324779980914, "diff_a9_10": 0.03207323397799455, "n_a9_10": 5442}, {"encounter": "Brain Leech", "name": "Brain Leech", "n": 29443, "with_rate": 0.7402098970892912, "without_rate": 0.7245694860331389, "diff": 0.015640411056152326, "win_rate": 0.2980722422354201, "diff_a9_10": 0.022713274012666984, "n_a9_10": 12404}, {"encounter": "Waterlogged Scriptorium", "name": "Waterlogged Scriptorium", "n": 11879, "with_rate": 0.7397087296910514, "without_rate": 0.7255657112432337, "diff": 0.014143018447817735, "win_rate": 0.31600046479200555, "diff_a9_10": 0.029006208819284396, "n_a9_10": 5000}, {"encounter": "Self Help Book", "name": "Self Help Book", "n": 29185, "with_rate": 0.7381188966935069, "without_rate": 0.7248155389741282, "diff": 0.013303357719378739, "win_rate": 0.30694905328908845, "diff_a9_10": 0.013420676717091462, "n_a9_10": 12189}, {"encounter": "Room Full Of Cheese", "name": "Room Full Of Cheese", "n": 29008, "with_rate": 0.7333149476006618, "without_rate": 0.725351101301607, "diff": 0.007963846299054889, "win_rate": 0.30536374246255593, "diff_a9_10": 0.02313997934983625, "n_a9_10": 12227}, {"encounter": "Wood Carvings", "name": "Wood Carvings", "n": 13236, "with_rate": 0.7303566032033847, "without_rate": 0.7259387661930035, "diff": 0.0044178370103812314, "win_rate": 0.3038221940660965, "diff_a9_10": 0.007110686738440841, "n_a9_10": 5489}, {"encounter": "Tablet Of Truth", "name": "Tablet Of Truth", "n": 13289, "with_rate": 0.7302280081270224, "without_rate": 0.7259440272550524, "diff": 0.004283980871970017, "win_rate": 0.28249002729372247, "diff_a9_10": 0.009797884550150626, "n_a9_10": 5535}, {"encounter": "Sunken Treasury", "name": "Sunken Treasury", "n": 15651, "with_rate": 0.7232125742764041, "without_rate": 0.726302648289459, "diff": -0.0030900740130549442, "win_rate": 0.2849111760737576, "diff_a9_10": 0.009871946871107484, "n_a9_10": 6578}, {"encounter": "Whispering Hollow", "name": "Whispering Hollow", "n": 11003, "with_rate": 0.7217122602926475, "without_rate": 0.726310239524984, "diff": -0.004597979232336513, "win_rate": 0.307193177604746, "diff_a9_10": -0.004850313194632916, "n_a9_10": 4357}, {"encounter": "Abyssal Baths", "name": "Abyssal Baths", "n": 15635, "with_rate": 0.7151263191557403, "without_rate": 0.726757300274491, "diff": -0.011630981118750716, "win_rate": 0.2919028340080972, "diff_a9_10": 0.001933656801018313, "n_a9_10": 6634}, {"encounter": "Dense Vegetation", "name": "Dense Vegetation", "n": 12988, "with_rate": 0.7108099784416384, "without_rate": 0.726847364369815, "diff": -0.016037385928176606, "win_rate": 0.2952970816712156, "diff_a9_10": -0.0069926580655061965, "n_a9_10": 5478}, {"encounter": "This Or That", "name": "This Or That", "n": 28982, "with_rate": 0.7107515009316128, "without_rate": 0.7278230834926801, "diff": -0.017071582561067333, "win_rate": 0.2833410132660733, "diff_a9_10": -0.01300506701490467, "n_a9_10": 12081}, {"encounter": "Trash Heap", "name": "Trash Heap", "n": 13350, "with_rate": 0.7095131086142322, "without_rate": 0.7269298564873293, "diff": -0.017416747873097105, "win_rate": 0.26513920201331725, "diff_a9_10": -0.01071304642518811, "n_a9_10": 6408}, {"encounter": "Luminous Choir", "name": "Luminous Choir", "n": 2185, "with_rate": 0.7075514874141876, "without_rate": 0.7262772845970922, "diff": -0.01872579718290457, "win_rate": 0.3316916488222698, "diff_a9_10": -0.033306603474344554, "n_a9_10": 761}, {"encounter": "Drowning Beacon", "name": "Drowning Beacon", "n": 15844, "with_rate": 0.7062610451906084, "without_rate": 0.727271745391705, "diff": -0.021010700201096633, "win_rate": 0.27394867660889427, "diff_a9_10": -0.014543132511737777, "n_a9_10": 6671}, {"encounter": "Tea Master", "name": "Tea Master", "n": 4679, "with_rate": 0.7042103013464416, "without_rate": 0.7264930345245306, "diff": -0.022282733178089043, "win_rate": 0.30246542393265186, "diff_a9_10": -0.024050368273039524, "n_a9_10": 1709}, {"encounter": "Sunken Statue", "name": "Sunken Statue", "n": 28877, "with_rate": 0.6982027218893929, "without_rate": 0.7291851605616352, "diff": -0.030982438672242263, "win_rate": 0.294034883438857, "diff_a9_10": -0.02970271384783496, "n_a9_10": 11987}, {"encounter": "Slippery Bridge", "name": "Slippery Bridge", "n": 4407, "with_rate": 0.6925346040390288, "without_rate": 0.7266499998271074, "diff": -0.03411539578807865, "win_rate": 0.2981085526315789, "diff_a9_10": -0.0432779872311575, "n_a9_10": 1708}, {"encounter": "Wellspring", "name": "Wellspring", "n": 13160, "with_rate": 0.6882218844984802, "without_rate": 0.7279171599321077, "diff": -0.0396952754336275, "win_rate": 0.2898877583132277, "diff_a9_10": -0.0497983361545542, "n_a9_10": 5503}, {"encounter": "Punch Off", "name": "Punch Off", "n": 3459, "with_rate": 0.6869037294015612, "without_rate": 0.7266056626858984, "diff": -0.03970193328433724, "win_rate": 0.31366288671143894, "diff_a9_10": -0.06458624491106846, "n_a9_10": 1350}, {"encounter": "Jungle Maze Adventure", "name": "Jungle Maze Adventure", "n": 13216, "with_rate": 0.6825817191283293, "without_rate": 0.7281909354180636, "diff": -0.045609216289734245, "win_rate": 0.2776528424245594, "diff_a9_10": -0.04152779497144732, "n_a9_10": 5512}, {"encounter": "Unrest Site", "name": "Unrest Site", "n": 4441, "with_rate": 0.6791263229002477, "without_rate": 0.7268599371288857, "diff": -0.04773361422863809, "win_rate": 0.2847104434213715, "diff_a9_10": -0.022623502711127896, "n_a9_10": 2347}, {"encounter": "The Legends Were True", "name": "The Legends Were True", "n": 28306, "with_rate": 0.6378859605737299, "without_rate": 0.7355539808064893, "diff": -0.09766802023275933, "win_rate": 0.2972567351457744, "diff_a9_10": -0.1061738879942089, "n_a9_10": 11910}, {"encounter": "The Lantern Key", "name": "The Lantern Key", "n": 1, "with_rate": 0.0, "without_rate": 0.7261404004727472, "diff": -0.7261404004727472, "win_rate": 0.0, "diff_a9_10": -0.6638438438438439, "n_a9_10": 1}, {"encounter": "War Historian Repy", "name": "War Historian Repy", "n": 1, "with_rate": 0.0, "without_rate": 0.7261404004727472, "diff": -0.7261404004727472, "win_rate": 0.0, "diff_a9_10": -0.6638438438438439, "n_a9_10": 1}];
+  var LOW_N_THRESHOLD = 100;
+  var maxAbsDiff = ROWS.reduce(function (m, r) { return Math.max(m, Math.abs(r.diff)); }, 0.0001);
+
+  var state = { sortKey: "diff", sortDir: -1, search: "", minSample: 50 };
+
+  function fmtPct(x) { return (x * 100).toFixed(1) + "%"; }
+  function fmtSignedPct(x) { return (x >= 0 ? "+" : "") + fmtPct(x); }
+
+  function render() {
+    var rows = ROWS.filter(function (r) {
+      return r.n >= state.minSample &&
+        (state.search === "" || r.name.toLowerCase().indexOf(state.search) !== -1);
+    });
+    rows.forEach(function (r) {
+      r._diffA910Visible = (r.diff_a9_10 === null || r.diff_a9_10 === undefined || r.n_a9_10 < state.minSample)
+        ? null : r.diff_a9_10;
+    });
+    rows.sort(function (a, b) {
+      var key = state.sortKey === "diff_a9_10" ? "_diffA910Visible" : state.sortKey;
+      var av = a[key], bv = b[key];
+      if (av === null || av === undefined) return 1;
+      if (bv === null || bv === undefined) return -1;
+      if (typeof av === "string") return av.localeCompare(bv) * state.sortDir;
+      return (av - bv) * state.sortDir;
+    });
+
+    var tbody = document.getElementById("tableBody");
+    tbody.innerHTML = "";
+    rows.forEach(function (r) {
+      var tr = document.createElement("tr");
+
+      var nameTd = document.createElement("td");
+      nameTd.className = "name-cell" + (r.n < LOW_N_THRESHOLD ? " low-n" : "");
+      nameTd.textContent = r.name + (r.n < LOW_N_THRESHOLD ? " *" : "");
+      tr.appendChild(nameTd);
+
+      var nTd = document.createElement("td");
+      nTd.textContent = r.n;
+      tr.appendChild(nTd);
+
+      var withTd = document.createElement("td");
+      withTd.textContent = fmtPct(r.with_rate);
+      tr.appendChild(withTd);
+
+      var withoutTd = document.createElement("td");
+      withoutTd.textContent = fmtPct(r.without_rate);
+      tr.appendChild(withoutTd);
+
+      var barTd = document.createElement("td");
+      barTd.className = "bar-cell";
+      var track = document.createElement("div");
+      track.className = "bar-track";
+      var baseline = document.createElement("div");
+      baseline.className = "bar-baseline";
+      track.appendChild(baseline);
+      var fill = document.createElement("div");
+      var pct = Math.abs(r.diff) / maxAbsDiff * 50;
+      fill.className = "bar-fill " + (r.diff >= 0 ? "pos" : "neg");
+      fill.style.width = pct + "%";
+      track.appendChild(fill);
+      barTd.appendChild(track);
+      var label = document.createElement("span");
+      label.className = "bar-label";
+      label.textContent = (r.diff >= 0 ? "+" : "") + fmtPct(r.diff);
+      barTd.appendChild(label);
+      tr.appendChild(barTd);
+
+      var deltaTd = document.createElement("td");
+      if (r.diff_a9_10 === null || r.diff_a9_10 === undefined) {
+        deltaTd.className = "delta-na";
+        deltaTd.textContent = "\u2014";
+      } else if (r.n_a9_10 < state.minSample) {
+        deltaTd.textContent = "";
+      } else {
+        deltaTd.className = r.diff_a9_10 >= 0 ? "delta-pos" : "delta-neg";
+        deltaTd.textContent = fmtSignedPct(r.diff_a9_10);
+      }
+      tr.appendChild(deltaTd);
+
+      var winTd = document.createElement("td");
+      winTd.textContent = fmtPct(r.win_rate);
+      tr.appendChild(winTd);
+
+      tbody.appendChild(tr);
+    });
+
+    document.getElementById("rowCount").textContent = rows.length + " events (* = n < " + LOW_N_THRESHOLD + ", interpret with caution)";
+  }
+
+  document.querySelectorAll("#eventTable thead th[data-key]").forEach(function (th) {
+    th.addEventListener("click", function () {
+      var key = th.getAttribute("data-key");
+      if (state.sortKey === key) { state.sortDir *= -1; }
+      else { state.sortKey = key; state.sortDir = key === "name" ? 1 : -1; }
+      document.querySelectorAll("#eventTable thead .arrow").forEach(function (a) { a.textContent = ""; });
+      th.querySelector(".arrow").textContent = state.sortDir === 1 ? "\u25B2" : "\u25BC";
+      render();
+    });
+  });
+
+  document.getElementById("search").addEventListener("input", function (e) {
+    state.search = e.target.value.toLowerCase();
+    render();
+  });
+  document.getElementById("minSample").addEventListener("input", function (e) {
+    state.minSample = parseInt(e.target.value, 10) || 0;
+    render();
+  });
+
+  render();
+</script>
+</body>
+</html>
