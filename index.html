@@ -368,6 +368,45 @@
   </div>
 
   <div class="group">
+    <h2>Colorless cards — Act 1 effectiveness (all ascensions, all characters combined)</h2>
+    <ul>
+      <li><a href="colorless_act1_cards.html?v=42b60c0">Colorless cards — Act 1 effectiveness</a></li>
+    </ul>
+    <details class="method" id="methodology-colorless-cards">
+      <summary>Methodology &mdash; Colorless cards, Act 1 effectiveness</summary>
+      <div class="method-body">
+        <p>
+          Same landmark-floor methodology as the <a href="#methodology-cards">Act 1 card
+          effectiveness</a> report above, restricted to Colorless cards (cards any of the 5
+          classes can be offered, not tied to one character's card pool) and pooled across all
+          five characters rather than split per class, the same way the Act 1 relic effectiveness
+          report below pools relics.
+        </p>
+        <p>
+          Pooling across characters isn't a simple merge of the raw numbers, though: classes
+          differ both in their baseline Act 1 clear rate and in how often their players see and
+          pick a given Colorless card, so a naive pool would let whichever class happens to have
+          the higher baseline (or the most picks) skew the result — the same Simpson's-paradox
+          confound the miscellaneous-hypotheses page's per-character breakdowns guard against.
+          Instead, With/Without/Diff is computed separately per character first (identical method
+          to the per-class card reports above), then combined into one number per card using a
+          stratified average weighted by the smaller of each character's with/without group
+          sizes.
+        </p>
+        <p>
+          Everything else matches the Act 1 card effectiveness methodology above: <code>N</code>
+          is total pickups by floor 9 across all 5 characters; the <code>&Delta; (A9/A10
+          only)</code> column and patch-filtering (<code>Last changed patch</code>) work the same
+          way; <code>Global winrate (all 3 acts)</code> is the same deliberately unrestricted,
+          survivorship-biased stat described above. Expect more small-sample rows than the
+          per-class reports — Colorless cards, especially Ancient rarity ones, are picked up far
+          less often than a class's own cards. Same caveat: correlational, not causal.
+        </p>
+      </div>
+    </details>
+  </div>
+
+  <div class="group">
     <h2>Act 1 relic effectiveness (all ascensions, all characters combined)</h2>
     <ul>
       <li><a href="act1_relics.html?v=2679eae">Act 1 relic effectiveness</a></li>
