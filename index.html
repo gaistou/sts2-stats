@@ -118,7 +118,7 @@
             <th>Act 1 cards</th>
             <th>Act 1 Smith</th>
             <th>Act 1 boss card</th>
-            <th>Act 3 cards</th>
+            <th>Act 3 boss cards</th>
           </tr>
         </thead>
         <tbody>
@@ -195,13 +195,6 @@
           that reached that same point — so a run that simply got further doesn't get an unfair
           advantage in the comparison. Only a run's first upgrade opportunity for a card counts.
         </p>
-        <p>
-          The main numbers combine <strong>every ascension level</strong> rather than just A9/A10,
-          since campfire choices are rarer than card pickups and pooling more runs gives steadier
-          numbers. The <code>&Delta; (A9/A10 only)</code> column shows the same comparison using
-          only the hardest difficulty levels. Starting cards count as already owned from floor 1,
-          not just once you pick them up.
-        </p>
       </div>
     </details>
 
@@ -209,7 +202,7 @@
       <summary>Methodology &mdash; Act 1 boss rare card</summary>
       <div class="method-body">
         <p>
-          <strong>How to read the table:</strong> <code>n</code> is how many runs chosed that card after act 1 boss fight.
+          <strong>How to read the table:</strong> <code>n</code> is how many runs kept that card after the Act 1 boss fight.
           <code>Winrate</code> is the full-run (3 acts) win rate for those runs. <code>Diff vs
           baseline</code> is that winrate minus the baseline winrate for this character's cohort.
           <code>(skipped)</code> covers runs that beat the boss but kept none of the 3 rares
@@ -259,7 +252,33 @@
           with/without group size, so one class's baseline clear rate can't skew the result.
         </p>
         <p>
-          We sadly don't have the data of card bought in shop, so we do not have that much data for colorless cards.
+          Shop purchases aren't tracked separately from other pickups in the scraped data, so
+          this report has less data for Colorless cards than the per-class card reports.
+        </p>
+      </div>
+    </details>
+  </div>
+
+  <div class="group">
+    <h2 id="methodology-relics">Elder relic winrate — Neow, Act 2, Act 3 (all ascensions, all characters)</h2>
+    <ul>
+      <li><a href="neow_relics.html?v=7e5c2be">Act 1 elder relics (Neow)</a></li>
+      <li><a href="act2_elder_relics.html?v=2679eae">Act 2 elder relics</a></li>
+      <li><a href="act3_elder_relics.html?v=2679eae">Act 3 elder relics</a></li>
+    </ul>
+    <details class="method">
+      <summary>Methodology &mdash; Elder relic winrate</summary>
+      <div class="method-body">
+        <p>
+          Main columns pool <strong>every ascension level</strong>. The <code>&Delta;
+          (A9/A10 only)</code> column re-runs the same comparison restricted to ascension 9-10
+          runs only. Each relic is only scored using runs played after its most recent balance
+          patch.
+        </p>
+        <p>
+          A few ancient relics on the Act 2/3 pages (Archaic Tooth, Touch Of Orobas, Dusty Tome) have a
+          different in-game <strong>effect</strong> per character, not just a different measured
+          value — those are always shown as one row per class, never pooled.
         </p>
       </div>
     </details>
@@ -342,31 +361,6 @@
           (A9/A10 only)</code> column re-runs the same floor-9 comparison restricted to
           ascension 9-10 runs only. Unlike the card and relic reports, there's no per-event
           patch-change data to filter on, so every run in the cohort is used regardless of patch.
-        </p>
-      </div>
-    </details>
-  </div>
-
-  <div class="group">
-    <h2 id="methodology-relics">Elder relic winrate — Neow, Act 2, Act 3 (all ascensions, all characters)</h2>
-    <ul>
-      <li><a href="neow_relics.html?v=7e5c2be">Act 1 elder relics (Neow)</a></li>
-      <li><a href="act2_elder_relics.html?v=2679eae">Act 2 elder relics</a></li>
-      <li><a href="act3_elder_relics.html?v=2679eae">Act 3 elder relics</a></li>
-    </ul>
-    <details class="method">
-      <summary>Methodology</summary>
-      <div class="method-body">
-        <p>
-          Main columns pool <strong>every ascension level</strong>. The <code>&Delta;
-          (A9/A10 only)</code> column re-runs the same comparison restricted to ascension 9-10
-          runs only. Each relic is only scored using runs played after its most recent balance
-          patch.
-        </p>
-        <p>
-          A few ancient relics on the Act 2/3 pages (Archaic Tooth, Touch Of Orobas, Dusty Tome) have a
-          different in-game <strong>effect</strong> per character, not just a different measured
-          value — those are always shown as one row per class, never pooled.
         </p>
       </div>
     </details>
