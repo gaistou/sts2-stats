@@ -721,8 +721,8 @@
 
   <details class="hcard">
     <summary>
-      <h2>Event choice: "The Legends Were True" — take the damage or not?</h2>
-      <p class="question">The Act 1 event "The Legends Were True" has two choices: one costs HP, the other doesn't. Is taking the damage worth it?</p>
+      <h2>Event choice: "The Legends Were True" — Slowly find an exit vs Nab the map</h2>
+      <p class="question">The Act 1 event "The Legends Were True" offers two choices: "Slowly find an exit" (costs HP) or "Nab the map" (no cost). Is taking the damage worth it?</p>
     </summary>
     <div class="hcard-body">
       
@@ -788,7 +788,7 @@
       <div class="n-note">n = 7,780 runs with &middot; 32,865 without &middot; runs that ran into this event, any floor of Act 1</div>
     </div>
 
-      <div class="method"><p>Most events can't be split by the choice made inside them — the scraped data only has the event's name and what came out of it, not the literal choice text. "The Legends Were True" is the exception: it's confirmed to have exactly two branches, one that costs HP and one that doesn't, so whether that floor's <code>damage_taken</code> is nonzero is a reliable stand-in for which branch was taken.</p>
+      <div class="method"><p>Most events can't be split by the choice made inside them — the scraped data only has the event's name and what came out of it, not the literal choice text. "The Legends Were True" is the exception: it's confirmed to have exactly two branches — "Slowly find an exit" (costs HP) and "Nab the map" (no cost) — so whether that floor's <code>damage_taken</code> is nonzero is a reliable stand-in for which branch was taken.</p>
 <p>No landmark-floor restriction: this compares two branches of the same single decision point, once a run has already reached the event — every run that ran into it at all is one observation.</p>
 <p>All 5 characters combined. Shown at both ascension 9-10 and pooled across every ascension, side by side, rather than picking one — the two roughly agree in direction but not magnitude.</p>
 <p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
@@ -797,8 +797,8 @@
 
   <details class="hcard">
     <summary>
-      <h2>Event choice: "Sapphire Seed" — take the HP or not?</h2>
-      <p class="question">The Act 1 event "Sapphire Seed" has two choices: one restores HP, the other doesn't. Is taking the heal worth it?</p>
+      <h2>Event choice: "Sapphire Seed" — Eat vs Plant</h2>
+      <p class="question">The Act 1 event "Sapphire Seed" offers two choices: "Eat" (restores HP) or "Plant" (no HP change). Is taking the heal worth it?</p>
     </summary>
     <div class="hcard-body">
       
@@ -864,7 +864,7 @@
       <div class="n-note">n = 9,196 runs with &middot; 11,078 without &middot; runs that ran into this event, any floor of Act 1</div>
     </div>
 
-      <div class="method"><p>Same event-choice framing as "The Legends Were True" above, but with a different signal: "Sapphire Seed"'s <code>damage_taken</code> is essentially always 0 regardless of branch, so the two branches are instead read off a change in HP versus the previous floor — 95% of occurrences split cleanly into no change (no heal) or +9 (healed); the remaining ~5% (small deltas, likely another relic or curse ticking on an adjacent floor) are bucketed by which side of zero they land on. "With" here means the branch that restored HP.</p>
+      <div class="method"><p>Same event-choice framing as "The Legends Were True" above, but with a different signal: "Sapphire Seed"'s <code>damage_taken</code> is essentially always 0 regardless of branch, so the two branches are instead read off a change in HP versus the previous floor — 95% of occurrences split cleanly into no change ("Plant") or +9 ("Eat"); the remaining ~5% (small deltas, likely another relic or curse ticking on an adjacent floor) are bucketed by which side of zero they land on. "With" here means "Eat," the branch that restored HP.</p>
 <p>Same cohort logic and all-5-characters-combined technique as "The Legends Were True" above.</p>
 <p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
     </div>
