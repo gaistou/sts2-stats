@@ -68,8 +68,17 @@
   .hcard[open] summary::after { transform: rotate(90deg); }
   .hcard summary:hover h2 { color: var(--accent); }
   .hcard h2 { font-size: 16px; font-weight: 600; margin: 0 0 4px; }
-  .hcard .question { color: var(--text-secondary); font-size: 13px; margin: 0; font-style: italic; }
+  .hcard .question { color: var(--text-secondary); font-size: 13px; margin: 0 0 10px; font-style: italic; }
   .hcard-body { padding: 0 22px 20px; }
+
+  .badges { display: flex; gap: 6px; flex-wrap: wrap; }
+  .badge {
+    font-size: 12px; font-weight: 650; padding: 3px 10px; border-radius: 999px;
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  .badge.pos { color: var(--pos); background: rgba(42,120,214,0.12); }
+  .badge.neg { color: var(--neg); background: rgba(227,73,72,0.12); }
+  .badge.neutral { color: var(--text-muted); background: var(--accent-soft); }
 
   .metric-row { display: flex; gap: 24px; margin-bottom: 14px; flex-wrap: wrap; }
   .metric { flex: 1; min-width: 220px; }
@@ -101,10 +110,17 @@
   .rtable td { text-align: right; font-size: 13px; padding: 6px 6px; border-bottom: 1px solid var(--gridline); transition: background .1s ease; }
   .rtable tr:hover td { background: var(--accent-soft); }
   .rtable td.name-cell { text-align: left; color: var(--text-primary); }
-  .rtable td.diff.pos { color: var(--pos); font-weight: 600; }
-  .rtable td.diff.neg { color: var(--neg); font-weight: 600; }
-  .rtable td.diff.baseline { color: var(--text-muted); font-weight: 400; font-style: italic; }
   .rtable tr.no-relic td.name-cell { font-style: italic; color: var(--text-secondary); }
+
+  .mbar { display: inline-flex; align-items: center; justify-content: flex-end; gap: 6px; }
+  .mbar-track { position: relative; width: 40px; height: 8px; border-radius: 3px; background: var(--gridline); flex: none; }
+  .mbar-fill { position: absolute; top: 0; bottom: 0; border-radius: 3px; }
+  .mbar-fill.pos { background: var(--pos); left: 50%; }
+  .mbar-fill.neg { background: var(--neg); right: 50%; }
+  .diff-label { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .diff-label.pos { color: var(--pos); }
+  .diff-label.neg { color: var(--neg); }
+  .diff-label.baseline { color: var(--text-muted); font-weight: 400; font-style: italic; }
 
   @media (max-width: 640px) {
     .viz-root { padding: 20px 14px 48px; }
@@ -124,6 +140,7 @@
     <summary>
       <h2>Shopping early (before floor 9)</h2>
       <p class="question">Does visiting a shop before floor 9 correlate with clearing Act 1 / winning the run — and does that depend on starting with Neow's Golden Pearl relic (extra starting gold)?</p>
+      <div class="badges"><span class="badge pos">Act 1 clear rate +1.0% to +6.6%</span><span class="badge neutral">Winrate -0.4% to +5.1%</span></div>
     </summary>
     <div class="hcard-body">
       
@@ -202,6 +219,7 @@
     <summary>
       <h2>Fighting an elite early (floor 1-9)</h2>
       <p class="question">Does fighting an elite before floor 9 correlate with clearing Act 1 / winning the run?</p>
+      <div class="badges"><span class="badge pos">Act 1 clear rate +2.7%</span><span class="badge pos">Winrate +6.2%</span></div>
     </summary>
     <div class="hcard-body">
       
@@ -239,6 +257,7 @@
     <summary>
       <h2>Fighting an elite early, by Neow relic</h2>
       <p class="question">Is fighting an elite by floor 9 a bad idea in general, but fine (or good) with certain Neow starting relics strong enough to carry an early elite fight?</p>
+      <div class="badges"><span class="badge pos">Best Kaleidoscope +6.2%</span><span class="badge neg">Worst Lava Rock -3.7%</span></div>
     </summary>
     <div class="hcard-body">
       
@@ -256,164 +275,164 @@
         <tr>
           <td class="name-cell">Kaleidoscope</td>
           <td>1,353 / 746</td>
-          <td class="diff pos">+6.2%</td>
-          <td class="diff pos">+9.8%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 50.0%;"></span></span><span class="diff-label pos">+6.2%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 50.0%;"></span></span><span class="diff-label pos">+9.8%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Neows Torment</td>
           <td>1,054 / 801</td>
-          <td class="diff pos">+5.6%</td>
-          <td class="diff pos">+6.0%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 45.4%;"></span></span><span class="diff-label pos">+5.6%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 30.7%;"></span></span><span class="diff-label pos">+6.0%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Silken Tress</td>
           <td>2,115 / 1,172</td>
-          <td class="diff pos">+5.2%</td>
-          <td class="diff pos">+8.8%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 42.5%;"></span></span><span class="diff-label pos">+5.2%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 45.1%;"></span></span><span class="diff-label pos">+8.8%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Large Capsule</td>
           <td>2,317 / 1,471</td>
-          <td class="diff pos">+4.4%</td>
-          <td class="diff pos">+7.6%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 36.1%;"></span></span><span class="diff-label pos">+4.4%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 38.5%;"></span></span><span class="diff-label pos">+7.6%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Small Capsule</td>
           <td>1,813 / 1,378</td>
-          <td class="diff pos">+4.4%</td>
-          <td class="diff pos">+8.3%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 35.5%;"></span></span><span class="diff-label pos">+4.4%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 42.5%;"></span></span><span class="diff-label pos">+8.3%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Cursed Pearl</td>
           <td>3,863 / 2,658</td>
-          <td class="diff pos">+3.5%</td>
-          <td class="diff pos">+5.8%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 28.6%;"></span></span><span class="diff-label pos">+3.5%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 29.4%;"></span></span><span class="diff-label pos">+5.8%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">New Leaf</td>
           <td>3,701 / 3,166</td>
-          <td class="diff pos">+3.4%</td>
-          <td class="diff pos">+5.5%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 27.7%;"></span></span><span class="diff-label pos">+3.4%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 28.0%;"></span></span><span class="diff-label pos">+5.5%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Lead Paperweight</td>
           <td>4,806 / 3,564</td>
-          <td class="diff pos">+3.3%</td>
-          <td class="diff pos">+6.6%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 27.0%;"></span></span><span class="diff-label pos">+3.3%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 33.5%;"></span></span><span class="diff-label pos">+6.6%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Nutritious Oyster</td>
           <td>686 / 670</td>
-          <td class="diff pos">+3.2%</td>
-          <td class="diff pos">+5.3%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 26.0%;"></span></span><span class="diff-label pos">+3.2%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 27.1%;"></span></span><span class="diff-label pos">+5.3%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Leafy Poultice</td>
           <td>5,823 / 4,341</td>
-          <td class="diff pos">+3.0%</td>
-          <td class="diff pos">+5.9%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 24.1%;"></span></span><span class="diff-label pos">+3.0%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 30.3%;"></span></span><span class="diff-label pos">+5.9%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Booming Conch</td>
           <td>1,999 / 567</td>
-          <td class="diff pos">+2.8%</td>
-          <td class="diff pos">+9.8%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 22.4%;"></span></span><span class="diff-label pos">+2.8%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 50.0%;"></span></span><span class="diff-label pos">+9.8%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Silver Crucible</td>
           <td>6,705 / 3,619</td>
-          <td class="diff pos">+2.3%</td>
-          <td class="diff pos">+6.9%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 18.4%;"></span></span><span class="diff-label pos">+2.3%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 35.1%;"></span></span><span class="diff-label pos">+6.9%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Hefty Tablet</td>
           <td>2,445 / 2,347</td>
-          <td class="diff pos">+2.2%</td>
-          <td class="diff pos">+2.8%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 17.8%;"></span></span><span class="diff-label pos">+2.2%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 14.4%;"></span></span><span class="diff-label pos">+2.8%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Neows Talisman</td>
           <td>1,439 / 955</td>
-          <td class="diff pos">+2.2%</td>
-          <td class="diff pos">+4.6%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 17.5%;"></span></span><span class="diff-label pos">+2.2%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 23.5%;"></span></span><span class="diff-label pos">+4.6%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Pomander</td>
           <td>1,531 / 1,211</td>
-          <td class="diff pos">+1.8%</td>
-          <td class="diff pos">+5.2%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 14.5%;"></span></span><span class="diff-label pos">+1.8%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 26.7%;"></span></span><span class="diff-label pos">+5.2%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Golden Pearl</td>
           <td>4,196 / 2,999</td>
-          <td class="diff pos">+1.5%</td>
-          <td class="diff pos">+5.9%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 11.9%;"></span></span><span class="diff-label pos">+1.5%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 30.2%;"></span></span><span class="diff-label pos">+5.9%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Phial Holster</td>
           <td>2,562 / 1,280</td>
-          <td class="diff pos">+1.0%</td>
-          <td class="diff pos">+7.5%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 8.5%;"></span></span><span class="diff-label pos">+1.0%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 38.4%;"></span></span><span class="diff-label pos">+7.5%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Lost Coffer</td>
           <td>2,770 / 1,935</td>
-          <td class="diff pos">+1.0%</td>
-          <td class="diff pos">+6.4%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 8.4%;"></span></span><span class="diff-label pos">+1.0%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 32.5%;"></span></span><span class="diff-label pos">+6.4%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Stone Humidifier</td>
           <td>974 / 933</td>
-          <td class="diff pos">+0.6%</td>
-          <td class="diff pos">+4.2%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 5.0%;"></span></span><span class="diff-label pos">+0.6%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 21.6%;"></span></span><span class="diff-label pos">+4.2%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Arcane Scroll</td>
           <td>3,314 / 3,463</td>
-          <td class="diff pos">+0.4%</td>
-          <td class="diff pos">+3.9%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 3.4%;"></span></span><span class="diff-label pos">+0.4%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 20.1%;"></span></span><span class="diff-label pos">+3.9%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Scroll Boxes</td>
           <td>2,315 / 1,848</td>
-          <td class="diff pos">+0.4%</td>
-          <td class="diff pos">+5.3%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 3.2%;"></span></span><span class="diff-label pos">+0.4%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 26.8%;"></span></span><span class="diff-label pos">+5.3%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Neows Bones</td>
           <td>2,587 / 1,932</td>
-          <td class="diff pos">+0.3%</td>
-          <td class="diff pos">+3.4%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 2.6%;"></span></span><span class="diff-label pos">+0.3%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 17.4%;"></span></span><span class="diff-label pos">+3.4%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Precarious Shears</td>
           <td>2,369 / 3,272</td>
-          <td class="diff neg">-0.0%</td>
-          <td class="diff pos">+5.8%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 0.2%;"></span></span><span class="diff-label neg">-0.0%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 29.7%;"></span></span><span class="diff-label pos">+5.8%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Fishing Rod</td>
           <td>598 / 542</td>
-          <td class="diff neg">-0.2%</td>
-          <td class="diff pos">+8.8%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 1.8%;"></span></span><span class="diff-label neg">-0.2%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 44.7%;"></span></span><span class="diff-label pos">+8.8%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Precise Scissors</td>
           <td>1,513 / 1,601</td>
-          <td class="diff neg">-1.2%</td>
-          <td class="diff pos">+7.9%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 9.6%;"></span></span><span class="diff-label neg">-1.2%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 40.2%;"></span></span><span class="diff-label pos">+7.9%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Winged Boots</td>
           <td>1,075 / 783</td>
-          <td class="diff neg">-2.1%</td>
-          <td class="diff pos">+4.8%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 17.0%;"></span></span><span class="diff-label neg">-2.1%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 24.3%;"></span></span><span class="diff-label pos">+4.8%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Lava Rock</td>
           <td>561 / 658</td>
-          <td class="diff neg">-3.7%</td>
-          <td class="diff pos">+3.7%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 29.8%;"></span></span><span class="diff-label neg">-3.7%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 19.1%;"></span></span><span class="diff-label pos">+3.7%</span></span></td>
         </tr>
       </tbody>
     </table>
@@ -428,6 +447,7 @@
     <summary>
       <h2>Fighting an elite early, by character</h2>
       <p class="question">Is fighting an elite by floor 9 equally risky for every character, or does one class handle it noticeably better (or worse) than the others?</p>
+      <div class="badges"><span class="badge pos">Best Ironclad +3.2%</span><span class="badge pos">Worst Necrobinder +1.4%</span></div>
     </summary>
     <div class="hcard-body">
       
@@ -445,32 +465,32 @@
         <tr>
           <td class="name-cell">Ironclad</td>
           <td>16,857 / 10,393</td>
-          <td class="diff pos">+3.2%</td>
-          <td class="diff pos">+6.0%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 50.0%;"></span></span><span class="diff-label pos">+3.2%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 38.7%;"></span></span><span class="diff-label pos">+6.0%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Silent</td>
           <td>13,089 / 10,684</td>
-          <td class="diff pos">+3.2%</td>
-          <td class="diff pos">+6.8%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 49.8%;"></span></span><span class="diff-label pos">+3.2%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 43.9%;"></span></span><span class="diff-label pos">+6.8%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Defect</td>
           <td>12,146 / 9,946</td>
-          <td class="diff pos">+2.8%</td>
-          <td class="diff pos">+7.8%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 43.2%;"></span></span><span class="diff-label pos">+2.8%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 50.0%;"></span></span><span class="diff-label pos">+7.8%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Regent</td>
           <td>13,596 / 9,716</td>
-          <td class="diff pos">+2.6%</td>
-          <td class="diff pos">+5.7%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 40.3%;"></span></span><span class="diff-label pos">+2.6%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 36.5%;"></span></span><span class="diff-label pos">+5.7%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">Necrobinder</td>
           <td>10,890 / 9,234</td>
-          <td class="diff pos">+1.4%</td>
-          <td class="diff pos">+4.6%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 21.0%;"></span></span><span class="diff-label pos">+1.4%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 29.3%;"></span></span><span class="diff-label pos">+4.6%</span></span></td>
         </tr>
       </tbody>
     </table>
@@ -484,6 +504,7 @@
     <summary>
       <h2>Fighting elites late in Act 1 (floor 9 to the boss)</h2>
       <p class="question">Should you fight as many elites as possible between floor 9 and the Act 1 boss?</p>
+      <div class="badges"><span class="badge pos">Peak 3+ +15.5%</span></div>
     </summary>
     <div class="hcard-body">
       
@@ -504,33 +525,33 @@
           <td class="name-cell">0</td>
           <td>12,072</td>
           <td>71.8%</td>
-          <td class="diff baseline">baseline</td>
+          <td><span class="diff-label baseline">baseline</span></td>
           <td>13.5%</td>
-          <td class="diff baseline">baseline</td>
+          <td><span class="diff-label baseline">baseline</span></td>
         </tr>
         <tr>
           <td class="name-cell">1</td>
           <td>38,275</td>
           <td>76.7%</td>
-          <td class="diff pos">+4.9%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 15.9%;"></span></span><span class="diff-label pos">+4.9%</span></span></td>
           <td>22.0%</td>
-          <td class="diff pos">+8.5%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 14.0%;"></span></span><span class="diff-label pos">+8.5%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">2</td>
           <td>38,835</td>
           <td>81.6%</td>
-          <td class="diff pos">+10.0%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 32.1%;"></span></span><span class="diff-label pos">+10.0%</span></span></td>
           <td>32.1%</td>
-          <td class="diff pos">+18.8%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 30.8%;"></span></span><span class="diff-label pos">+18.8%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">3+</td>
           <td>8,821</td>
           <td>86.8%</td>
-          <td class="diff pos">+15.5%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 50.0%;"></span></span><span class="diff-label pos">+15.5%</span></span></td>
           <td>43.9%</td>
-          <td class="diff pos">+30.6%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 50.0%;"></span></span><span class="diff-label pos">+30.6%</span></span></td>
         </tr>
       </tbody>
     </table>
@@ -545,6 +566,7 @@
     <summary>
       <h2>Fighting an elite early in Act 2 (floor 1-9 of the act)</h2>
       <p class="question">Does fighting an elite in the first 9 floors of Act 2 correlate with clearing Act 2 / winning the run?</p>
+      <div class="badges"><span class="badge pos">Act 2 clear rate +10.5%</span><span class="badge pos">Winrate +12.8%</span></div>
     </summary>
     <div class="hcard-body">
       
@@ -582,6 +604,7 @@
     <summary>
       <h2>Fighting elites late in Act 2 (floor 8 of the act to the boss)</h2>
       <p class="question">Should you fight as many elites as possible from floor 8 of Act 2 to the Act 2 boss?</p>
+      <div class="badges"><span class="badge pos">Peak 3+ +20.1%</span></div>
     </summary>
     <div class="hcard-body">
       
@@ -602,33 +625,33 @@
           <td class="name-cell">0</td>
           <td>6,583</td>
           <td>68.0%</td>
-          <td class="diff baseline">baseline</td>
+          <td><span class="diff-label baseline">baseline</span></td>
           <td>30.2%</td>
-          <td class="diff baseline">baseline</td>
+          <td><span class="diff-label baseline">baseline</span></td>
         </tr>
         <tr>
           <td class="name-cell">1</td>
           <td>21,344</td>
           <td>74.5%</td>
-          <td class="diff pos">+6.5%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 16.2%;"></span></span><span class="diff-label pos">+6.5%</span></span></td>
           <td>40.5%</td>
-          <td class="diff pos">+10.3%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 14.9%;"></span></span><span class="diff-label pos">+10.3%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">2</td>
           <td>21,947</td>
           <td>82.1%</td>
-          <td class="diff pos">+14.1%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 35.1%;"></span></span><span class="diff-label pos">+14.1%</span></span></td>
           <td>52.7%</td>
-          <td class="diff pos">+22.6%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 32.7%;"></span></span><span class="diff-label pos">+22.6%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">3+</td>
           <td>6,478</td>
           <td>88.2%</td>
-          <td class="diff pos">+20.1%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 50.0%;"></span></span><span class="diff-label pos">+20.1%</span></span></td>
           <td>64.8%</td>
-          <td class="diff pos">+34.5%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 50.0%;"></span></span><span class="diff-label pos">+34.5%</span></span></td>
         </tr>
       </tbody>
     </table>
@@ -645,6 +668,7 @@
     <summary>
       <h2>Prioritizing events over monster fights (floor 1-9)</h2>
       <p class="question">Is it better to have more events ("?" rooms) than normal monster fights in floor 1-9?</p>
+      <div class="badges"><span class="badge pos">Peak 3 +3.3%</span></div>
     </summary>
     <div class="hcard-body">
       
@@ -665,55 +689,55 @@
           <td class="name-cell">0</td>
           <td>6,641</td>
           <td>63.5%</td>
-          <td class="diff baseline">baseline</td>
+          <td><span class="diff-label baseline">baseline</span></td>
           <td>20.3%</td>
-          <td class="diff baseline">baseline</td>
+          <td><span class="diff-label baseline">baseline</span></td>
         </tr>
         <tr>
           <td class="name-cell">1</td>
           <td>28,903</td>
           <td>66.6%</td>
-          <td class="diff pos">+3.2%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 48.3%;"></span></span><span class="diff-label pos">+3.2%</span></span></td>
           <td>22.6%</td>
-          <td class="diff pos">+2.3%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 38.9%;"></span></span><span class="diff-label pos">+2.3%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">2</td>
           <td>42,438</td>
           <td>66.6%</td>
-          <td class="diff pos">+3.2%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 48.2%;"></span></span><span class="diff-label pos">+3.2%</span></span></td>
           <td>23.2%</td>
-          <td class="diff pos">+3.0%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 50.0%;"></span></span><span class="diff-label pos">+3.0%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">3</td>
           <td>27,659</td>
           <td>66.8%</td>
-          <td class="diff pos">+3.3%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 50.0%;"></span></span><span class="diff-label pos">+3.3%</span></span></td>
           <td>22.9%</td>
-          <td class="diff pos">+2.7%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 44.7%;"></span></span><span class="diff-label pos">+2.7%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">4</td>
           <td>9,062</td>
           <td>65.7%</td>
-          <td class="diff pos">+2.3%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 35.5%;"></span></span><span class="diff-label pos">+2.3%</span></span></td>
           <td>21.4%</td>
-          <td class="diff pos">+1.3%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 22.3%;"></span></span><span class="diff-label pos">+1.3%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">5+</td>
           <td>1,848</td>
           <td>64.9%</td>
-          <td class="diff pos">+1.1%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 17.2%;"></span></span><span class="diff-label pos">+1.1%</span></span></td>
           <td>19.6%</td>
-          <td class="diff neg">-0.8%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 13.4%;"></span></span><span class="diff-label neg">-0.8%</span></span></td>
         </tr>
       </tbody>
     </table>
 <div class="n-note">cohort = runs that reached floor 9+ &middot; A9, A10</div>
       <div class="method"><p>"Event" here means room_type <code>unknown</code> in the scraped data. About 9% of event rows have no recorded encounter name but are still counted as events here.</p>
-<p>Cohort: runs that reached at least floor 9. Bucketed by how many of floor 1-9 were events; "5+" absorbs the rare 5+-event runs. Diffs are relative to the 0-events bucket.</p>
+<p>Cohort: runs that reached at least floor 9. Bucketed by how many of floor 1-9 were events; "5+" absorbs runs with 5 or more. Diffs are relative to the 0-events bucket.</p>
 <p>Floor 1-9 has other room types too (shop, rest, elite, treasure) that compete for the same floor slots — more events mechanically means fewer of <em>something else</em>, not purely fewer monster fights specifically. Read this as "more events, whatever they displace" rather than a strict one-for-one events-vs-monsters swap.</p>
 <p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
     </div>
@@ -723,6 +747,7 @@
     <summary>
       <h2>Event choice: "The Legends Were True" — Slowly find an exit vs Nab the map</h2>
       <p class="question">The Act 1 event "The Legends Were True" offers two choices: "Slowly find an exit" (costs HP) or "Nab the map" (no cost). Is taking the damage worth it?</p>
+      <div class="badges"><span class="badge pos">Act 1 clear rate +5.5% to +9.1%</span><span class="badge neg">Winrate -4.5% to -2.3%</span></div>
     </summary>
     <div class="hcard-body">
       
@@ -799,6 +824,7 @@
     <summary>
       <h2>Event choice: "Sapphire Seed" — Eat vs Plant</h2>
       <p class="question">The Act 1 event "Sapphire Seed" offers two choices: "Eat" (restores HP) or "Plant" (no HP change). Is taking the heal worth it?</p>
+      <div class="badges"><span class="badge pos">Act 1 clear rate +0.9% to +1.2%</span><span class="badge neg">Winrate -4.3% to -3.1%</span></div>
     </summary>
     <div class="hcard-body">
       
@@ -870,6 +896,82 @@
     </div>
   </details>
 
+  <details class="hcard">
+    <summary>
+      <h2>Event choice: "Punch Off" — Nab vs fight, by floor</h2>
+      <p class="question">The Act 1 event "Punch Off" offers two choices: "Nab" (a relic, no fight) or "Punch Off" (a fight for a relic plus extra rewards). From which floor does taking the fight become worth it?</p>
+      <div class="badges"><span class="badge pos">Worth it from floor 7 on (every floor shown)</span></div>
+    </summary>
+    <div class="hcard-body">
+      
+    <table class="rtable">
+      <thead>
+        <tr>
+          <th>Floor</th>
+          <th>n (with / without)</th>
+          <th>Act 1 diff</th>
+          <th>Winrate diff</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td class="name-cell">Floor 7</td>
+          <td>248 / 314</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 8.4%;"></span></span><span class="diff-label pos">+1.8%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 20.0%;"></span></span><span class="diff-label pos">+6.8%</span></span></td>
+        </tr>
+        <tr>
+          <td class="name-cell">Floor 8</td>
+          <td>244 / 254</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 28.3%;"></span></span><span class="diff-label neg">-6.0%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 16.8%;"></span></span><span class="diff-label pos">+5.7%</span></span></td>
+        </tr>
+        <tr>
+          <td class="name-cell">Floor 9</td>
+          <td>187 / 216</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 12.6%;"></span></span><span class="diff-label pos">+2.7%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 23.1%;"></span></span><span class="diff-label pos">+7.9%</span></span></td>
+        </tr>
+        <tr>
+          <td class="name-cell">Floor 11</td>
+          <td>176 / 205</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 6.7%;"></span></span><span class="diff-label pos">+1.4%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 31.3%;"></span></span><span class="diff-label pos">+10.6%</span></span></td>
+        </tr>
+        <tr>
+          <td class="name-cell">Floor 12</td>
+          <td>210 / 200</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 46.6%;"></span></span><span class="diff-label pos">+9.8%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 30.1%;"></span></span><span class="diff-label pos">+10.3%</span></span></td>
+        </tr>
+        <tr>
+          <td class="name-cell">Floor 13</td>
+          <td>179 / 191</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 1.1%;"></span></span><span class="diff-label pos">+0.2%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 14.1%;"></span></span><span class="diff-label pos">+4.8%</span></span></td>
+        </tr>
+        <tr>
+          <td class="name-cell">Floor 14</td>
+          <td>214 / 252</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 12.7%;"></span></span><span class="diff-label neg">-2.7%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 3.1%;"></span></span><span class="diff-label pos">+1.0%</span></span></td>
+        </tr>
+        <tr>
+          <td class="name-cell">Floor 15</td>
+          <td>206 / 221</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 50.0%;"></span></span><span class="diff-label pos">+10.6%</span></span></td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 50.0%;"></span></span><span class="diff-label pos">+17.0%</span></span></td>
+        </tr>
+      </tbody>
+    </table>
+<div class="n-note">A9, A10</div>
+      <div class="method"><p>Same event-choice signal as "The Legends Were True" above: "Punch Off" only appears from floor 7 onward (never at floor 10, Act 1's guaranteed treasure floor), and its <code>damage_taken</code> reliably tells the two branches apart — "Nab" always grants exactly one relic (sometimes plus a potion) with 0 recorded damage; "Punch Off" fights for it and usually adds a card and/or potion on top, with nonzero damage on roughly 57% of occurrences.</p>
+<p>Unlike the two event-choice cards above, this one is broken out by the floor the event happened on instead of pooled — the idea being that a run's build gets stronger as it goes, so the fight may become cheaper (and more worth it) later in the act. Floors with fewer than 30 observations in the smaller of the with/without groups are dropped.</p>
+<p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+    </div>
+  </details>
+
 
   <h2 class="category-heading">Campfires</h2>
   
@@ -877,6 +979,7 @@
     <summary>
       <h2>Campfire choice: Smith vs Heal, by HP</h2>
       <p class="question">At a campfire, is Smith better than Heal above 50% HP, and worse (i.e. Heal better) below 50% HP?</p>
+      <div class="badges"><span class="badge pos">Cleared the act +7.7% to +11.6%</span><span class="badge pos">Winrate +1.3% to +6.7%</span></div>
     </summary>
     <div class="hcard-body">
       
@@ -956,6 +1059,7 @@
     <summary>
       <h2>Deck bloat by Act 2 start</h2>
       <p class="question">Does having more cards in your deck by the start of Act 2 correlate with clearing Act 2 / winning the run?</p>
+      <div class="badges"><span class="badge pos">Peak 9 +4.4%</span></div>
     </summary>
     <div class="hcard-body">
       
@@ -976,89 +1080,89 @@
           <td class="name-cell">0</td>
           <td>2</td>
           <td>100.0%</td>
-          <td class="diff pos">+49.9%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 50.0%;"></span></span><span class="diff-label pos">+49.9%</span></span></td>
           <td>100.0%</td>
-          <td class="diff pos">+69.1%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 50.0%;"></span></span><span class="diff-label pos">+69.1%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">1</td>
           <td>11</td>
           <td>63.6%</td>
-          <td class="diff pos">+10.2%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 10.2%;"></span></span><span class="diff-label pos">+10.2%</span></span></td>
           <td>36.4%</td>
-          <td class="diff pos">+4.6%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 3.3%;"></span></span><span class="diff-label pos">+4.6%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">2</td>
           <td>89</td>
           <td>42.7%</td>
-          <td class="diff neg">-10.5%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 10.5%;"></span></span><span class="diff-label neg">-10.5%</span></span></td>
           <td>19.1%</td>
-          <td class="diff neg">-12.2%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 8.8%;"></span></span><span class="diff-label neg">-12.2%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">3</td>
           <td>531</td>
           <td>53.1%</td>
-          <td class="diff baseline">baseline</td>
+          <td><span class="diff-label baseline">baseline</span></td>
           <td>31.3%</td>
-          <td class="diff baseline">baseline</td>
+          <td><span class="diff-label baseline">baseline</span></td>
         </tr>
         <tr>
           <td class="name-cell">4</td>
           <td>2,045</td>
           <td>53.9%</td>
-          <td class="diff pos">+1.0%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 1.0%;"></span></span><span class="diff-label pos">+1.0%</span></span></td>
           <td>31.6%</td>
-          <td class="diff pos">+0.4%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 0.3%;"></span></span><span class="diff-label pos">+0.4%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">5</td>
           <td>6,227</td>
           <td>56.2%</td>
-          <td class="diff pos">+3.4%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 3.4%;"></span></span><span class="diff-label pos">+3.4%</span></span></td>
           <td>33.8%</td>
-          <td class="diff pos">+2.8%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 2.0%;"></span></span><span class="diff-label pos">+2.8%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">6</td>
           <td>13,345</td>
           <td>56.7%</td>
-          <td class="diff pos">+3.6%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 3.7%;"></span></span><span class="diff-label pos">+3.6%</span></span></td>
           <td>34.1%</td>
-          <td class="diff pos">+2.9%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 2.1%;"></span></span><span class="diff-label pos">+2.9%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">7</td>
           <td>19,585</td>
           <td>57.0%</td>
-          <td class="diff pos">+4.1%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 4.1%;"></span></span><span class="diff-label pos">+4.1%</span></span></td>
           <td>34.2%</td>
-          <td class="diff pos">+3.0%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 2.2%;"></span></span><span class="diff-label pos">+3.0%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">8</td>
           <td>18,680</td>
           <td>57.5%</td>
-          <td class="diff pos">+4.4%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 4.4%;"></span></span><span class="diff-label pos">+4.4%</span></span></td>
           <td>34.3%</td>
-          <td class="diff pos">+3.0%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 2.2%;"></span></span><span class="diff-label pos">+3.0%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">9</td>
           <td>11,120</td>
           <td>57.8%</td>
-          <td class="diff pos">+4.4%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 4.4%;"></span></span><span class="diff-label pos">+4.4%</span></span></td>
           <td>34.5%</td>
-          <td class="diff pos">+3.1%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 2.2%;"></span></span><span class="diff-label pos">+3.1%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">10+</td>
           <td>5,736</td>
           <td>57.1%</td>
-          <td class="diff pos">+3.4%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 3.4%;"></span></span><span class="diff-label pos">+3.4%</span></span></td>
           <td>34.5%</td>
-          <td class="diff pos">+2.9%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 2.1%;"></span></span><span class="diff-label pos">+2.9%</span></span></td>
         </tr>
       </tbody>
     </table>
@@ -1072,6 +1176,7 @@
     <summary>
       <h2>Deck bloat by Act 3 start</h2>
       <p class="question">Does having more cards in your deck by the start of Act 3 correlate with winning the run?</p>
+      <div class="badges"><span class="badge pos">Peak 16+ +1.7%</span></div>
     </summary>
     <div class="hcard-body">
       
@@ -1090,103 +1195,103 @@
           <td class="name-cell">0</td>
           <td>1</td>
           <td>0.0%</td>
-          <td class="diff neg">-58.7%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 50.0%;"></span></span><span class="diff-label neg">-58.7%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">1</td>
           <td>3</td>
           <td>100.0%</td>
-          <td class="diff pos">+37.8%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 32.2%;"></span></span><span class="diff-label pos">+37.8%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">2</td>
           <td>3</td>
           <td>100.0%</td>
-          <td class="diff pos">+39.1%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 33.3%;"></span></span><span class="diff-label pos">+39.1%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">3</td>
           <td>13</td>
           <td>53.8%</td>
-          <td class="diff neg">-6.2%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 5.3%;"></span></span><span class="diff-label neg">-6.2%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">4</td>
           <td>54</td>
           <td>46.3%</td>
-          <td class="diff neg">-13.1%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 11.1%;"></span></span><span class="diff-label neg">-13.1%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">5</td>
           <td>131</td>
           <td>51.1%</td>
-          <td class="diff neg">-8.8%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 7.5%;"></span></span><span class="diff-label neg">-8.8%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">6</td>
           <td>408</td>
           <td>60.0%</td>
-          <td class="diff baseline">baseline</td>
+          <td><span class="diff-label baseline">baseline</span></td>
         </tr>
         <tr>
           <td class="name-cell">7</td>
           <td>922</td>
           <td>59.4%</td>
-          <td class="diff neg">-0.6%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 0.5%;"></span></span><span class="diff-label neg">-0.6%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">8</td>
           <td>1,824</td>
           <td>60.7%</td>
-          <td class="diff pos">+0.5%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 0.4%;"></span></span><span class="diff-label pos">+0.5%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">9</td>
           <td>3,243</td>
           <td>59.2%</td>
-          <td class="diff neg">-1.0%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 0.8%;"></span></span><span class="diff-label neg">-1.0%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">10</td>
           <td>5,018</td>
           <td>59.7%</td>
-          <td class="diff neg">-0.2%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 0.2%;"></span></span><span class="diff-label neg">-0.2%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">11</td>
           <td>6,487</td>
           <td>59.6%</td>
-          <td class="diff neg">-0.5%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 0.4%;"></span></span><span class="diff-label neg">-0.5%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">12</td>
           <td>7,087</td>
           <td>59.7%</td>
-          <td class="diff neg">-0.3%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 0.2%;"></span></span><span class="diff-label neg">-0.3%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">13</td>
           <td>6,541</td>
           <td>59.8%</td>
-          <td class="diff neg">-0.1%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 0.1%;"></span></span><span class="diff-label neg">-0.1%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">14</td>
           <td>5,181</td>
           <td>60.1%</td>
-          <td class="diff pos">+0.0%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 0.0%;"></span></span><span class="diff-label pos">+0.0%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">15</td>
           <td>3,358</td>
           <td>58.7%</td>
-          <td class="diff neg">-1.3%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 1.1%;"></span></span><span class="diff-label neg">-1.3%</span></span></td>
         </tr>
         <tr>
           <td class="name-cell">16+</td>
           <td>3,833</td>
           <td>62.2%</td>
-          <td class="diff pos">+1.7%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 1.4%;"></span></span><span class="diff-label pos">+1.7%</span></span></td>
         </tr>
       </tbody>
     </table>
