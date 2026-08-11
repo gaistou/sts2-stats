@@ -45,12 +45,31 @@
   }
   .back-link:hover { color: var(--accent); background: var(--accent-soft); }
 
+  .category-heading {
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-transform: uppercase;
+    letter-spacing: 0.03em; margin: 28px 0 10px; display: flex; align-items: center; gap: 8px;
+  }
+  .category-heading:first-of-type { margin-top: 4px; }
+  .category-heading::before { content: ""; width: 7px; height: 7px; border-radius: 2px; background: var(--accent); flex: none; }
+
   .hcard {
     background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px;
-    padding: 18px 22px 20px; margin-bottom: 20px; box-shadow: var(--shadow-sm);
+    margin-bottom: 12px; box-shadow: var(--shadow-sm);
   }
+  .hcard summary {
+    cursor: pointer; list-style: none; user-select: none; position: relative;
+    padding: 16px 44px 16px 22px;
+  }
+  .hcard summary::-webkit-details-marker { display: none; }
+  .hcard summary::after {
+    content: "B8"; position: absolute; right: 20px; top: 20px; font-size: 12px;
+    color: var(--text-muted); transition: transform .15s ease;
+  }
+  .hcard[open] summary::after { transform: rotate(90deg); }
+  .hcard summary:hover h2 { color: var(--accent); }
   .hcard h2 { font-size: 16px; font-weight: 600; margin: 0 0 4px; }
-  .hcard .question { color: var(--text-secondary); font-size: 13px; margin: 0 0 16px; font-style: italic; }
+  .hcard .question { color: var(--text-secondary); font-size: 13px; margin: 0; font-style: italic; }
+  .hcard-body { padding: 0 22px 20px; }
 
   .metric-row { display: flex; gap: 24px; margin-bottom: 14px; flex-wrap: wrap; }
   .metric { flex: 1; min-width: 220px; }
@@ -87,16 +106,6 @@
   .rtable td.diff.baseline { color: var(--text-muted); font-weight: 400; font-style: italic; }
   .rtable tr.no-relic td.name-cell { font-style: italic; color: var(--text-secondary); }
 
-  .facts {
-    background: var(--surface-1); border: 1px solid var(--border); border-top: 2px solid var(--accent);
-    border-radius: 12px; padding: 16px 20px; margin-bottom: 24px; box-shadow: var(--shadow-sm);
-  }
-  .facts h2 { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em; margin: 0 0 10px; }
-  .facts ul { margin: 0; padding: 0 0 0 18px; }
-  .facts li { font-size: 13px; line-height: 1.6; margin-bottom: 6px; }
-  .facts li:last-child { margin-bottom: 0; }
-  .facts li.abandoned { color: var(--text-muted); font-style: italic; }
-
   @media (max-width: 640px) {
     .viz-root { padding: 20px 14px 48px; }
     .metric-row { flex-direction: column; gap: 14px; }
@@ -107,23 +116,17 @@
 <div class="viz-root">
   <a class="back-link" href="index.html">&larr; Back to home</a>
   <h1>Miscellaneous hypotheses</h1>
-  <p class="subtitle">
-    Small, one-off questions that don't warrant their own dedicated report. Most are scored as a
-    single number across all 5 characters combined (rather than broken out per character like the
-    other reports on this site) — a few cards break the same question down by character instead,
-    where the point is comparing classes against each other.
-  </p>
-  <div class="facts">
-    <h2>Fast facts</h2>
-    <ul>
-      <li>Shopping before floor 7 helps overall (+2.4% Act 1 clear) — and much more with a Golden Pearl start (+7.4%) than without (+2.1%).</li><li>Fighting an elite before floor 7 hurts on average (−6.6% Act 1 clear) — true for every Neow relic with a decent sample; no relic makes it clearly worth it.</li><li>Early elites hurt every character's Act 1 clear rate, but not equally: Defect is hit least (−5.9%) and Silent most (−7.5%) — a ~1.6 point spread between the best- and worst-suited class for it.</li><li>Fighting elites late in Act 1 (floor 9-16) helps a lot, and monotonically: 0→3+ elites is +15.5% Act 1 clear, +30.6% winrate.</li><li>More events than monster fights in floor 1-7 helps, but only up to a point — 0→2 events is +6.2% Act 1 clear, then it plateaus (no further gain past 2).</li><li>Event choice at "The Legends Were True": taking the damage correlates with a BETTER Act 1 clear rate (+9.1% at A9/A10, +5.5% pooled) but a WORSE full-run winrate (−2.3% at A9/A10, −4.5% pooled) — it seems to help survive Act 1 but cost more than it's worth by the end of the run.</li><li>Event choice at "Sapphire Seed": taking the HP barely moves the Act 1 clear rate (+1.2% at A9/A10, +0.9% pooled — essentially flat) but correlates with a WORSE full-run winrate (−3.1% at A9/A10, −4.3% pooled), echoing "The Legends Were True"'s pattern even though this branch doesn't cost HP up front.</li><li>At a campfire, Smith beats Heal on average whether you're above 50% HP (+11.6% clear) or at/below it (+7.7% clear) — no HP threshold where Heal wins. Likely reflects who chooses to skip healing, not that healing itself hurts.</li><li>Act 2 only half-mirrors Act 1: fighting an elite early in Act 2 is roughly neutral (+0.6% clear, +4.4% winrate) — not bad the way early Act 1 elites are.</li><li>...but late Act 2 elites help even more than late Act 1 elites: 0→3+ elites (floor 8 of the act to the boss) is +20.1% Act 2 clear, +34.5% winrate.</li><li>Deck bloat by Act 2 start: the opposite of "bloat" — more cards added since the starting deck correlates with a BETTER Act 2 clear rate, peaking around 8-9 cards added (+4.4% Act 2 clear, +3.0-3.1% winrate vs. the 3-card baseline), tapering slightly at 10+.</li><li>Deck bloat by Act 3 start: flat — from the 6-card baseline up through 16+, winrate barely moves (within about ±1.7%), unlike the Act 2 landmark's clear positive trend.</li><li class="abandoned">Buy-a-card vs remove-a-card in shops: not testable — card removal isn't captured anywhere in the scraped data (no reward marker for it, unlike card/relic/potion purchases).</li>
-    </ul>
-  </div>
+  <p class="subtitle">Small, one-off questions that don't warrant their own dedicated report. Most are scored as a single number across all 5 characters combined (rather than broken out per character like the other reports on this site) — a few cards break the same question down by character instead, where the point is comparing classes against each other.</p>
   
-  <div class="hcard">
-    <h2>Shopping early (before floor 7)</h2>
-    <p class="question">Does visiting a shop before floor 7 correlate with clearing Act 1 / winning the run — and does that depend on starting with Neow's Golden Pearl relic (extra starting gold)?</p>
-    
+  <h2 class="category-heading">Shopping</h2>
+  
+  <details class="hcard">
+    <summary>
+      <h2>Shopping early (before floor 7)</h2>
+      <p class="question">Does visiting a shop before floor 7 correlate with clearing Act 1 / winning the run — and does that depend on starting with Neow's Golden Pearl relic (extra starting gold)?</p>
+    </summary>
+    <div class="hcard-body">
+      
     <div class="subgroup">
       <div class="subgroup-label">Started with Golden Pearl</div>
       
@@ -186,13 +189,22 @@
       <div class="n-note">n = 45,239 runs with &middot; 73,966 without &middot; cohort 119,205 runs (A9, A10, reached floor 7+)</div>
     </div>
 
-    <div class="method"><p>Cohort: runs that reached at least floor 7, split into two strata by whether Neow granted Golden Pearl at floor 1. Within each stratum, "with" = visited a shop room by floor 7, "without" = didn't — same landmark-floor logic as the Act 1 card effectiveness report, so neither side is favored just for having survived longer.</p><p>Shopping early helps in both cases, but the effect is markedly bigger with a Golden Pearl start — makes sense, since the extra gold is what makes an early shop visit actually worth buying something rather than just window-shopping.</p><p>Caveat specific to this hypothesis: a shop reachable by floor 7 is also a path choice, so "shopped early" can partly stand in for "took a path that avoided an elite," which would independently improve survival regardless of the shop itself. Sample size note: most Golden Pearl starts already shop early (the extra gold makes the detour worth it), so the "did not shop" group within that stratum is smaller than in the other one — check the n before reading too much into it.</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
-  </div>
+      <div class="method"><p>Cohort: runs that reached at least floor 7, split into two strata by whether Neow granted Golden Pearl at floor 1. Within each stratum, "with" = visited a shop room by floor 7, "without" = didn't.</p>
+<p>Caveat specific to this hypothesis: a shop reachable by floor 7 is also a path choice, so "shopped early" can partly stand in for "took a path that avoided an elite," which would independently improve survival regardless of the shop itself. Sample size note: most Golden Pearl starts already shop early, so the "did not shop" group within that stratum is smaller than in the other one — check the n before reading too much into it.</p>
+<p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+    </div>
+  </details>
 
-  <div class="hcard">
-    <h2>Fighting an elite early (floor 1-7)</h2>
-    <p class="question">Does fighting an elite before floor 7 correlate with clearing Act 1 / winning the run?</p>
-    
+
+  <h2 class="category-heading">Elites</h2>
+  
+  <details class="hcard">
+    <summary>
+      <h2>Fighting an elite early (floor 1-7)</h2>
+      <p class="question">Does fighting an elite before floor 7 correlate with clearing Act 1 / winning the run?</p>
+    </summary>
+    <div class="hcard-body">
+      
     <div class="metric-row">
       <div class="metric">
         <div class="metric-label">Act 1 clear rate</div>
@@ -218,13 +230,18 @@
       </div>
     </div>
 <div class="n-note">n = 25,198 runs with &middot; 101,810 without &middot; cohort 127,008 runs (A9, A10, reached floor 7+)</div>
-    <div class="method"><p>Cohort: runs that reached at least floor 7. "With" = fought an elite by floor 7 (and, being in this cohort, survived it); "without" = didn't. All Neow relics pooled together — see the per-relic breakdown below for whether specific relics change this.</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
-  </div>
+      <div class="method"><p>Cohort: runs that reached at least floor 7. "With" = fought an elite by floor 7; "without" = didn't. All Neow relics pooled together — see the per-relic breakdown below for whether specific relics change this.</p>
+<p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+    </div>
+  </details>
 
-  <div class="hcard">
-    <h2>Fighting an elite early, by Neow relic</h2>
-    <p class="question">Is fighting an elite by floor 7 a bad idea in general, but fine (or good) with certain Neow starting relics strong enough to carry an early elite fight?</p>
-    
+  <details class="hcard">
+    <summary>
+      <h2>Fighting an elite early, by Neow relic</h2>
+      <p class="question">Is fighting an elite by floor 7 a bad idea in general, but fine (or good) with certain Neow starting relics strong enough to carry an early elite fight?</p>
+    </summary>
+    <div class="hcard-body">
+      
     <table class="rtable">
       <thead>
         <tr>
@@ -401,13 +418,19 @@
       </tbody>
     </table>
 <div class="n-note">27 relics shown (min n = 30 on the smaller of the two groups) &middot; A9, A10, reached floor 7+</div>
-    <div class="method"><p>Same landmark-floor cohort and with/without split as the general hypothesis above, but computed separately within each Neow relic's starters (plus <em>(no relic)</em> for runs Neow granted nothing). Sorted by Act 1 diff, descending — relics near the top are where an early elite fight correlates least badly (or best) with clearing Act 1; relics near the bottom are where it hurts most. Rows with fewer than 30 runs in the smaller of the with/without groups are dropped (this page has no client-side filter to unhide them).</p><p>Caveat specific to this hypothesis: this is the most confounded of the hypotheses on this page so far. Relics that are simply <em>good</em> overall (regardless of elite timing) will tend to show a smaller gap between "fought an elite early" and "didn't," not necessarily because the relic makes an early elite specifically safer — a strong start can carry a run whether or not it fights an elite. Read a relic sitting near the top as "consistent with helping," not proof the relic causes early elites to be safe.</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
-  </div>
+      <div class="method"><p>Same landmark-floor cohort and with/without split as the general hypothesis above, but computed separately within each Neow relic's starters (plus <em>(no relic)</em> for runs Neow granted nothing). Sorted by Act 1 diff, descending — relics near the top are where an early elite fight correlates least badly (or best) with clearing Act 1. Rows with fewer than 30 runs in the smaller of the with/without groups are dropped.</p>
+<p>Caveat specific to this hypothesis: this is the most confounded on this page so far. Relics that are simply <em>good</em> overall will tend to show a smaller with/without gap regardless, not necessarily because the relic makes an early elite specifically safer. Read a relic sitting near the top as "consistent with helping," not proof it causes early elites to be safe.</p>
+<p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+    </div>
+  </details>
 
-  <div class="hcard">
-    <h2>Fighting an elite early, by character</h2>
-    <p class="question">Is fighting an elite by floor 7 equally risky for every character, or does one class handle it noticeably better (or worse) than the others?</p>
-    
+  <details class="hcard">
+    <summary>
+      <h2>Fighting an elite early, by character</h2>
+      <p class="question">Is fighting an elite by floor 7 equally risky for every character, or does one class handle it noticeably better (or worse) than the others?</p>
+    </summary>
+    <div class="hcard-body">
+      
     <table class="rtable">
       <thead>
         <tr>
@@ -452,13 +475,18 @@
       </tbody>
     </table>
 <div class="n-note">A9, A10, reached floor 7+</div>
-    <div class="method"><p>Same landmark-floor cohort and with/without split as the general hypothesis above, computed separately per character instead of pooled across all 5 — unlike the general hypothesis and the per-relic breakdown, there is no cross-character combining here, since the point is to compare characters against each other rather than produce one number. Sorted by Act 1 diff, descending — the character at the top handles an early elite fight least badly (or best); the one at the bottom is hurt most by it.</p><p>Correlational, not causal, like everything else on this page: a character whose kit is simply stronger overall (independent of elite timing) will tend to show a smaller with/without gap regardless, not necessarily because that class specifically makes an early elite safer.</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
-  </div>
+      <div class="method"><p>Same landmark-floor cohort and with/without split as the general hypothesis above, computed separately per character instead of pooled — the point here is comparing classes against each other, not producing one combined number. Sorted by Act 1 diff, descending — the character at the top handles an early elite fight least badly (or best); the one at the bottom is hurt most by it.</p>
+<p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+    </div>
+  </details>
 
-  <div class="hcard">
-    <h2>Fighting elites late in Act 1 (floor 9 to the boss)</h2>
-    <p class="question">Should you fight as many elites as possible between floor 9 and the Act 1 boss?</p>
-    
+  <details class="hcard">
+    <summary>
+      <h2>Fighting elites late in Act 1 (floor 9 to the boss)</h2>
+      <p class="question">Should you fight as many elites as possible between floor 9 and the Act 1 boss?</p>
+    </summary>
+    <div class="hcard-body">
+      
     <table class="rtable">
       <thead>
         <tr>
@@ -507,13 +535,119 @@
       </tbody>
     </table>
 <div class="n-note">cohort = runs that reached the Act 1 boss &middot; A9, A10</div>
-    <div class="method"><p>Cohort: runs that reached the Act 1 boss (so every run in the cohort had the full floor 9-16 window available, regardless of how many elites it chose to fight in it — same landmark-floor logic as the rest of this page, just anchored on "reached the boss" instead of a fixed floor). Bucketed by how many elites were fought in that window; "3+" absorbs the rare 3/4/5-elite runs into one bucket for sample size. Act 1 clear rate = beat the boss and reached Act 2; winrate = won the whole run. Both diffs are relative to the 0-elites bucket.</p><p>Simplification: floor 9-16 is a fixed window, not each run's actual "floor 9 to its own boss floor" — the Act 1 boss sits at floor 17 in ~99.9% of runs that reach it, so this is a negligible approximation in exchange for a much cheaper query (avoids fetching every individual floor row per run).</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
-  </div>
+      <div class="method"><p>Cohort: runs that reached the Act 1 boss. Bucketed by how many elites were fought in that window; "3+" absorbs the rare 3/4/5-elite runs into one bucket for sample size. Act 1 clear rate = beat the boss and reached Act 2; winrate = won the whole run. Both diffs are relative to the 0-elites bucket.</p>
+<p>Floor 9-16 is a fixed window, not each run's actual "floor 9 to its own boss floor" — the Act 1 boss sits at floor 17 in ~99.9% of runs that reach it, so this is a negligible approximation.</p>
+<p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+    </div>
+  </details>
 
-  <div class="hcard">
-    <h2>Prioritizing events over monster fights (floor 1-7)</h2>
-    <p class="question">Is it better to have more events ("?" rooms) than normal monster fights in floor 1-7?</p>
-    
+  <details class="hcard">
+    <summary>
+      <h2>Fighting an elite early in Act 2 (floor 1-7 of the act)</h2>
+      <p class="question">Does fighting an elite in the first 7 floors of Act 2 correlate with clearing Act 2 / winning the run?</p>
+    </summary>
+    <div class="hcard-body">
+      
+    <div class="metric-row">
+      <div class="metric">
+        <div class="metric-label">Act 2 clear rate</div>
+        <div class="metric-values">With: 61.9% &middot; Without: 61.1%</div>
+        <div class="bar-wrap">
+          <div class="bar-track">
+            <div class="bar-baseline"></div>
+            <div class="bar-fill pos" style="width: 3.031998313384339%;"></div>
+          </div>
+          <span class="bar-label">+0.6%</span>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Full-run winrate</div>
+        <div class="metric-values">With: 40.1% &middot; Without: 35.6%</div>
+        <div class="bar-wrap">
+          <div class="bar-track">
+            <div class="bar-baseline"></div>
+            <div class="bar-fill pos" style="width: 21.990096719781764%;"></div>
+          </div>
+          <span class="bar-label">+4.4%</span>
+        </div>
+      </div>
+    </div>
+<div class="n-note">n = 17,309 runs with &middot; 54,643 without &middot; cohort 71,952 runs (A9, A10, reached floor 24+)</div>
+      <div class="method"><p>Act 2 mirror of the "fighting an elite early" hypothesis above. Floor numbers are absolute across the whole run — Act 2 starts at floor 18 in ~99.95% of runs that reach it, so "floor 7 of Act 2" is floor 24 here. Cohort: runs that reached at least that point. "With" = fought an elite in Act 2's first 7 floors; "without" = didn't. "Act 2 clear rate" = reached Act 3.</p>
+<p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+    </div>
+  </details>
+
+  <details class="hcard">
+    <summary>
+      <h2>Fighting elites late in Act 2 (floor 8 of the act to the boss)</h2>
+      <p class="question">Should you fight as many elites as possible from floor 8 of Act 2 to the Act 2 boss?</p>
+    </summary>
+    <div class="hcard-body">
+      
+    <table class="rtable">
+      <thead>
+        <tr>
+          <th>Elites fought (25-32)</th>
+          <th>n</th>
+          <th>Act 2 clear rate</th>
+          <th>&Delta; vs baseline</th>
+          <th>Winrate</th>
+          <th>&Delta; vs baseline</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td class="name-cell">0</td>
+          <td>6,583</td>
+          <td>68.0%</td>
+          <td class="diff baseline">baseline</td>
+          <td>30.2%</td>
+          <td class="diff baseline">baseline</td>
+        </tr>
+        <tr>
+          <td class="name-cell">1</td>
+          <td>21,344</td>
+          <td>74.5%</td>
+          <td class="diff pos">+6.5%</td>
+          <td>40.5%</td>
+          <td class="diff pos">+10.3%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">2</td>
+          <td>21,947</td>
+          <td>82.1%</td>
+          <td class="diff pos">+14.1%</td>
+          <td>52.7%</td>
+          <td class="diff pos">+22.6%</td>
+        </tr>
+        <tr>
+          <td class="name-cell">3+</td>
+          <td>6,478</td>
+          <td>88.2%</td>
+          <td class="diff pos">+20.1%</td>
+          <td>64.8%</td>
+          <td class="diff pos">+34.5%</td>
+        </tr>
+      </tbody>
+    </table>
+<div class="n-note">cohort = runs that reached the Act 2 boss &middot; A9, A10</div>
+      <div class="method"><p>Act 2 mirror of the "fighting elites late" hypothesis above. Cohort: runs that reached the Act 2 boss, so every run had the full floor 25-32 (absolute) window available — using the dominant Act 2 boss floor (33, ~96.5% of runs that reach it; the remaining ~3.5% have a boss at floor 35, a negligible approximation this fixed window doesn't chase).</p>
+<p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+    </div>
+  </details>
+
+
+  <h2 class="category-heading">Events</h2>
+  
+  <details class="hcard">
+    <summary>
+      <h2>Prioritizing events over monster fights (floor 1-7)</h2>
+      <p class="question">Is it better to have more events ("?" rooms) than normal monster fights in floor 1-7?</p>
+    </summary>
+    <div class="hcard-body">
+      
     <table class="rtable">
       <thead>
         <tr>
@@ -578,13 +712,20 @@
       </tbody>
     </table>
 <div class="n-note">cohort = runs that reached floor 7+ &middot; A9, A10</div>
-    <div class="method"><p>"Event" here means room_type <code>unknown</code> in the scraped data — confirmed by spot-checking: these rows carry event names (e.g. "Trash Heap", "Sunken Statue", "Brain Leech") in the encounter field, distinct from shops, treasure rooms, and monster/elite fights, which already have their own room_type. About 9% of event rows have no recorded encounter name (an event that resolved to nothing worth logging, or a data gap) but are still counted as events here.</p><p>Cohort: runs that reached at least floor 7 (so every run had the same 7-floor window available). Floor 1 is Neow's pick, not a real path choice, and is almost never a monster or event room itself, so it contributes negligibly to the count either way. Bucketed by how many of floor 1-7 were events; "5+" absorbs the rare 5/6-event runs. Diffs are relative to the 0-events bucket.</p><p>Floor 1-7 has other room types too (shop, rest, elite, treasure) that compete for the same floor slots — more events mechanically means fewer of <em>something else</em>, not purely fewer monster fights specifically, though monster and event are by far the two most common early room types (see the raw per-floor counts in the codebase notes). Read this as "more events, whatever they displace" rather than a strict one-for-one events-vs-monsters swap.</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
-  </div>
+      <div class="method"><p>"Event" here means room_type <code>unknown</code> in the scraped data. About 9% of event rows have no recorded encounter name but are still counted as events here.</p>
+<p>Cohort: runs that reached at least floor 7. Bucketed by how many of floor 1-7 were events; "5+" absorbs the rare 5/6-event runs. Diffs are relative to the 0-events bucket.</p>
+<p>Floor 1-7 has other room types too (shop, rest, elite, treasure) that compete for the same floor slots — more events mechanically means fewer of <em>something else</em>, not purely fewer monster fights specifically. Read this as "more events, whatever they displace" rather than a strict one-for-one events-vs-monsters swap.</p>
+<p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+    </div>
+  </details>
 
-  <div class="hcard">
-    <h2>Event choice: "The Legends Were True" — take the damage or not?</h2>
-    <p class="question">The Act 1 event "The Legends Were True" has two choices: one costs HP, the other doesn't. Is taking the damage worth it?</p>
-    
+  <details class="hcard">
+    <summary>
+      <h2>Event choice: "The Legends Were True" — take the damage or not?</h2>
+      <p class="question">The Act 1 event "The Legends Were True" has two choices: one costs HP, the other doesn't. Is taking the damage worth it?</p>
+    </summary>
+    <div class="hcard-body">
+      
     <div class="subgroup">
       <div class="subgroup-label">Ascension 9-10</div>
       
@@ -647,13 +788,20 @@
       <div class="n-note">n = 7,780 runs with &middot; 32,865 without &middot; runs that ran into this event, any floor of Act 1</div>
     </div>
 
-    <div class="method"><p>The scraped data has no field for the literal choice text at an event — only the event's name and what came out of it (a card, relic, potion, or nothing) — so most events can't be split by choice at all (see the Act 1 event effectiveness report, which only measures which event a run ran into, not what it picked inside it). "The Legends Were True" is the exception: it's confirmed (by the project owner's own game knowledge) to have exactly two branches, one that costs HP and one that doesn't, so whether that floor's <code>damage_taken</code> is nonzero is a reliable stand-in for which branch was taken — a 0-damage floor row (blank in the site's own table) means 0, not missing, same convention as the Act 3 boss card report.</p><p>No landmark-floor restriction: unlike a card or relic pickup, which can happen at varying floors with a "survived longer to get it" bias, this compares two branches of the <em>same</em> single decision point, once a run has already reached the event — every run that ran into it at all, at whatever floor, is one observation, split only by which branch it took.</p><p>All 5 characters combined, same stratified-weighted-average technique as every other card on this page. Shown at both ascension 9-10 and pooled across every ascension, side by side, rather than picking one — the two roughly agree in direction but not magnitude.</p><p>Correlational, not causal: which branch a player picks isn't random — it can correlate with their HP buffer or risk tolerance at the time, not just the branch's own effect.</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
-  </div>
+      <div class="method"><p>Most events can't be split by the choice made inside them — the scraped data only has the event's name and what came out of it, not the literal choice text. "The Legends Were True" is the exception: it's confirmed to have exactly two branches, one that costs HP and one that doesn't, so whether that floor's <code>damage_taken</code> is nonzero is a reliable stand-in for which branch was taken.</p>
+<p>No landmark-floor restriction: this compares two branches of the same single decision point, once a run has already reached the event — every run that ran into it at all is one observation.</p>
+<p>All 5 characters combined. Shown at both ascension 9-10 and pooled across every ascension, side by side, rather than picking one — the two roughly agree in direction but not magnitude.</p>
+<p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+    </div>
+  </details>
 
-  <div class="hcard">
-    <h2>Event choice: "Sapphire Seed" — take the HP or not?</h2>
-    <p class="question">The Act 1 event "Sapphire Seed" has two choices: one restores HP, the other doesn't. Is taking the heal worth it?</p>
-    
+  <details class="hcard">
+    <summary>
+      <h2>Event choice: "Sapphire Seed" — take the HP or not?</h2>
+      <p class="question">The Act 1 event "Sapphire Seed" has two choices: one restores HP, the other doesn't. Is taking the heal worth it?</p>
+    </summary>
+    <div class="hcard-body">
+      
     <div class="subgroup">
       <div class="subgroup-label">Ascension 9-10</div>
       
@@ -716,13 +864,22 @@
       <div class="n-note">n = 9,196 runs with &middot; 11,078 without &middot; runs that ran into this event, any floor of Act 1</div>
     </div>
 
-    <div class="method"><p>Same event-choice framing as "The Legends Were True" above, but with a different signal: "Sapphire Seed"'s <code>damage_taken</code> is essentially always 0/NULL regardless of branch (checked empirically: 20,530 of 20,537 Act 1 occurrences), so taking damage can't distinguish its two branches the way it does for "The Legends Were True." Instead, the two branches show up as a change in HP versus the previous floor (a <code>LAG</code> window function, the same technique the campfire Smith-vs-Heal hypothesis uses for HP-before-a-choice) — checked empirically: 95% of occurrences split cleanly into delta=0 (no heal) or delta=+9 (healed), with the remaining ~5% (small positive/negative deltas, most likely another relic or curse effect ticking on an adjacent floor) bucketed by which side of zero they land on. "With" here means the branch that restored HP.</p><p>Same cohort logic, same all-5-characters-combined technique, and same correlational-not-causal caveat as "The Legends Were True" above — see that card's methodology for the full reasoning (no landmark-floor restriction needed; this is one decision point, not an early-vs-late pickup).</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
-  </div>
+      <div class="method"><p>Same event-choice framing as "The Legends Were True" above, but with a different signal: "Sapphire Seed"'s <code>damage_taken</code> is essentially always 0 regardless of branch, so the two branches are instead read off a change in HP versus the previous floor — 95% of occurrences split cleanly into no change (no heal) or +9 (healed); the remaining ~5% (small deltas, likely another relic or curse ticking on an adjacent floor) are bucketed by which side of zero they land on. "With" here means the branch that restored HP.</p>
+<p>Same cohort logic and all-5-characters-combined technique as "The Legends Were True" above.</p>
+<p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+    </div>
+  </details>
 
-  <div class="hcard">
-    <h2>Campfire choice: Smith vs Heal, by HP</h2>
-    <p class="question">At a campfire, is Smith better than Heal above 50% HP, and worse (i.e. Heal better) below 50% HP?</p>
-    
+
+  <h2 class="category-heading">Campfires</h2>
+  
+  <details class="hcard">
+    <summary>
+      <h2>Campfire choice: Smith vs Heal, by HP</h2>
+      <p class="question">At a campfire, is Smith better than Heal above 50% HP, and worse (i.e. Heal better) below 50% HP?</p>
+    </summary>
+    <div class="hcard-body">
+      
     <div class="subgroup">
       <div class="subgroup-label">Above 50% HP when arriving at the campfire</div>
       
@@ -785,100 +942,23 @@
       <div class="n-note">n = 81,773 campfires with &middot; 228,241 without &middot; A9, A10, every campfire (any act) with a recorded Smith or Heal choice</div>
     </div>
 
-    <div class="method"><p>One observation per campfire decision, not per run — a run visits several campfires across a run, each an independent fresh choice (unlike the card upgrade value report's Smith question, there's no "first opportunity only" restriction needed here, since choosing Heal doesn't remove anything from a future campfire's eligible choices the way Smithing a card does). HP is measured at arrival, before the choice (the previous floor's HP/max HP), not after — otherwise choosing Heal would trivially show "high HP after" by construction.</p><p>"Cleared the act" = the run went on to reach a later act than the one this campfire happened in — the same idea as "Act 1 clear rate" elsewhere on this page, generalized since campfires happen in every act, not just Act 1. Winrate = won the whole run.</p><p>Campfire choices other than Smith/Heal (rare relic-granted alternates: Hatch, Dig, Lift) are excluded — this hypothesis is specifically about the Smith-vs-Heal tradeoff.</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
-  </div>
-
-  <div class="hcard">
-    <h2>Fighting an elite early in Act 2 (floor 1-7 of the act)</h2>
-    <p class="question">Does fighting an elite in the first 7 floors of Act 2 correlate with clearing Act 2 / winning the run?</p>
-    
-    <div class="metric-row">
-      <div class="metric">
-        <div class="metric-label">Act 2 clear rate</div>
-        <div class="metric-values">With: 61.9% &middot; Without: 61.1%</div>
-        <div class="bar-wrap">
-          <div class="bar-track">
-            <div class="bar-baseline"></div>
-            <div class="bar-fill pos" style="width: 3.031998313384339%;"></div>
-          </div>
-          <span class="bar-label">+0.6%</span>
-        </div>
-      </div>
-      <div class="metric">
-        <div class="metric-label">Full-run winrate</div>
-        <div class="metric-values">With: 40.1% &middot; Without: 35.6%</div>
-        <div class="bar-wrap">
-          <div class="bar-track">
-            <div class="bar-baseline"></div>
-            <div class="bar-fill pos" style="width: 21.990096719781764%;"></div>
-          </div>
-          <span class="bar-label">+4.4%</span>
-        </div>
-      </div>
+      <div class="method"><p>One observation per campfire decision, not per run — each campfire is an independent choice. HP is measured at arrival, before the choice, not after.</p>
+<p>"Cleared the act" = the run went on to reach a later act than the one this campfire happened in. Winrate = won the whole run.</p>
+<p>Campfire choices other than Smith/Heal (rare relic-granted alternates: Hatch, Dig, Lift) are excluded — this hypothesis is specifically about the Smith-vs-Heal tradeoff.</p>
+<p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
     </div>
-<div class="n-note">n = 17,309 runs with &middot; 54,643 without &middot; cohort 71,952 runs (A9, A10, reached floor 24+)</div>
-    <div class="method"><p>Act 2 mirror of the "fighting an elite early" hypothesis above. Floor numbers are absolute across the whole run — Act 2 starts at floor 18 in ~99.95% of runs that reach it, so "floor 7 of Act 2" is landmark_floor=24 here. Cohort: runs that reached at least that point. "With" = fought an elite in Act 2's first 7 floors (and survived it, being in this cohort); "without" = didn't. "Act 2 clear rate" = reached Act 3.</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
-  </div>
+  </details>
 
-  <div class="hcard">
-    <h2>Fighting elites late in Act 2 (floor 8 of the act to the boss)</h2>
-    <p class="question">Should you fight as many elites as possible from floor 8 of Act 2 to the Act 2 boss?</p>
-    
-    <table class="rtable">
-      <thead>
-        <tr>
-          <th>Elites fought (25-32)</th>
-          <th>n</th>
-          <th>Act 2 clear rate</th>
-          <th>&Delta; vs baseline</th>
-          <th>Winrate</th>
-          <th>&Delta; vs baseline</th>
-        </tr>
-      </thead>
-      <tbody>
-        
-        <tr>
-          <td class="name-cell">0</td>
-          <td>6,583</td>
-          <td>68.0%</td>
-          <td class="diff baseline">baseline</td>
-          <td>30.2%</td>
-          <td class="diff baseline">baseline</td>
-        </tr>
-        <tr>
-          <td class="name-cell">1</td>
-          <td>21,344</td>
-          <td>74.5%</td>
-          <td class="diff pos">+6.5%</td>
-          <td>40.5%</td>
-          <td class="diff pos">+10.3%</td>
-        </tr>
-        <tr>
-          <td class="name-cell">2</td>
-          <td>21,947</td>
-          <td>82.1%</td>
-          <td class="diff pos">+14.1%</td>
-          <td>52.7%</td>
-          <td class="diff pos">+22.6%</td>
-        </tr>
-        <tr>
-          <td class="name-cell">3+</td>
-          <td>6,478</td>
-          <td>88.2%</td>
-          <td class="diff pos">+20.1%</td>
-          <td>64.8%</td>
-          <td class="diff pos">+34.5%</td>
-        </tr>
-      </tbody>
-    </table>
-<div class="n-note">cohort = runs that reached the Act 2 boss &middot; A9, A10</div>
-    <div class="method"><p>Act 2 mirror of the "fighting elites late" hypothesis above (floor 9-16, before the Act 1 boss). Cohort: runs that reached the Act 2 boss, so every run had the full floor 25-32 (absolute) window available — "floor 8 of Act 2" to just before its boss, using the dominant Act 2 boss floor (33, ~96.5% of runs that reach it; the remaining ~3.5% have a boss at floor 35, a negligible approximation this fixed window doesn't chase, same as the Act 1 version).</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
-  </div>
 
-  <div class="hcard">
-    <h2>Deck bloat by Act 2 start</h2>
-    <p class="question">Does having more cards in your deck by the start of Act 2 correlate with clearing Act 2 / winning the run?</p>
-    
+  <h2 class="category-heading">Deck size</h2>
+  
+  <details class="hcard">
+    <summary>
+      <h2>Deck bloat by Act 2 start</h2>
+      <p class="question">Does having more cards in your deck by the start of Act 2 correlate with clearing Act 2 / winning the run?</p>
+    </summary>
+    <div class="hcard-body">
+      
     <table class="rtable">
       <thead>
         <tr>
@@ -983,13 +1063,18 @@
       </tbody>
     </table>
 <div class="n-note">cohort = runs that reached Act 2 &middot; A9, A10</div>
-    <div class="method"><p>Cohort: runs that reached Act 2 (the landmark floor is each run's own actual first Act 2 floor, not an approximated fixed one). Bucketed by how many cards were added since the character's fixed starting deck — not raw deck size, which never approaches 0 by this point (everyone has picked up at least one card by Act 2), so "cards added" is used instead to give the bucket table a real low-end baseline to diff against. The baseline bucket is 3, not the literal lowest value ever seen (1) — at 1 card added, 3 of the 5 characters have fewer than 5 runs total, too thin to anchor a diff computed per character; 3 cards added is the lowest bucket where every character has a solid sample (88-128 runs), while still sitting well below the median of ~7. "Act 2 clear rate" = reached Act 3. This says nothing about which cards were added, only how many — a companion question to the per-card effectiveness report elsewhere on this site.</p><p>Correlational, not causal, like everything else on this page: a stronger run both survives long enough to accumulate more Act 1 floors' worth of rewards <em>and</em> tends to win more, so "more cards" can partly just be standing in for "had a longer, more successful Act 1" rather than the cards themselves causing anything.</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
-  </div>
+      <div class="method"><p>Cohort: runs that reached Act 2 (landmark = each run's own actual first Act 2 floor). Bucketed by how many cards were added since the character's fixed starting deck, not raw deck size. Baseline bucket is 3 cards added — the lowest bucket where every character has a solid sample (88-128 runs), well below the median of ~7. "Act 2 clear rate" = reached Act 3. This says nothing about which cards were added, only how many.</p>
+<p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+    </div>
+  </details>
 
-  <div class="hcard">
-    <h2>Deck bloat by Act 3 start</h2>
-    <p class="question">Does having more cards in your deck by the start of Act 3 correlate with winning the run?</p>
-    
+  <details class="hcard">
+    <summary>
+      <h2>Deck bloat by Act 3 start</h2>
+      <p class="question">Does having more cards in your deck by the start of Act 3 correlate with winning the run?</p>
+    </summary>
+    <div class="hcard-body">
+      
     <table class="rtable">
       <thead>
         <tr>
@@ -1106,8 +1191,11 @@
       </tbody>
     </table>
 <div class="n-note">cohort = runs that reached Act 3 &middot; A9, A10</div>
-    <div class="method"><p>Same "cards added since the starting deck" framing as the Act 2 start card above, measured at each run's own actual first Act 3 floor instead. Cohort: runs that reached Act 3 (a subset of the Act 2 card's cohort — every run here already cleared Act 2 to get here). No "cleared the next act" column — Act 3 is the last act, so winrate is the only outcome left to compare against. Baseline bucket is 6, not the literal lowest value ever seen (0, which had exactly 1 run total across all 5 characters — nowhere near enough to anchor a per-character diff); 6 cards added is the lowest bucket where every character has a solid sample (56-110 runs), still well below the median of ~12.</p><p>Same correlational caveat as the Act 2 card: a longer, more successful run naturally accumulates more Act 1+2 rewards along the way, independent of whether the extra cards themselves help or hurt.</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
-  </div>
+      <div class="method"><p>Same "cards added since the starting deck" framing as the Act 2 start card above, measured at each run's own actual first Act 3 floor. Cohort: runs that reached Act 3. No "cleared the next act" column — Act 3 is the last act, so winrate is the only outcome to compare. Baseline bucket is 6 cards added — the lowest bucket where every character has a solid sample (56-110 runs), well below the median of ~12.</p>
+<p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+    </div>
+  </details>
+
 
 </div>
 </body>

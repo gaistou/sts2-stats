@@ -105,9 +105,7 @@
 <div class="root">
   <h1>Slay the Spire 2 - Community Run Stats</h1>
   <p class="sub">
-    Computed from ~330,000 scraped runs from <a href="https://sts2.fun">sts2.fun</a>. Reports pool
-    every ascension level by default, each with a secondary &Delta; (A9/A10 only) column isolating
-    ascension 9-10; the miscellaneous hypotheses page uses ascension 9-10 only.
+    Computed from ~330,000 scraped runs from <a href="https://sts2.fun">sts2.fun</a>.
   </p>
 
   <div class="group">
@@ -167,57 +165,22 @@
       <summary>Methodology &mdash; Act 1 card effectiveness</summary>
       <div class="method-body">
         <p>
-          A naive "winrate by card" stat is misleading: a card can only be picked up on the floor
-          it's offered, so a card typically offered late in Act 1 can only ever belong to a run
-          that had already survived almost the whole act. That run was already very likely to
-          clear Act 1 regardless of the card — so late-offered cards look artificially great, no
-          matter how good they actually are.
-        </p>
-        <p>
-          To avoid that, Act 1 card effectiveness here only counts a card if it was picked up by
-          <strong>floor 9</strong> (roughly the midpoint of Act 1), and only compares it against
-          other runs that had <em>also</em> already reached floor 9 — whether they picked the card
-          up or not. So "having the card" isn't just a stand-in for "survived long enough to get
-          it": every run being compared already cleared the same amount of ground. The tradeoff:
-          cards that are typically offered later in Act 1 are underrepresented, since those late
-          picks simply aren't counted.
-        </p>
-        <p>
           <strong>How to read the table:</strong> <code>N</code> is how many times the card was
           picked up by floor 9. <code>With</code> is the Act 1 clear rate (reached Act 2) among
           runs that had the card by floor 9; <code>Without</code> is the same clear rate for runs
-          that didn't. <code>Diff</code> is With minus Without. Be careful with rows that have a
-          very low <code>N</code> (rarely picked) — their numbers can swing wildly and are easy to
-          misread as a strong signal when it's really just a small sample.
+          that didn't. <code>Diff</code> is With minus Without. Rows with a very low
+          <code>N</code> can swing wildly.
         </p>
         <p>
-          The separate <code>Global winrate (all 3 acts)</code> column is a different question
-          entirely, and deliberately not floor-restricted: it's the full-run win rate (won the
-          whole game, not just Act 1) among <em>any</em> run that had the card at <em>any</em>
-          point, picked up on any floor of any act. Because of that, it has the exact same
-          late-pickup survivorship bias described above — a card that's mostly obtained near the
-          end of a run will look great here even if it's mediocre. Read it as "of the runs that
-          ended up with this card, how many won," not as evidence the card is strong early.
+          The separate <code>Global winrate (all 3 acts)</code> column is a different,
+          unrestricted stat: the full-run win rate among any run that had the card at any point,
+          on any floor of any act.
         </p>
         <p>
-          The main <code>With</code> / <code>Without</code> / <code>Diff</code> columns pool
-          <strong>every ascension level</strong>, for more volume, at the cost of mixing
-          difficulty levels where a card's power can differ. The <code>&Delta; (A9/A10
-          only)</code> column re-runs the same floor-9 comparison restricted to ascension 9-10
-          runs only, as a sanity check on whether the main result still holds at high ascension;
-          it respects the same min-sample filter as the main columns, applied to that restricted
-          sample specifically — a dash means no A9/A10 data existed at all, an empty cell means
-          some existed but not enough to clear the current min-sample threshold.
-        </p>
-        <p>
-          Each card is also only scored using runs played <em>after</em> its most recent balance
-          patch (see <code>last changed patch</code> column) — a buffed or nerfed card isn't
-          evaluated using data from its old, different version.
-        </p>
-        <p>
-          This is correlational, not causal: card picks are the player's choice, not a random
-          draw, so a stronger player who also happens to pick well will show up on both sides.
-          Treat the numbers as a signal worth investigating, not proof a card is good or bad.
+          Main columns pool <strong>every ascension level</strong>. The <code>&Delta;
+          (A9/A10 only)</code> column re-runs the same floor-9 comparison restricted to
+          ascension 9-10 runs only. Each card is only scored using runs played after its most
+          recent balance patch (see <code>Last changed patch</code>).
         </p>
       </div>
     </details>
@@ -226,42 +189,18 @@
       <summary>Methodology &mdash; Act 1 Smith value</summary>
       <div class="method-body">
         <p>
-          A different question from card effectiveness above: given a card is already in the
-          deck, is it worth Smith-upgrading at a campfire? The naive comparison (runs that ended
-          with an upgraded copy vs runs that didn't) is badly biased — you can only end up with an
-          upgraded copy after surviving long enough to reach a campfire in the first place, so
-          upgraded copies look artificially good regardless of whether the upgrade itself helped.
+          If you already have a card, is it worth upgrading (Smithing) it the first time you get
+          the chance at a campfire, rather than healing or doing something else? Runs are grouped
+          by roughly where in Act 1 that campfire happened, and only compared against other runs
+          that reached that same point — so a run that simply got further doesn't get an unfair
+          advantage in the comparison. Only a run's first upgrade opportunity for a card counts.
         </p>
         <p>
-          The fix: campfires cluster on a handful of fixed floor ranges rather than being spread
-          evenly through Act 1. For every run that still owns an unupgraded copy of a card at a
-          campfire, we record whether it Smithed that card right there or did something else
-          (Heal, Smith a different card) — and which floor range that campfire falls in. Both
-          sides of the comparison are, by construction, runs that already reached that same floor
-          range, so the "survived longer" confound is gone. Only a run's first such opportunity
-          per card counts, and results are combined across floor ranges with a stratified average
-          so a floor range with a naturally higher baseline clear rate (e.g. one right before the
-          Act 1 boss) doesn't skew the overall number.
-        </p>
-        <p>
-          <strong>How to read the table:</strong> <code>n (smithed)</code> / <code>n (kept
-          base)</code> are the two group sizes. <code>Smith %</code> / <code>Base %</code> are
-          the subsequent Act 2 clear rate for each group; <code>Diff</code> is Smith minus Base.
-          Unlike the card-effectiveness report above, this one pools <strong>all ascension
-          levels</strong> rather than just A9/A10 — Act 1 campfire choices are rarer events than
-          card pickups, and the extra volume noticeably stabilizes the numbers, at the cost of
-          mixing difficulty levels where a card's power can differ. The <code>&Delta; (A9/A10
-          only)</code> column re-runs the same method restricted to ascension 9-10 runs only, as
-          a sanity check on whether the main columns still hold at high ascension; it respects
-          the same min-sample filter as the main columns, applied to that restricted sample
-          specifically — a dash means no A9/A10 data existed at all, an empty cell means some
-          existed but not enough to clear the current min-sample threshold.
-        </p>
-        <p>
-          Same caveats as above: correlational, not causal, and each card is only scored against
-          runs on a patch at or after its most recent balance change. Starting-deck cards (Strike,
-          Defend, and each character's two unique starting cards) are included by treating them as
-          owned from floor 1, rather than requiring a reward pickup like every other card.
+          The main numbers combine <strong>every ascension level</strong> rather than just A9/A10,
+          since campfire choices are rarer than card pickups and pooling more runs gives steadier
+          numbers. The <code>&Delta; (A9/A10 only)</code> column shows the same comparison using
+          only the hardest difficulty levels. Starting cards count as already owned from floor 1,
+          not just once you pick them up.
         </p>
       </div>
     </details>
@@ -270,38 +209,17 @@
       <summary>Methodology &mdash; Act 1 boss rare card</summary>
       <div class="method-body">
         <p>
-          The Act 1 boss always offers a choice of 3 rare cards as its reward. Does which one you
-          keep correlate with winning the whole run? Unlike the Act 1 card effectiveness report
-          above, no landmark-floor bias correction is needed here: every run being compared already
-          beat the Act 1 boss, so every run faced the exact same choice at the exact same point —
-          there's no "survived longer, so naturally looks better" confound to control for.
-        </p>
-        <p>
-          <strong>Cohort:</strong> runs that beat the Act 1 boss (won the game, or kept going past
-          that floor). Runs that died to the boss itself never got the choice and aren't counted.
-        </p>
-        <p>
-          <strong>How to read the table:</strong> <code>n</code> is how many runs kept that card.
+          <strong>How to read the table:</strong> <code>n</code> is how many runs chosed that card after act 1 boss fight.
           <code>Winrate</code> is the full-run (3 acts) win rate for those runs. <code>Diff vs
           baseline</code> is that winrate minus the baseline winrate for this character's cohort.
-          <code>(skipped)</code> covers runs that beat the boss but kept none of the 3 rares offered
-          — a real comparison point, not noise. Rows marked * have a sample below the current
-          minimum-sample filter (40 by default, adjustable).
+          <code>(skipped)</code> covers runs that beat the boss but kept none of the 3 rares
+          offered.
         </p>
         <p>
-          The main columns pool <strong>every ascension level</strong>, for more volume, at the
-          cost of mixing difficulty levels where a card's value can differ. The <code>&Delta;
+          Main columns pool <strong>every ascension level</strong>. The <code>&Delta;
           (A9/A10 only)</code> column re-runs the same comparison restricted to ascension 9-10
-          runs only, as a sanity check on whether the main result still holds at high ascension;
-          it respects the same min-sample filter as the main column, applied to that restricted
-          sample specifically — a dash means no A9/A10 data existed at all, an empty cell means
-          some existed but not enough to clear the current min-sample threshold.
-        </p>
-        <p>
-          Each card is only scored using runs played after its most recent balance patch, same as
-          the Act 1 card effectiveness report. Same caveat too: correlational, not causal — which
-          rare card a player keeps is a choice, not a coin flip, so a stronger player's picks will
-          still tend to win more regardless of the card itself.
+          runs only. Each card is only scored using runs played after its most recent balance
+          patch.
         </p>
       </div>
     </details>
@@ -310,58 +228,16 @@
       <summary>Methodology &mdash; Act 3 boss card effectiveness</summary>
       <div class="method-body">
         <p>
-          Act 3 always ends with a boss fight: Queen, Test Subject, Doormaker, or Aeonglass.
-          At ascension 10 and above specifically, it's <strong>two</strong> such fights back to
-          back instead of one, randomly drawn (in random order) from that same pool of four.
-          This report asks a different shape of question than every other report on this site:
-          not "does this correlate with winning," but <strong>does owning this card correlate
-          with taking less damage in that specific boss fight</strong> — measured directly as
-          HP lost (<code>damage_taken</code> on that fight's floor, not a percentage of max HP,
-          since max HP itself varies run to run from relics and Neow picks).
+          Restricted to runs that <strong>won</strong> the game. Effectiveness is measured as
+          the average HP lost (<code>damage_taken</code>) in the Act 3 boss fight, comparing
+          runs that owned the card going into that fight against runs that didn't — not a
+          win rate, since every run in the cohort already won.
         </p>
         <p>
-          <strong>Cohort:</strong> runs that beat their Act 3 boss(es). Every boss fight a run
-          had is scored independently — one fight below ascension 10, two (fought back to back)
-          at ascension 10+ — there's nothing about "this run had two fights" that changes how
-          either one is scored. Like the Act 1 boss rare card report above, this is a fixed
-          appointment every run in the cohort passes through identically, so no landmark-floor
-          bias correction is needed.
-        </p>
-        <p>
-          <strong>Card ownership.</strong> A card counts as owned for a given boss's fight if
-          it's a starting-deck card, or its earliest reward pickup anywhere in the run (any
-          act) is on a floor strictly before that boss's own floor. At ascension 10+, that
-          means a relic or card granted as the reward for beating the <em>first</em> boss
-          correctly counts toward the <em>second</em> boss's fight, but never toward the first
-          boss's own fight.
-        </p>
-        <p>
-          <strong>How to read the table:</strong> <code>n (with)</code> is the number of boss
-          fights where the card was owned going in. <code>Avg HP lost, with/without</code> are
-          the average <code>damage_taken</code> for that fight in each group. <code>Diff (HP
-          saved)</code> is without minus with, <strong>combined across all 4 possible
-          bosses</strong> using a stratified average weighted by the smaller of the two group
-          sizes per boss — the same technique the Act 1 Smith-value report above uses to combine
-          across campfire floor ranges — rather than pooling raw damage unweighted, since both
-          a card's pick rate and a boss's baseline difficulty vary enough by boss that an
-          unweighted pool would let whichever boss has the most observations dominate. Positive
-          means the card correlates with less HP lost (a good result); the sign convention is
-          kept the same as every winrate-based report on this site (positive = good) even
-          though the underlying arithmetic here is an averaged HP reduction rather than a
-          win-rate delta. Rows marked * have a sample (the smaller of the with/without groups)
-          below 100.
-        </p>
-        <p>
-          Main columns pool <strong>every ascension level</strong>, for more volume, at the
-          cost of mixing difficulty levels where a card's value can differ. The <code>&Delta;
+          Main columns pool <strong>every ascension level</strong>. The <code>&Delta;
           (A9/A10 only)</code> column re-runs the same comparison restricted to ascension 9-10
-          runs only, as a sanity check on whether the main result still holds at high
-          ascension — same convention as every other report on this site; a dash means that
-          card had no A9/A10 data at the minimum-sample threshold. Same patch-filtering
-          convention as elsewhere (a card is only scored using runs on a patch at or after its
-          most recent balance change, see <code>Last changed patch</code> column) and the same
-          caveat: correlational, not causal — a stronger deck both plays better cards and
-          takes less damage, regardless of which specific card gets the credit here.
+          runs only. Each card is only scored using runs played after its most recent balance
+          patch.
         </p>
       </div>
     </details>
@@ -376,31 +252,14 @@
       <summary>Methodology &mdash; Colorless cards, Act 1 effectiveness</summary>
       <div class="method-body">
         <p>
-          Same landmark-floor methodology as the <a href="#methodology-cards">Act 1 card
-          effectiveness</a> report above, restricted to Colorless cards (cards any of the 5
-          classes can be offered, not tied to one character's card pool) and pooled across all
-          five characters rather than split per class, the same way the Act 1 relic effectiveness
-          report below pools relics.
+          Same floor-9 landmark methodology as <a href="#methodology-cards">Act 1 card
+          effectiveness</a> above, restricted to Colorless cards and pooled across all five
+          characters. Pooling isn't a simple merge: With/Without/Diff is computed per character
+          first, then combined using a stratified average weighted by each character's smaller
+          with/without group size, so one class's baseline clear rate can't skew the result.
         </p>
         <p>
-          Pooling across characters isn't a simple merge of the raw numbers, though: classes
-          differ both in their baseline Act 1 clear rate and in how often their players see and
-          pick a given Colorless card, so a naive pool would let whichever class happens to have
-          the higher baseline (or the most picks) skew the result — the same Simpson's-paradox
-          confound the miscellaneous-hypotheses page's per-character breakdowns guard against.
-          Instead, With/Without/Diff is computed separately per character first (identical method
-          to the per-class card reports above), then combined into one number per card using a
-          stratified average weighted by the smaller of each character's with/without group
-          sizes.
-        </p>
-        <p>
-          Everything else matches the Act 1 card effectiveness methodology above: <code>N</code>
-          is total pickups by floor 9 across all 5 characters; the <code>&Delta; (A9/A10
-          only)</code> column and patch-filtering (<code>Last changed patch</code>) work the same
-          way; <code>Global winrate (all 3 acts)</code> is the same deliberately unrestricted,
-          survivorship-biased stat described above. Expect more small-sample rows than the
-          per-class reports — Colorless cards, especially Ancient rarity ones, are picked up far
-          less often than a class's own cards. Same caveat: correlational, not causal.
+          We sadly don't have the data of card bought in shop, so we do not have that much data for colorless cards.
         </p>
       </div>
     </details>
@@ -415,43 +274,17 @@
       <summary>Methodology &mdash; Act 1 relic effectiveness</summary>
       <div class="method-body">
         <p>
-          Same question as the Act 1 card effectiveness report above (does picking something up
-          early correlate with clearing Act 1?), applied to relics found during Act 1 instead of
-          cards, and pooled across all five characters rather than split per class.
-        </p>
-        <p>
-          The landmark floor here is <strong>floor 10</strong>, not floor 9 — floor 10 is Act 1's
-          guaranteed treasure chest (verified against this dataset: 99.97% of runs that reach
-          floor 10 find a <code>treasure</code> room there, versus no such pattern at floor 9),
-          so it's the natural "everyone gets the same shot at a relic by here" cutoff for this
-          report specifically. Neow's floor-1 starting relic is excluded everywhere on this page —
-          see the Elder relic winrate section below for that separate question.
-        </p>
-        <p>
           <strong>How to read the table:</strong> <code>N</code> is how many times the relic was
           picked up (excluding Neow's pick) by floor 10. <code>With</code> is the Act 1 clear rate
-          (reached Act 2) among runs that had the relic by then; <code>Without</code> is the same
+           among runs that had the relic; <code>Without</code> is the
           clear rate for runs that didn't. <code>Diff</code> is With minus Without. The separate
-          <code>Global winrate (all 3 acts)</code> column is a different, deliberately
-          unrestricted question — of any run that had the relic at any point past floor 1, how
-          many won the whole game — and carries the same late-pickup survivorship bias described
-          above, so read it as "of the runs that ended up with this relic, how many won," not as
-          evidence the relic is strong early.
-        </p>
+          <code>Global winrate (all 3 acts)</code> column is how
+          many won the whole game.
         <p>
-          The main columns pool <strong>every ascension level</strong>, for more volume, at the
-          cost of mixing difficulty levels where a relic's power can differ. The <code>&Delta;
+          The main columns pool <strong>every ascension level</strong>. The <code>&Delta;
           (A9/A10 only)</code> column re-runs the same floor-10 comparison restricted to ascension
-          9-10 runs only; a dash means no A9/A10 data existed at all, an empty cell means some
-          existed but not enough to clear the current min-sample threshold. Each relic is only
-          scored using runs played after its most recent balance patch, same convention as every
-          other report on this site.
-        </p>
-        <p>
-          Pooled across all characters rather than split per class — a strong pooled result is a
-          first pass, not proof it holds for every character individually (relic power can vary a
-          lot by class, as the Elder relic section below documents for a few specific relics).
-          Same caveat as everywhere else: correlational, not causal.
+          9-10 runs only. An empty cell means not enough data. Each relic is only
+          scored using runs played after its most recent balance patch.
         </p>
       </div>
     </details>
@@ -499,55 +332,16 @@
       <summary>Methodology &mdash; Act 1 event effectiveness</summary>
       <div class="method-body">
         <p>
-          Same question as the Act 1 card effectiveness report above (does running into
-          something early correlate with clearing Act 1?), applied to Act 1's "?" events
-          instead of cards. The landmark floor is <strong>floor 9</strong>, same as the card
-          report — events, like cards, are spread across the whole act rather than
-          concentrated at one guaranteed floor, so the same reasoning applies.
+          <strong>Data quirk:</strong> not every "?" floor is a narrative event — about half of
+          the distinct encounter names under Act 1's "?" rooms turned out to be ordinary monster
+          or elite fights that just kept the "?" map icon instead of showing a choice. Those are
+          excluded; only genuine narrative events are scored.
         </p>
         <p>
-          <strong>This measures which event you ran into, not which choice you made inside
-          it.</strong> The underlying site records an event's name and what came out of it
-          (a card, a relic, a potion, nothing), but never the literal option text a player
-          picked — there's no "chose option 2 of 3" anywhere in the data. So a row here answers
-          "does running into event X by floor 9 correlate with clearing Act 1," not "was the
-          top choice inside event X the right call."
-        </p>
-        <p>
-          <strong>Data quirk worth flagging:</strong> not every "?" floor in the underlying data
-          is a narrative event — about half of the distinct encounter names under Act 1's "?"
-          rooms turned out to be ordinary monster or elite fights that just kept the "?" map
-          icon instead of showing a choice (confirmed by cross-referencing: those same encounter
-          names also show up under ordinary monster/elite rooms elsewhere in the dataset). Those
-          are excluded here; only genuine narrative events are scored.
-        </p>
-        <p>
-          <strong>How to read the table:</strong> <code>N</code> is how many times the event was
-          run into by floor 9. <code>With</code> is the Act 1 clear rate (reached Act 2) among
-          runs that ran into the event by then; <code>Without</code> is the same clear rate for
-          runs that didn't. <code>Diff</code> is With minus Without. The separate
-          <code>Global winrate (all 3 acts)</code> column is a different, deliberately
-          unrestricted question — of any run that ran into the event at any point in Act 1, how
-          many won the whole game — and carries the same late-encounter survivorship bias
-          described above, so read it as "of the runs that ran into this event, how many won,"
-          not as evidence the event is good or bad to hit early. Rows marked * have a small
-          sample (n &lt; 100).
-        </p>
-        <p>
-          The main columns pool <strong>every ascension level</strong>, for more volume, at the
-          cost of mixing difficulty levels. The <code>&Delta; (A9/A10 only)</code> column re-runs
-          the same floor-9 comparison restricted to ascension 9-10 runs only; a dash means no
-          A9/A10 data existed at all, an empty cell means some existed but not enough to clear
-          the current min-sample threshold. Unlike the card and relic effectiveness reports
-          above, there's no per-event patch-change data to filter on (no changelog extraction
-          exists for events), so every run in the ascension-filtered cohort is used regardless of
-          patch.
-        </p>
-        <p>
-          Use the character filter (one page per class, plus an all-characters-combined page) —
-          which events are good or bad to hit early can vary by class. Same caveat as everywhere
-          else on this site: correlational, not causal. Which Act 1 events a run encounters is
-          shaped by the path a player takes, which can itself correlate with skill.
+          Main columns pool <strong>every ascension level</strong>. The <code>&Delta;
+          (A9/A10 only)</code> column re-runs the same floor-9 comparison restricted to
+          ascension 9-10 runs only. Unlike the card and relic reports, there's no per-event
+          patch-change data to filter on, so every run in the cohort is used regardless of patch.
         </p>
       </div>
     </details>
@@ -564,62 +358,15 @@
       <summary>Methodology</summary>
       <div class="method-body">
         <p>
-          Every act opens with an encounter with an "elder". Act 1's is always Neow. Act 2 and
-          Act 3 each randomly assign one of ~4 different elders per run instead (Act 2: Pael,
-          Tezcatara, Orobas, or Darv; Act 3: Nonupeipe, Tanx, Vakuu, or Darv), and that elder
-          grants a relic. Simpler than the card reports above: does receiving relic X there
-          correlate with winning the whole game? Neow's choice is always made on floor 1, and
-          <em>every</em> run reaches it; Act 2/3's elder is likewise a single fixed juncture every
-          run that reaches that act passes through identically — so there's no landmark-floor bias
-          to correct for on any of these three pages, comparing "got relic X" against "didn't" is
-          a valid straight comparison, unlike the floor-9/floor-range restrictions the card reports
-          need.
-        </p>
-        <p>
-          <strong>How to read the table:</strong> <code>n</code> is how many runs received that
-          relic. <code>Winrate</code> is the full-run win rate for those runs. <code>Diff vs
-          baseline</code> is that winrate minus the overall baseline winrate across every run in
-          the character filter. On the Neow page, runs where Neow granted no relic at all (the
-          player picked gold, max HP, or a card removal instead) are bucketed as
-          <code>(no relic)</code> — a real, informative comparison point, not noise to discard.
-          <strong>Act 2/3 elders work differently</strong>: unlike Neow's pure dialogue choice,
-          some of them can be fought and can kill the player — a run that dies to the elder never
-          receives a relic and is excluded from that page's cohort entirely (the same way the Act
-          1 boss report excludes runs killed by the boss), rather than being bucketed as
-          "(no relic)", since that would wrongly conflate "picked no relic" with "died before
-          getting to pick."
-        </p>
-        <p>
-          The main columns pool <strong>every ascension level</strong>, for more volume, at the
-          cost of mixing difficulty levels where a relic's value can differ. The <code>&Delta;
+          Main columns pool <strong>every ascension level</strong>. The <code>&Delta;
           (A9/A10 only)</code> column re-runs the same comparison restricted to ascension 9-10
-          runs only, as a sanity check on whether the main result still holds at high ascension;
-          it respects the same min-sample filter as the main column, applied to that restricted
-          sample specifically — a dash means no A9/A10 data existed at all, an empty cell means
-          some existed but not enough to clear the current min-sample threshold.
+          runs only. Each relic is only scored using runs played after its most recent balance
+          patch.
         </p>
         <p>
-          Each relic is also only scored using runs played <em>after</em> its most recent balance
-          patch (see <code>last changed patch</code> column) — a buffed, nerfed, or reworked relic
-          isn't evaluated using data from its old, different version. Runs older than that are
-          simply dropped for that relic. Most relics have never been changed and use the full
-          dataset.
-        </p>
-        <p>
-          Use the character filter at the top of each table: relic strength varies a lot by class,
-          so a relic's value is only meaningful within one character at a time, not pooled across
-          all five. A few relics on the Act 2/3 pages (Archaic Tooth, Touch Of Orobas, Dusty Tome)
-          go further than that — their in-game <em>effect</em> itself differs by character, not
-          just its measured value — so those are always shown as one row per class, labeled
-          "&lt;relic&gt; (&lt;character&gt;)", regardless of the character filter; averaging them
-          across classes would blend together mechanically different relics that happen to share
-          a name.
-        </p>
-        <p>
-          Same caveat as everywhere else on this site: correlational, not causal. Which relic a
-          run ends up with is partly the player's pick and partly luck of what's offered (and, for
-          Act 2/3, which elder shows up at all is random rather than chosen), and a stronger
-          player's runs will still tend to win more regardless of relic.
+          A few ancient relics on the Act 2/3 pages (Archaic Tooth, Touch Of Orobas, Dusty Tome) have a
+          different in-game <strong>effect</strong> per character, not just a different measured
+          value — those are always shown as one row per class, never pooled.
         </p>
       </div>
     </details>
@@ -630,36 +377,6 @@
     <ul>
       <li><a href="misc_hypotheses.html?v=a0b0ae1">Miscellaneous hypotheses</a></li>
     </ul>
-    <details class="method">
-      <summary>Methodology</summary>
-      <div class="method-body">
-        <p>
-          Small, one-off questions that don't warrant their own dedicated report. Unlike every
-          other report on this site, each hypothesis here is scored as a single number across all
-          5 characters combined, not broken out per character. The page opens with a "Fast facts"
-          box — one line per hypothesis — before the full breakdown for each.
-        </p>
-        <p>
-          Where a hypothesis involves a "did X happen early" question (e.g. visiting a shop by a
-          certain floor), the same landmark-floor logic as the Act 1 card effectiveness report
-          applies: the cohort is restricted to runs that reached at least that floor, so neither
-          comparison group is favored just for having survived longer.
-        </p>
-        <p>
-          Combining across characters uses a stratified average (the diff is computed separately
-          per character, then averaged weighted by sample size) rather than pooling every run
-          together directly — the same technique the Act 1 card upgrade value report uses to
-          combine across floor ranges, applied here to combine across characters instead. This
-          avoids a character with both a different baseline clear rate and a different rate of
-          doing the thing in question from skewing the combined number. The displayed "with" /
-          "without" percentages are the plain pooled rates across all characters, for readability
-          — the diff is the number that's actually bias-corrected.
-        </p>
-        <p>
-          Same caveat as everywhere else on this site: correlational, not causal.
-        </p>
-      </div>
-    </details>
   </div>
 </div>
 </body>
