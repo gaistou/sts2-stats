@@ -116,7 +116,7 @@
   <div class="facts">
     <h2>Fast facts</h2>
     <ul>
-      <li>Shopping before floor 7 helps overall (+2.4% Act 1 clear) — and much more with a Golden Pearl start (+7.4%) than without (+2.1%).</li><li>Fighting an elite before floor 7 hurts on average (−6.6% Act 1 clear) — true for every Neow relic with a decent sample; no relic makes it clearly worth it.</li><li>Early elites hurt every character's Act 1 clear rate, but not equally: Defect is hit least (−5.9%) and Silent most (−7.5%) — a ~1.6 point spread between the best- and worst-suited class for it.</li><li>Fighting elites late in Act 1 (floor 9-16) helps a lot, and monotonically: 0→3+ elites is +15.5% Act 1 clear, +30.6% winrate.</li><li>More events than monster fights in floor 1-7 helps, but only up to a point — 0→2 events is +6.2% Act 1 clear, then it plateaus (no further gain past 2).</li><li>Event choice at "The Legends Were True": taking the damage correlates with a BETTER Act 1 clear rate (+9.1% at A9/A10, +5.5% pooled) but a WORSE full-run winrate (−2.3% at A9/A10, −4.5% pooled) — it seems to help survive Act 1 but cost more than it's worth by the end of the run.</li><li>At a campfire, Smith beats Heal on average whether you're above 50% HP (+11.6% clear) or at/below it (+7.7% clear) — no HP threshold where Heal wins. Likely reflects who chooses to skip healing, not that healing itself hurts.</li><li>Act 2 only half-mirrors Act 1: fighting an elite early in Act 2 is roughly neutral (+0.6% clear, +4.4% winrate) — not bad the way early Act 1 elites are.</li><li>...but late Act 2 elites help even more than late Act 1 elites: 0→3+ elites (floor 8 of the act to the boss) is +20.1% Act 2 clear, +34.5% winrate.</li><li>Deck bloat by Act 2 start: the opposite of "bloat" — more cards added since the starting deck correlates with a BETTER Act 2 clear rate, peaking around 8-9 cards added (+4.4% Act 2 clear, +3.0-3.1% winrate vs. the 3-card baseline), tapering slightly at 10+.</li><li>Deck bloat by Act 3 start: flat — from the 6-card baseline up through 16+, winrate barely moves (within about ±1.7%), unlike the Act 2 landmark's clear positive trend.</li><li class="abandoned">Buy-a-card vs remove-a-card in shops: not testable — card removal isn't captured anywhere in the scraped data (no reward marker for it, unlike card/relic/potion purchases).</li>
+      <li>Shopping before floor 7 helps overall (+2.4% Act 1 clear) — and much more with a Golden Pearl start (+7.4%) than without (+2.1%).</li><li>Fighting an elite before floor 7 hurts on average (−6.6% Act 1 clear) — true for every Neow relic with a decent sample; no relic makes it clearly worth it.</li><li>Early elites hurt every character's Act 1 clear rate, but not equally: Defect is hit least (−5.9%) and Silent most (−7.5%) — a ~1.6 point spread between the best- and worst-suited class for it.</li><li>Fighting elites late in Act 1 (floor 9-16) helps a lot, and monotonically: 0→3+ elites is +15.5% Act 1 clear, +30.6% winrate.</li><li>More events than monster fights in floor 1-7 helps, but only up to a point — 0→2 events is +6.2% Act 1 clear, then it plateaus (no further gain past 2).</li><li>Event choice at "The Legends Were True": taking the damage correlates with a BETTER Act 1 clear rate (+9.1% at A9/A10, +5.5% pooled) but a WORSE full-run winrate (−2.3% at A9/A10, −4.5% pooled) — it seems to help survive Act 1 but cost more than it's worth by the end of the run.</li><li>Event choice at "Sapphire Seed": taking the HP barely moves the Act 1 clear rate (+1.2% at A9/A10, +0.9% pooled — essentially flat) but correlates with a WORSE full-run winrate (−3.1% at A9/A10, −4.3% pooled), echoing "The Legends Were True"'s pattern even though this branch doesn't cost HP up front.</li><li>At a campfire, Smith beats Heal on average whether you're above 50% HP (+11.6% clear) or at/below it (+7.7% clear) — no HP threshold where Heal wins. Likely reflects who chooses to skip healing, not that healing itself hurts.</li><li>Act 2 only half-mirrors Act 1: fighting an elite early in Act 2 is roughly neutral (+0.6% clear, +4.4% winrate) — not bad the way early Act 1 elites are.</li><li>...but late Act 2 elites help even more than late Act 1 elites: 0→3+ elites (floor 8 of the act to the boss) is +20.1% Act 2 clear, +34.5% winrate.</li><li>Deck bloat by Act 2 start: the opposite of "bloat" — more cards added since the starting deck correlates with a BETTER Act 2 clear rate, peaking around 8-9 cards added (+4.4% Act 2 clear, +3.0-3.1% winrate vs. the 3-card baseline), tapering slightly at 10+.</li><li>Deck bloat by Act 3 start: flat — from the 6-card baseline up through 16+, winrate barely moves (within about ±1.7%), unlike the Act 2 landmark's clear positive trend.</li><li class="abandoned">Buy-a-card vs remove-a-card in shops: not testable — card removal isn't captured anywhere in the scraped data (no reward marker for it, unlike card/relic/potion purchases).</li>
     </ul>
   </div>
   
@@ -648,6 +648,75 @@
     </div>
 
     <div class="method"><p>The scraped data has no field for the literal choice text at an event — only the event's name and what came out of it (a card, relic, potion, or nothing) — so most events can't be split by choice at all (see the Act 1 event effectiveness report, which only measures which event a run ran into, not what it picked inside it). "The Legends Were True" is the exception: it's confirmed (by the project owner's own game knowledge) to have exactly two branches, one that costs HP and one that doesn't, so whether that floor's <code>damage_taken</code> is nonzero is a reliable stand-in for which branch was taken — a 0-damage floor row (blank in the site's own table) means 0, not missing, same convention as the Act 3 boss card report.</p><p>No landmark-floor restriction: unlike a card or relic pickup, which can happen at varying floors with a "survived longer to get it" bias, this compares two branches of the <em>same</em> single decision point, once a run has already reached the event — every run that ran into it at all, at whatever floor, is one observation, split only by which branch it took.</p><p>All 5 characters combined, same stratified-weighted-average technique as every other card on this page. Shown at both ascension 9-10 and pooled across every ascension, side by side, rather than picking one — the two roughly agree in direction but not magnitude.</p><p>Correlational, not causal: which branch a player picks isn't random — it can correlate with their HP buffer or risk tolerance at the time, not just the branch's own effect.</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
+  </div>
+
+  <div class="hcard">
+    <h2>Event choice: "Sapphire Seed" — take the HP or not?</h2>
+    <p class="question">The Act 1 event "Sapphire Seed" has two choices: one restores HP, the other doesn't. Is taking the heal worth it?</p>
+    
+    <div class="subgroup">
+      <div class="subgroup-label">Ascension 9-10</div>
+      
+    <div class="metric-row">
+      <div class="metric">
+        <div class="metric-label">Act 1 clear rate</div>
+        <div class="metric-values">With: 69.4% &middot; Without: 67.7%</div>
+        <div class="bar-wrap">
+          <div class="bar-track">
+            <div class="bar-baseline"></div>
+            <div class="bar-fill pos" style="width: 6.199376883298716%;"></div>
+          </div>
+          <span class="bar-label">+1.2%</span>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Full-run winrate</div>
+        <div class="metric-values">With: 22.5% &middot; Without: 25.5%</div>
+        <div class="bar-wrap">
+          <div class="bar-track">
+            <div class="bar-baseline"></div>
+            <div class="bar-fill neg" style="width: 15.42172766893804%;"></div>
+          </div>
+          <span class="bar-label">-3.1%</span>
+        </div>
+      </div>
+    </div>
+
+      <div class="n-note">n = 3,895 runs with &middot; 3,755 without &middot; runs that ran into this event, any floor of Act 1</div>
+    </div>
+
+    <div class="subgroup">
+      <div class="subgroup-label">All ascensions</div>
+      
+    <div class="metric-row">
+      <div class="metric">
+        <div class="metric-label">Act 1 clear rate</div>
+        <div class="metric-values">With: 76.1% &middot; Without: 75.5%</div>
+        <div class="bar-wrap">
+          <div class="bar-track">
+            <div class="bar-baseline"></div>
+            <div class="bar-fill pos" style="width: 4.298743639669804%;"></div>
+          </div>
+          <span class="bar-label">+0.9%</span>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Full-run winrate</div>
+        <div class="metric-values">With: 31.6% &middot; Without: 36.2%</div>
+        <div class="bar-wrap">
+          <div class="bar-track">
+            <div class="bar-baseline"></div>
+            <div class="bar-fill neg" style="width: 21.525066031345716%;"></div>
+          </div>
+          <span class="bar-label">-4.3%</span>
+        </div>
+      </div>
+    </div>
+
+      <div class="n-note">n = 9,196 runs with &middot; 11,078 without &middot; runs that ran into this event, any floor of Act 1</div>
+    </div>
+
+    <div class="method"><p>Same event-choice framing as "The Legends Were True" above, but with a different signal: "Sapphire Seed"'s <code>damage_taken</code> is essentially always 0/NULL regardless of branch (checked empirically: 20,530 of 20,537 Act 1 occurrences), so taking damage can't distinguish its two branches the way it does for "The Legends Were True." Instead, the two branches show up as a change in HP versus the previous floor (a <code>LAG</code> window function, the same technique the campfire Smith-vs-Heal hypothesis uses for HP-before-a-choice) — checked empirically: 95% of occurrences split cleanly into delta=0 (no heal) or delta=+9 (healed), with the remaining ~5% (small positive/negative deltas, most likely another relic or curse effect ticking on an adjacent floor) bucketed by which side of zero they land on. "With" here means the branch that restored HP.</p><p>Same cohort logic, same all-5-characters-combined technique, and same correlational-not-causal caveat as "The Legends Were True" above — see that card's methodology for the full reasoning (no landmark-floor restriction needed; this is one decision point, not an early-vs-late pickup).</p><p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
   </div>
 
   <div class="hcard">
