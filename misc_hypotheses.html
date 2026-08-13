@@ -1154,16 +1154,16 @@
   
   <details class="hcard">
     <summary>
-      <h2>Skip or take a bad card?</h2>
-      <p class="question">To clear Act 1, is it better to skip a card reward, or take a card even if it's a bad one?</p>
-      <div class="badges"><span class="badge neg">Peak Sometimes skipped, never took a bad card -5.5%</span></div>
+      <h2>How bad before you skip?</h2>
+      <p class="question">To clear Act 1, how bad does an offered card have to be, according to this site's own per-card effectiveness numbers, before skipping beats taking it?</p>
+      <div class="badges"><span class="badge neg">Peak -2.5 to 0 -4.9%</span></div>
     </summary>
     <div class="hcard-body">
       
     <table class="rtable">
       <thead>
         <tr>
-          <th>Skip/bad-card behavior (Act 1, before floor 9)</th>
+          <th>Worst card taken (Act 1 clear-rate diff) (Act 1, before floor 9)</th>
           <th>n</th>
           <th>Act 1 clear rate</th>
           <th>&Delta; vs baseline</th>
@@ -1174,41 +1174,73 @@
       <tbody>
         
         <tr>
-          <td class="name-cell">Never skipped, never took a bad card</td>
-          <td>51,384</td>
-          <td>65.3%</td>
+          <td class="name-cell">No known-bad card taken</td>
+          <td>12,075</td>
+          <td>72.1%</td>
           <td><span class="diff-label baseline">baseline</span></td>
-          <td>16.6%</td>
+          <td>19.3%</td>
           <td><span class="diff-label baseline">baseline</span></td>
         </tr>
         <tr>
-          <td class="name-cell">Sometimes skipped, never took a bad card</td>
-          <td>24,424</td>
-          <td>59.7%</td>
-          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 17.0%;"></span></span><span class="diff-label neg">-5.5%</span></span></td>
-          <td>17.2%</td>
-          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill pos" style="width: 6.2%;"></span></span><span class="diff-label pos">+0.5%</span></span></td>
+          <td class="name-cell">Skipped instead</td>
+          <td>9,131</td>
+          <td>63.3%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 12.9%;"></span></span><span class="diff-label neg">-8.6%</span></span></td>
+          <td>18.6%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 4.1%;"></span></span><span class="diff-label neg">-1.2%</span></span></td>
         </tr>
         <tr>
-          <td class="name-cell">Never skipped, sometimes took a bad card</td>
-          <td>28,514</td>
-          <td>54.1%</td>
-          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 37.1%;"></span></span><span class="diff-label neg">-12.0%</span></span></td>
-          <td>12.0%</td>
-          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 50.0%;"></span></span><span class="diff-label neg">-4.4%</span></span></td>
+          <td class="name-cell">-2.5 to 0</td>
+          <td>13,823</td>
+          <td>66.4%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 7.4%;"></span></span><span class="diff-label neg">-4.9%</span></span></td>
+          <td>16.0%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 11.5%;"></span></span><span class="diff-label neg">-3.2%</span></span></td>
         </tr>
         <tr>
-          <td class="name-cell">Both skipped and took a bad card</td>
-          <td>8,252</td>
-          <td>49.9%</td>
-          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 50.0%;"></span></span><span class="diff-label neg">-16.1%</span></span></td>
-          <td>13.2%</td>
-          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 36.3%;"></span></span><span class="diff-label neg">-3.2%</span></span></td>
+          <td class="name-cell">-5 to -2.5</td>
+          <td>25,480</td>
+          <td>61.4%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 15.7%;"></span></span><span class="diff-label neg">-10.5%</span></span></td>
+          <td>15.5%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 15.1%;"></span></span><span class="diff-label neg">-4.2%</span></span></td>
+        </tr>
+        <tr>
+          <td class="name-cell">-7.5 to -5</td>
+          <td>12,739</td>
+          <td>56.9%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 23.1%;"></span></span><span class="diff-label neg">-15.4%</span></span></td>
+          <td>12.1%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 24.0%;"></span></span><span class="diff-label neg">-6.7%</span></span></td>
+        </tr>
+        <tr>
+          <td class="name-cell">-10 to -7.5</td>
+          <td>8,982</td>
+          <td>53.6%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 27.5%;"></span></span><span class="diff-label neg">-18.4%</span></span></td>
+          <td>12.1%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 27.8%;"></span></span><span class="diff-label neg">-7.7%</span></span></td>
+        </tr>
+        <tr>
+          <td class="name-cell">-15 to -10</td>
+          <td>6,172</td>
+          <td>50.3%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 34.2%;"></span></span><span class="diff-label neg">-22.9%</span></span></td>
+          <td>12.1%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 28.0%;"></span></span><span class="diff-label neg">-7.8%</span></span></td>
+        </tr>
+        <tr>
+          <td class="name-cell">Below -15</td>
+          <td>621</td>
+          <td>39.9%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 50.0%;"></span></span><span class="diff-label neg">-33.5%</span></span></td>
+          <td>7.9%</td>
+          <td><span class="mbar"><span class="mbar-track"><span class="mbar-fill neg" style="width: 50.0%;"></span></span><span class="diff-label neg">-13.9%</span></span></td>
         </tr>
       </tbody>
     </table>
 <div class="n-note">cohort = runs that reached floor 9 &middot; A9, A10</div>
-      <div class="method"><p>Cohort: runs that reached floor 9. Each Act 1 monster/elite/boss floor before floor 9 is one card-reward decision. A floor with no "card" entry in its own rewards is a skip (that floor's rewards only ever reflect what was earned there -- shop purchases are a separate floor entirely, so this is a direct read of the game's own Skip button, not an inferred count). "Bad" means the card is one this site's own per-card effectiveness numbers (see the Act 1 card report) score at -5 points or worse Act 1 clear rate, on a sample of at least 200 runs, scored at the same floor-9 landmark. Each run is grouped by whether it ever skipped and/or ever took a bad card across those decisions; baseline is "never skipped, never took a bad card."</p>
+      <div class="method"><p>Cohort: runs that reached floor 9. Each Act 1 monster/elite/boss floor before floor 9 is one card-reward decision -- a floor with no "card" entry in its own rewards is a skip (that floor's rewards only ever reflect what was earned there, so this is a direct read of the game's own Skip button, not an inferred count). For each run, find its single worst card taken (the lowest Act-1-clear-rate diff among Act 1 pickups, from this site's own per-card effectiveness numbers -- see the Act 1 card report -- on a sample of at least 200 runs) and bucket it. "Skipped instead" is a run that skipped at least once and never took a card with a known-negative diff -- a fixed reference row the severity bins are compared against. Runs that both skipped and took a known-bad card are excluded, to keep "skip" and "took a card this bad" as clean, non-overlapping groups.</p>
 <p>Full methodology: see <a href="index.html#methodology-misc">Miscellaneous hypotheses</a> on the homepage.</p></div>
     </div>
   </details>
